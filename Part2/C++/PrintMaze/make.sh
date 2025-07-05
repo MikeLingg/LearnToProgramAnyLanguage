@@ -1,8 +1,10 @@
 #!/bin/bash
 
-# Stop if any command fails
-set -e
+# Don't stop if any command fails
+set +e
 
 echo "Building C++ program..."
-g++ -Wall -Wextra -O2 -o PrintMaze PrintMaze.cpp
-echo "C++ program built: ./PrintMaze"
+
+rm -r PrintMaze.exe
+g++ -Wall -Wextra -O2 -o PrintMaze.exe PrintMaze.cpp
+echo "C++ program built: ./PrintMaze.exe"

@@ -4,6 +4,7 @@
 set -e
 
 echo "Building C program..."
-rm -f PrintMaze
-gcc -Wall -Wextra -O2 -o PrintMaze PrintMaze.c
-echo "C program built: ./PrintMaze"
+
+rm -f PrintMaze.exe
+gcc -Wall -Wextra -O2 -o PrintMaze.exe PrintMaze.c
+echo "C program built: ./PrintMaze.exe"

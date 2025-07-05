@@ -9,7 +9,9 @@ fi
 BASENAME="$1"
 SRC="${BASENAME}.asm"
 OBJ="${BASENAME}.o"
-OUT="${BASENAME}"
+OUT="${BASENAME}.exe"
+
+rm -r "$OUT"
 
 # Assemble
 nasm -f elf64 "$SRC" -o "$OBJ"

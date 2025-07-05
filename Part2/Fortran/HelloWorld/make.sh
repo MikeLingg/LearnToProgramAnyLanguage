@@ -1,5 +1,7 @@
 #!/bin/bash
-set -e
+set +e
 echo "Building Fortran program..."
-gfortran -o HelloWorld HelloWorld.f90
-echo "Fortran program built: ./HelloWorld"
+
+rm -f HellowWorld.exe
+gfortran -o HelloWorld.exe HelloWorld.f90
+echo "Fortran program built: ./HelloWorld.exe"

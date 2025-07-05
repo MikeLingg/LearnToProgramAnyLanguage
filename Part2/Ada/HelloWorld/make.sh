@@ -1,5 +1,7 @@
 #!/bin/bash
-set -e
+set +e
 echo "Building Ada program..."
-gnatmake HelloWorld.adb
-echo "Ada program built: ./HelloWorld"
+
+rm -f HelloWorld.exe
+gnatmake HelloWorld.adb -o HelloWorld.exe
+echo "Ada program built: ./HelloWorld.exe"

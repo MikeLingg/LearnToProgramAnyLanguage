@@ -4,21 +4,27 @@
 set +e
 
 echo "Building C program..."
-rm -f BasicConcepts
-gcc -Wall -Wextra -O2 -o BasicConcepts BasicConcepts.c
-echo "C program built: ./BasicConcepts"
-rm -f BasicConcepts_InvalidASCII
-gcc -Wall -Wextra -O2 -o BasicConcepts_InvalidASCII BasicConcepts_InvalidASCII.c
-echo "C program built: ./BasicConcepts_InvalidASCII"
-rm -f BasicConcepts_InvalidNames
-gcc -Wall -Wextra -O2 -o BasicConcepts_InvalidNames BasicConcepts_InvalidNames.c
-echo "C program built: ./BasicConcepts_InvalidNames"
-rm -f BasicConcepts_Uninitialized
-gcc -Wall -Wextra -O2 -o BasicConcepts_Uninitialized BasicConcepts_Uninitialized.c
-echo "C program built: ./BasicConcepts_Uninitialized"
-rm -f BasicConcepts_Redeclaration
-gcc -Wall -Wextra -O2 -o BasicConcepts_Redeclaration BasicConcepts_Redeclaration.c
-echo "C program built: ./BasicConcepts_Redeclaration"
-rm -f BasicConcepts_MixedTypes
-gcc -Wall -Wextra -O2 -o BasicConcepts_MixedTypes BasicConcepts_MixedTypes.c
-echo "C program built: ./BasicConcepts_MixedTypes"
+
+rm -f BasicConcepts.exe
+gcc -Wall -Wextra -O2 -o BasicConcepts.exe BasicConcepts.c
+echo "C program built: ./BasicConcepts.exe"
+
+rm -f BasicConcepts_InvalidASCII.exe
+gcc -Wall -Wextra -O2 -o BasicConcepts_InvalidASCII.exe BasicConcepts_InvalidASCII.c
+echo "C program built: ./BasicConcepts_InvalidASCII.exe"
+
+rm -f BasicConcepts_InvalidNames.exe
+gcc -Wall -Wextra -O2 -o BasicConcepts_InvalidNames.exe BasicConcepts_InvalidNames.c
+echo "C program built: ./BasicConcepts_InvalidNames.exe"
+
+rm -f BasicConcepts_Uninitialized.exe
+gcc -Wall -Wextra -O2 -o BasicConcepts_Uninitialized.exe BasicConcepts_Uninitialized.c
+echo "C program built: ./BasicConcepts_Uninitialized.exe"
+
+rm -f BasicConcepts_Redeclaration.exe
+gcc -Wall -Wextra -O2 -o BasicConcepts_Redeclaration.exe BasicConcepts_Redeclaration.c
+echo "C program built: ./BasicConcepts_Redeclaration.exe"
+
+rm -f BasicConcepts_MixedTypes.exe
+gcc -Wall -Wextra -O2 -o BasicConcepts_MixedTypes.exe BasicConcepts_MixedTypes.c
+echo "C program built: ./BasicConcepts_MixedTypes.exe"

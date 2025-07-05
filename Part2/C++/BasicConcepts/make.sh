@@ -4,21 +4,27 @@
 set +e
 
 echo "Building C++ program..."
-rm -f BasicConcepts
-g++ -Wall -Wextra -O2 -o BasicConcepts BasicConcepts.cpp
-echo "C++ program built: ./BasicConcepts"
-rm -f BasicConcepts_InvalidASCII
-g++ -Wall -Wextra -O2 -o BasicConcepts_InvalidASCII BasicConcepts_InvalidASCII.cpp
-echo "C++ program built: ./BasicConcepts_InvalidASCII"
-rm -f BasicConcepts_InvalidNames
-g++ -Wall -Wextra -O2 -o BasicConcepts_InvalidNames BasicConcepts_InvalidNames.cpp
-echo "C++ program built: ./BasicConcepts_InvalidNames"
-rm -f BasicConcepts_Uninitialized
-g++ -Wall -Wextra -O2 -o BasicConcepts_Uninitialized BasicConcepts_Uninitialized.cpp
-echo "C++ program built: ./BasicConcepts_Uninitialized"
-rm -f BasicConcepts_Redeclaration
-g++ -Wall -Wextra -O2 -o BasicConcepts_Redeclaration BasicConcepts_Redeclaration.cpp
-echo "C++ program built: ./BasicConcepts_Redeclaration"
-rm -f BasicConcepts_MixedTypes
-g++ -Wall -Wextra -O2 -o BasicConcepts_MixedTypes BasicConcepts_MixedTypes.cpp
-echo "C++ program built: ./BasicConcepts_MixedTypes"
+
+rm -f BasicConcepts.exe
+g++ -Wall -Wextra -O2 -o BasicConcepts.exe BasicConcepts.cpp
+echo "C++ program built: ./BasicConcepts.exe"
+
+rm -f BasicConcepts_InvalidASCII.exe
+g++ -Wall -Wextra -O2 -o BasicConcepts_InvalidASCII.exe BasicConcepts_InvalidASCII.cpp
+echo "C++ program built: ./BasicConcepts_InvalidASCII.exe"
+
+rm -f BasicConcepts_InvalidNames.exe
+g++ -Wall -Wextra -O2 -o BasicConcepts_InvalidNames.exe BasicConcepts_InvalidNames.cpp
+echo "C++ program built: ./BasicConcepts_InvalidNames.exe"
+
+rm -f BasicConcepts_Uninitialized.exe
+g++ -Wall -Wextra -O2 -o BasicConcepts_Uninitialized.exe BasicConcepts_Uninitialized.cpp
+echo "C++ program built: ./BasicConcepts_Uninitialized.exe"
+
+rm -f BasicConcepts_Redeclaration.exe
+g++ -Wall -Wextra -O2 -o BasicConcepts_Redeclaration.exe BasicConcepts_Redeclaration.cpp
+echo "C++ program built: ./BasicConcepts_Redeclaration.exe"
+
+rm -f BasicConcepts_MixedTypes.exe
+g++ -Wall -Wextra -O2 -o BasicConcepts_MixedTypes.exe BasicConcepts_MixedTypes.cpp
+echo "C++ program built: ./BasicConcepts_MixedTypes.exe"
