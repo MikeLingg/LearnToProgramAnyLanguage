@@ -8,7 +8,7 @@ int main()
     char duplicateCharacter = 'a';
     char duplicateCharacter = 'b';
     
-    printf ( "duplicateCharacter: %c\n", duplicateCharacter ) ;
+    printf ( "duplicateCharacter: %c\n", duplicateCharacter );
     
     return 0;
 }

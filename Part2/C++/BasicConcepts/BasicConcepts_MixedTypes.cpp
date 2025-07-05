@@ -9,9 +9,9 @@ int main()
     float myFloat = 'a';
     char myChar = 543.21;
     
-    printf ( "myInt: %d\n", myInt ) ;
-    printf ( "myFloat: %f\n", myFloat ) ;
-    printf ( "myChar: %c\n", myChar ) ;
+    printf ( "myInt: %d\n", myInt );
+    printf ( "myFloat: %f\n", myFloat );
+    printf ( "myChar: %c\n", myChar );
     
     return 0;
 }
