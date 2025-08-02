@@ -47,7 +47,7 @@ int main() {
     
     printf( "First large array first and last initial values: %d %d\n", largeArray[ 0 ], largeArray[ largeArraySize - 1 ] );
     printf( "Second large array first and last initial values: %d %d\n", largeArray1[ 0 ], largeArray1[ 999 ] );
-    printf( "Third large array first and last initial values: %.1f %.2f\n", largeArray2[ 0 ], largeArray2[ 4999 ] );
+    printf( "Third large array first and last initial values: %f %f\n", largeArray2[ 0 ], largeArray2[ 4999 ] );
     
     // set largeArray first entry to True
     largeArray[ 0 ] = true;
