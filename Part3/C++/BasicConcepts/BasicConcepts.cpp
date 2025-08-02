@@ -40,19 +40,20 @@ int main() {
     printf( "Third book number is now %d\n", bookNumber[ bookIndex ] );
     
     // Large arrays
-    bool largeArray[ 10000 ];
+    int largeArraySize = 10000;
+    bool largeArray[ largeArraySize ];
     int largeArray1[ 1000 ];
     double largeArray2[ 5000 ];
     
-    printf( "First large array first and last initial values: %d %d\n", largeArray[ 0 ], largeArray[ 9999 ] );
+    printf( "First large array first and last initial values: %d %d\n", largeArray[ 0 ], largeArray[ largeArraySize - 1 ] );
     printf( "Second large array first and last initial values: %d %d\n", largeArray1[ 0 ], largeArray1[ 999 ] );
     printf( "Third large array first and last initial values: %.1f %.2f\n", largeArray2[ 0 ], largeArray2[ 4999 ] );
     
     // set largeArray first entry to True
     largeArray[ 0 ] = true;
     // set largeArray last entry to False
-    largeArray[ 9999 ] = false;
-    printf( "First large array first and last values: %d %d\n", largeArray[ 0 ], largeArray[ 9999 ] );
+    largeArray[ largeArraySize - 1 ] = false;
+    printf( "First large array first and last values: %d %d\n", largeArray[ 0 ], largeArray[ largeArraySize - 1 ] );
     
     // set largeArray1 first entry to 25
     largeArray1[ 0 ] = 25;

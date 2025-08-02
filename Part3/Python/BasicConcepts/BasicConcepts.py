@@ -38,19 +38,21 @@ def main ():
     print ( f"Third book number is now { bookNumber[ bookIndex ] }" )
 
     # Large arrays - Python lists are dynamic, but we can create them with initial values
-    largeArray = [ False ] * 10000
+    # Python does not allow a large non initialized list to be created
+    largeArraySize = 10000
+    largeArray = [ False ] * largeArraySize
     largeArray1 = [ 0 ] * 1000
     largeArray2 = [ 0.0 ] * 5000
 
-    print ( f"First large array first and last initial values: { largeArray[ 0 ] } { largeArray[ 9999 ] }" )
+    print ( f"First large array first and last initial values: { largeArray[ 0 ] } { largeArray[ largeArraySize - 1 ] }" )
     print ( f"Second large array first and last initial values: { largeArray1[ 0 ] } { largeArray1[ 999 ] }" )
     print ( f"Third large array first and last initial values: { largeArray2[ 0 ] } { largeArray2[ 4999 ] }" )
 
     # set largeArray first entry to True
     largeArray[ 0 ] = True
     # set largeArray last entry to False
-    largeArray[ 9999 ] = False
-    print ( f"First large array first and last values: { largeArray[ 0 ] } { largeArray[ 9999 ] }" )
+    largeArray[ largeArraySize - 1 ] = False
+    print ( f"First large array first and last values: { largeArray[ 0 ] } { largeArray[ largeArraySize - 1 ] }" )
 
     # set largeArray1 first entry to 25
     largeArray1[ 0 ] = 25
@@ -66,6 +68,7 @@ def main ():
 
     # Character array (Python strings are immutable, but we can use lists of characters)
     # Pre-allocate list with empty characters, then set each one individually
+    # While you can do this, it isn't greatly recommended over the better built in strings.
     myString = [ '' ] * 100  # Pre-size the array like C
     myString[ 0 ] = 'H'
     myString[ 1 ] = 'e'
@@ -85,46 +88,15 @@ def main ():
     nullIndex = myString.index( '\0' ) if '\0' in myString else len( myString )
     print ( ''.join( myString[ :nullIndex ] ) )  # Print up to null terminator
 
+    # A more proper string built from individual characters.
     myString1 = [ 'H', 'e', 'l', 'l', 'o', ' ', 'W', 'o', 'r', 'l', 'd', '.' ]
     print ( ''.join( myString1 ) )
 
-    # Note: Python strings are immutable, so this is just a regular string
+    # Note: Python strings are immutable, meaning you can set them but never change them,
+    # so this is just a regular string.  We will discuss immutability after functions 
+    # when we cover objects.
     myString2 = "Hello World."
     print ( myString2 )
-
-    # Python doesn't have the same memory layout concepts as C/C++
-    # We'll simulate the dangerous operation by showing what would happen
-    # if we could access beyond array bounds (Python prevents this with exceptions)
-
-    # Simulating the struct behavior - Python doesn't have structs, but we can use a class
-    # or simulate with separate variables
-    class TestStruct:
-        def __init__ ( self ):
-            self.intArray = [ 0 ] * 10
-            self.myInt = 0
-
-    testStruct = TestStruct ()
-
-    # In Python, this would raise an IndexError, but let's show what the concept means
-    # testStruct.intArray[ 10 ] = 55  # This would raise IndexError in Python
-
-    # Instead, let's demonstrate the concept by manually simulating the behavior
-    print ( "# Python prevents buffer overflows with bounds checking" )
-    print ( "# The following would raise IndexError in Python:" )
-    print ( "# testStruct.intArray[ 10 ] = 55" )
-
-    # Let's simulate what would happen if Python allowed this
-    testStruct.myInt = 55  # Simulating the corruption that would happen in C/C++
-    print ( f"myInt value: { testStruct.myInt }" )
-
-    testStruct.myInt = testStruct.myInt + 1
-    print ( f"Simulated out of bounds effect: { testStruct.myInt }" )
-
-    # We can demonstrate actual IndexError if you want to see Python's safety mechanism
-    try:
-        testStruct.intArray[ 10 ] = 55
-    except IndexError as e:
-        print ( f"Python safety mechanism: { e }" )
 
     # 2D Array (nested lists in Python)
     twoDArray = [ [ '' for _ in range ( 4 ) ] for _ in range ( 4 ) ]
