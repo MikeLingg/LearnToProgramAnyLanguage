@@ -5,7 +5,7 @@ with Ada.Strings.Unbounded;
 with Ada.Strings.Fixed;
 with Ada.Characters.Handling;
 
-procedure Branching_Concepts is
+procedure BranchConcepts is
    use Ada.Text_IO;
    use Ada.Integer_Text_IO;
    use Ada.Float_Text_IO;
@@ -624,4 +624,4 @@ begin
       end if;
    end;
 
-end Branching_Concepts;
+end BranchConcepts;
