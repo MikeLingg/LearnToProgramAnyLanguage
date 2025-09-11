@@ -1,0 +1,501 @@
+0
+1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80
+81
+82
+83
+84
+85
+86
+87
+88
+89
+90
+91
+92
+93
+94
+95
+96
+97
+98
+99
+After Loop
+step on no pets is a palindrome.
+Loop Index:0
+Loop Index:1
+Loop Index:2
+Loop Index:3
+Loop Index:4
+Loop Index:5
+Loop Index:6
+Loop Index:7
+Loop Index:8
+Loop Index:9
+Loop Index:10
+Loop Index:11
+Loop Index:12
+Loop Index:13
+Loop Index:14
+Loop Index:15
+Loop Index:16
+Loop Index:17
+Loop Index:18
+Loop Index:19
+Loop Index:20
+Loop Index:21
+Loop Index:22
+Loop Index:23
+Loop Index:24
+Loop Index:25
+Loop Index:26
+Loop Index:27
+Loop Index:28
+Loop Index:29
+Loop Index:30
+Loop Index:31
+Loop Index:32
+Loop Index:33
+Loop Index:34
+Loop Index:35
+Loop Index:36
+Loop Index:37
+Loop Index:38
+Loop Index:39
+Loop Index:40
+Loop Index:41
+Loop Index:42
+Loop Index:43
+Loop Index:44
+Loop Index:45
+Loop Index:46
+Loop Index:47
+Loop Index:48
+Loop Index:49
+Loop Index:50
+Loop Index:51
+Loop Index:52
+Loop Index:53
+Loop Index:54
+Loop Index:55
+Loop Index:56
+Loop Index:57
+Loop Index:58
+Loop Index:59
+Loop Index:60
+Loop Index:61
+Loop Index:62
+Loop Index:63
+Loop Index:64
+Loop Index:65
+Loop Index:66
+Loop Index:67
+Loop Index:68
+Loop Index:69
+Loop Index:70
+Loop Index:71
+Loop Index:72
+Loop Index:73
+Loop Index:74
+Loop Index:75
+Loop Index:76
+Loop Index:77
+Loop Index:78
+Loop Index:79
+Loop Index:80
+Loop Index:81
+Loop Index:82
+Loop Index:83
+Loop Index:84
+Loop Index:85
+Loop Index:86
+Loop Index:87
+Loop Index:88
+Loop Index:89
+Loop Index:90
+Loop Index:91
+Loop Index:92
+Loop Index:93
+Loop Index:94
+Loop Index:95
+Loop Index:96
+Loop Index:97
+Loop Index:98
+Loop Index:99
+After Loop
+Loop Index First Loop:5
+Loop Index First Loop:6
+Loop Index First Loop:7
+Loop Index First Loop:8
+Loop Index First Loop:9
+Loop Index First Loop:10
+Loop Index First Loop:11
+Loop Index First Loop:12
+Loop Index First Loop:13
+Loop Index First Loop:14
+Loop Index Second Loop:15
+Loop Index Second Loop:16
+Loop Index Second Loop:17
+Loop Index Second Loop:18
+Loop Index Second Loop:19
+Loop Index Second Loop:20
+Loop Index Second Loop:21
+Loop Index Second Loop:22
+Loop Index Second Loop:23
+Loop Index Second Loop:24
+Loop Index Second Loop:25
+Loop Index Second Loop:26
+Loop Index Second Loop:27
+Loop Index Second Loop:28
+Loop Index Second Loop:29
+Loop Index Second Loop:30
+Loop Index Second Loop:31
+Loop Index Second Loop:32
+Loop Index Second Loop:33
+Loop Index Second Loop:34
+Loop Index Second Loop:35
+Loop Index Second Loop:36
+Loop Index Second Loop:37
+Loop Index Second Loop:38
+Loop Index Second Loop:39
+Loop Index Second Loop:40
+Loop Index Second Loop:41
+Loop Index Second Loop:42
+Loop Index Second Loop:43
+Loop Index Second Loop:44
+Loop Index Second Loop:45
+Loop Index Second Loop:46
+Loop Index Second Loop:47
+Loop Index Second Loop:48
+Loop Index Second Loop:49
+Loop Index Second Loop:50
+Loop Index Second Loop:51
+Loop Index Second Loop:52
+Loop Index Second Loop:53
+Loop Index Second Loop:54
+Loop Value:0.000000
+Loop Value:0.330000
+Loop Value:0.660000
+Loop Value:0.990000
+Loop Value:1.320000
+Loop Value:1.650000
+Loop Value:1.980000
+Loop Value:2.310000
+Loop Value:2.640000
+Loop Value:2.970000
+Loop Value:3.300000
+Loop Value:3.630000
+Loop Value:3.960000
+Loop Value:4.290000
+Loop Value:4.620000
+Loop Value:4.950000
+Loop Value:5.280000
+Loop Value:5.610000
+Loop Value:5.940000
+Loop Value:6.270000
+Loop Value:6.599999
+Loop Value:6.929999
+Loop Value:7.259999
+Loop Value:7.589999
+Loop Value:7.919999
+Loop Value:8.249999
+Loop Value:8.579999
+Loop Value:8.909999
+Loop Value:9.239999
+Loop Value:9.569999
+Loop Value:9.899999
+Loop Value:10.229999
+Loop Value:10.559999
+Loop Value:10.889998
+Loop Value:11.219998
+Loop Value:11.549998
+Loop Value:11.879998
+Loop Value:12.209998
+Loop Value:12.539998
+Loop Value:12.869998
+Loop Value:13.199998
+Loop Value:13.529998
+Loop Value:13.859998
+Loop Value:14.189998
+Loop Value:14.519998
+Loop Value:14.849998
+Loop Value:15.179997
+Loop Value:15.509997
+Loop Value:15.839997
+Loop Value:16.169998
+Loop Value:16.499998
+Loop Value:16.829998
+Loop Value:17.159998
+Loop Value:17.489998
+Loop Value:17.819998
+Loop Value:18.149998
+Loop Value:18.479998
+Loop Value:18.809998
+Loop Value:19.139997
+Loop Value:19.469997
+Loop Value:19.799997
+Loop Value:20.129997
+Loop Value:20.459997
+Loop Value:20.789997
+Loop Value:21.119997
+Loop Value:21.449997
+Loop Value:21.779997
+Loop Value:22.109997
+Loop Value:22.439997
+Loop Value:22.769997
+Loop Value:23.099997
+Loop Value:23.429996
+Loop Value:23.759996
+Loop Value:24.089996
+Loop Value:24.419996
+Loop Value:24.749996
+Loop Value:25.079996
+Loop Value:25.409996
+Loop Value:25.739996
+Loop Value:26.069996
+Loop Value:26.399996
+Loop Value:26.729996
+Loop Value:27.059996
+Loop Value:27.389996
+Loop Value:27.719995
+Loop Value:28.049995
+Loop Value:28.379995
+Loop Value:28.709995
+Loop Value:29.039995
+Loop Value:29.369995
+Loop Value:29.699995
+Loop Value:30.029995
+Loop Value:30.359995
+Loop Value:30.689995
+Loop Value:31.019995
+Loop Value:31.349995
+Loop Value:31.679995
+Loop Value:32.009995
+Loop Value:32.339996
+Loop Value:32.669998
+Loop Value:33.000000
+Loop Value:33.330002
+Loop Value:33.660004
+Loop Value:33.990005
+Loop Value:34.320007
+Loop Value:34.650009
+Loop Value:34.980011
+Loop Value:35.310013
+Loop Value:35.640015
+Loop Value:35.970016
+Loop Value:36.300018
+Loop Value:36.630020
+Loop Value:36.960022
+Loop Value:37.290024
+Loop Value:37.620026
+Loop Value:37.950027
+Loop Value:38.280029
+Loop Value:38.610031
+Loop Value:38.940033
+Loop Value:39.270035
+Loop Value:39.600037
+Loop Value:39.930038
+Loop Value:40.260040
+Loop Value:40.590042
+Loop Value:40.920044
+Loop Value:41.250046
+Loop Value:41.580048
+Loop Value:41.910049
+Loop Value:42.240051
+Loop Value:42.570053
+Loop Value:42.900055
+Loop Value:43.230057
+Loop Value:43.560059
+Loop Value:43.890060
+Loop Value:44.220062
+Loop Value:44.550064
+Loop Value:44.880066
+Loop Value:45.210068
+Loop Value:45.540070
+Loop Value:45.870071
+Loop Value:46.200073
+Loop Value:46.530075
+Loop Value:46.860077
+Loop Value:47.190079
+Loop Value:47.520081
+Loop Value:47.850082
+Loop Value:48.180084
+Loop Value:48.510086
+Loop Value:48.840088
+Loop Value:49.170090
+Loop Value:49.500092
+Loop Value:49.830093
+Loop Value:50.160095
+Loop Value:50.490097
+Loop Value:50.820099
+Loop Value:51.150101
+Loop Value:51.480103
+Loop Value:51.810104
+Loop Value:52.140106
+Loop Value:52.470108
+Loop Value:52.800110
+Loop Value:53.130112
+Loop Value:53.460114
+Loop Value:53.790115
+Loop Value:54.120117
+Loop Value:54.450119
+Loop Value:54.780121
+Loop Value:55.110123
+Loop Value:55.440125
+Loop Value:55.770126
+Loop Value:56.100128
+Loop Value:56.430130
+Loop Value:56.760132
+Loop Value:57.090134
+Loop Value:57.420135
+Loop Value:57.750137
+Loop Value:58.080139
+Loop Value:58.410141
+Loop Value:58.740143
+Loop Value:59.070145
+Loop Value:59.400146
+Loop Value:59.730148
+Loop Value:60.060150
+Loop Value:60.390152
+Loop Value:60.720154
+Loop Value:61.050156
+Loop Value:61.380157
+Loop Value:61.710159
+Loop Value:62.040161
+Loop Value:62.370163
+Loop Value:62.700165
+Loop Value:63.030167
+Loop Value:63.360168
+Loop Value:63.690170
+Loop Value:64.020172
+Loop Value:64.350174
+Loop Value:64.680176
+Loop Value:65.010178
+Loop Value:65.340179
+Loop Value:65.670181
+Loop Value:66.000183
+Loop Value:66.330185
+Loop Value:66.660187
+Loop Value:66.990189
+Loop Value:67.320190
+Loop Value:67.650192
+Loop Value:67.980194
+Loop Value:68.310196
+Loop Value:68.640198
+Loop Value:68.970200
+Loop Value:69.300201
+Loop Value:69.630203
+Loop Value:69.960205
+Loop Value:70.290207
+Loop Value:70.620209
+Loop Value:70.950211
+Loop Value:71.280212
+Loop Value:71.610214
+Loop Value:71.940216
+Loop Value:72.270218
+Loop Value:72.600220
+Loop Value:72.930222
+Loop Value:73.260223
+Loop Value:73.590225
+Loop Value:73.920227
+Loop Value:74.250229
+Loop Value:74.580231
+Loop Value:74.910233
+Loop Value:75.240234
+Loop Value:75.570236
+Loop Value:75.900238
+Loop Value:76.230240
+Loop Value:76.560242
+Loop Value:76.890244
+Loop Value:77.220245
+Loop Value:77.550247
+Loop Value:77.880249
+Loop Value:78.210251
+Loop Value:78.540253
+Loop Value:78.870255
+Loop Value:79.200256
+Loop Value:79.530258
+Loop Value:79.860260
+Loop Value:80.190262
+Loop Value:80.520264
+Loop Value:80.850266
+Loop Value:81.180267
+Loop Value:81.51
