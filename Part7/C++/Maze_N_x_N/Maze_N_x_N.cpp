@@ -101,14 +101,14 @@ int main ( )
     int wallConnections[interiorWallCount][2];
 
     int wallIndex = 0;
-    for ( int rowIndex = 0; rowIndex <= mazeRows - 1; rowIndex++ )
+    for ( int rowIndex = 0; rowIndex < mazeRows; rowIndex++ )
     {
         // Track the first cell in the current row
         int firstCellInRow = rowIndex * mazeColumns;
 
         // Note the 0..mazeColumns - 2, one less vertical wall
         // than the number of columns.
-        for ( int verticalWallIndex = 0; verticalWallIndex <= mazeColumns - 2; verticalWallIndex++ )
+        for ( int verticalWallIndex = 0; verticalWallIndex < mazeColumns - 1; verticalWallIndex++ )
         {
             int leftCell = firstCellInRow + verticalWallIndex;
             int rightCell = leftCell + 1;
@@ -121,7 +121,7 @@ int main ( )
         // it, so will be skipped.
         if ( wallIndex < interiorWallCount )
         {
-            for ( int horizontalWallIndex = 0; horizontalWallIndex <= mazeColumns - 1; horizontalWallIndex++ )
+            for ( int horizontalWallIndex = 0; horizontalWallIndex < mazeColumns; horizontalWallIndex++ )
             {
                 int upperCell = firstCellInRow + horizontalWallIndex;
                 int lowerCell = upperCell + mazeColumns;
@@ -135,7 +135,7 @@ int main ( )
     // Identify which group each cell is a part of.
     int cellToGroup[mazeRows * mazeColumns];
 
-    for ( int cellIndex = 0; cellIndex <= mazeRows * mazeColumns - 1; cellIndex++ )
+    for ( int cellIndex = 0; cellIndex < mazeRows * mazeColumns; cellIndex++ )
     {
         cellToGroup[cellIndex] = cellIndex;
     }
@@ -145,9 +145,19 @@ int main ( )
     // NO_CELL indicates no cell is assigned to this index.
     int groupCells[mazeColumns * mazeRows][mazeColumns * mazeRows];
     
-    for ( int cellIndex = 0; cellIndex <= mazeRows * mazeColumns - 1; cellIndex++ )
+    for ( int cellIndex = 0; cellIndex < mazeRows * mazeColumns; cellIndex++ )
     {
-        groupCells[cellIndex][0] = cellIndex;
+        for ( int innerCellIndex = 0; innerCellIndex < mazeRows * mazeColumns; innerCellIndex++ )
+        {
+            if ( innerCellIndex == 0 )
+            {
+                groupCells[cellIndex][innerCellIndex] = cellIndex;
+            }
+            else
+            {
+                groupCells[cellIndex][innerCellIndex] = NO_CELL;
+            }
+        }
     }
 
     // Print maze code:
@@ -158,14 +168,14 @@ int main ( )
     // +-+-+-+
     // One initial cell with + followed by mazeColumns cells with -+
     printf ( "+" );
-    for ( int cellIndex = 0; cellIndex <= mazeColumns - 1; cellIndex++ )
+    for ( int cellIndex = 0; cellIndex < mazeColumns; cellIndex++ )
     {
         printf ( "-" );
         printf ( "+" );
     }
     printf ( "\n" );
 
-    for ( int rowIndex = 0; rowIndex <= mazeRows - 1; rowIndex++ )
+    for ( int rowIndex = 0; rowIndex < mazeRows; rowIndex++ )
     {
         // Vertical walls and cells in each row row.
         // The left and right vertical walls are exterior, always up.
@@ -173,7 +183,7 @@ int main ( )
         // Or print one |, followed by mazeColumn cells of <space>| where the |
         // may be down (<space>).
         printf ( "|" );
-        for ( int columnIndex = 0; columnIndex <= mazeColumns - 1; columnIndex++ )
+        for ( int columnIndex = 0; columnIndex < mazeColumns; columnIndex++ )
         {
             printf ( " " );
 
@@ -200,7 +210,7 @@ int main ( )
             // Horizontal walls above row rowIndex
             // +-+-+-+
             printf ( "+" );
-            for ( int columnIndex = 0; columnIndex <= mazeColumns - 1; columnIndex++ )
+            for ( int columnIndex = 0; columnIndex < mazeColumns; columnIndex++ )
             {
                 if ( wallsUp[currentInteriorWall] == true )
                 {
@@ -220,7 +230,7 @@ int main ( )
     // Horizontal walls below row the final row - All are exterior walls, no conditions.
     // +-+-+-+
     printf ( "+" );
-    for ( int columnIndex = 0; columnIndex <= mazeColumns - 1; columnIndex++ )
+    for ( int columnIndex = 0; columnIndex < mazeColumns; columnIndex++ )
     {
         printf ( "-" );
         printf ( "+" );
@@ -228,7 +238,7 @@ int main ( )
     printf ( "\n" );
 
     int wallRemoveList[interiorWallCount];
-    for ( int wallIndex = 0; wallIndex <= interiorWallCount - 1; wallIndex++ )
+    for ( int wallIndex = 0; wallIndex < interiorWallCount; wallIndex++ )
     {
         wallRemoveList[wallIndex] = wallIndex;
     }
@@ -256,7 +266,7 @@ int main ( )
     // if the cells on either side of the wall are in separate groups, 
     // remove the wall and merge the groups.  Repeat until all 
     // cells are now in the same group.
-    for ( int removeWallIndex = 0; removeWallIndex <= interiorWallCount - 1; removeWallIndex++ )
+    for ( int removeWallIndex = 0; removeWallIndex < interiorWallCount; removeWallIndex++ )
     {
         int nextWallToCheck = wallRemoveList[removeWallIndex];
 
@@ -275,7 +285,7 @@ int main ( )
             // Loop through the indices of all cells in the first 
             // group until we find a NO_CELL indicating no cell here.
             int nextEmptyFirstGroupIndex = 0;
-            for ( int cellIndex = 0; cellIndex <= mazeColumns * mazeRows - 1; cellIndex++ )
+            for ( int cellIndex = 0; cellIndex < mazeColumns * mazeRows; cellIndex++ )
             {
                 if ( groupCells[firstCellGroupIndex][cellIndex] == NO_CELL )
                 {
@@ -321,17 +331,17 @@ int main ( )
 
             printf ( "\n" );
             printf ( "+" );
-            for ( int cellIndex = 0; cellIndex <= mazeColumns - 1; cellIndex++ )
+            for ( int cellIndex = 0; cellIndex < mazeColumns; cellIndex++ )
             {
                 printf ( "-" );
                 printf ( "+" );
             }
             printf ( "\n" );
 
-            for ( int rowIndex = 0; rowIndex <= mazeRows - 1; rowIndex++ )
+            for ( int rowIndex = 0; rowIndex < mazeRows; rowIndex++ )
             {
                 printf ( "|" );
-                for ( int columnIndex = 0; columnIndex <= mazeColumns - 1; columnIndex++ )
+                for ( int columnIndex = 0; columnIndex < mazeColumns; columnIndex++ )
                 {
                     printf ( " " );
 
@@ -353,7 +363,7 @@ int main ( )
                 if ( rowIndex < mazeRows - 1 )
                 {
                     printf ( "+" );
-                    for ( int columnIndex = 0; columnIndex <= mazeColumns - 1; columnIndex++ )
+                    for ( int columnIndex = 0; columnIndex < mazeColumns; columnIndex++ )
                     {
                         if ( wallsUp[currentInteriorWall] == true )
                         {
@@ -371,7 +381,7 @@ int main ( )
             }
 
             printf ( "+" );
-            for ( int columnIndex = 0; columnIndex <= mazeColumns - 1; columnIndex++ )
+            for ( int columnIndex = 0; columnIndex < mazeColumns; columnIndex++ )
             {
                 printf ( "-" );
                 printf ( "+" );
