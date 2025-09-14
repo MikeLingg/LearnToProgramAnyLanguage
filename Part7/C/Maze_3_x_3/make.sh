@@ -1,6 +1,6 @@
 #!/bin/bash
 
-FileNames=("LoopConcepts")
+FileNames=("Maze_3_x_3")
 
 for fileName in "${FileNames[@]}"; do
 
