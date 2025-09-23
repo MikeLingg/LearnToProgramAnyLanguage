@@ -125,6 +125,8 @@ void printMaze()
             printHorizontalWalls ( horizontalWallsUp );
         }
     }
+
+    printf ( "\n" );
 }
 
 
@@ -302,36 +304,37 @@ int main()
     {
         printf ( "Please enter number of columns for maze, must be greater than 1: " );
         char userInput[100];
-        fgets ( userInput, sizeof ( userInput ), stdin );
-        
-        // Remove newline if present
-        int len = strlen ( userInput );
-        if ( len > 0 && userInput[len - 1] == '\n' )
+        if ( fgets ( userInput, sizeof ( userInput ), stdin ) )
         {
-            userInput[len - 1] = '\0';
-        }
-        
-        // Check if string is a valid number
-        bool isValid = true;
-        if ( userInput[0] == '\0' )
-        {
-            isValid = false;
-        }
-        else
-        {
-            for ( int i = 0; userInput[i] != '\0'; i++ )
+            // Remove newline if present
+            int len = strlen ( userInput );
+            if ( len > 0 && userInput[len - 1] == '\n' )
             {
-                if ( userInput[i] < '0' || userInput[i] > '9' )
+                userInput[len - 1] = '\0';
+            }
+            
+            // Check if string is a valid number
+            bool isValid = true;
+            if ( userInput[0] == '\0' )
+            {
+                isValid = false;
+            }
+            else
+            {
+                for ( int i = 0; userInput[i] != '\0'; i++ )
                 {
-                    isValid = false;
-                    break;
+                    if ( userInput[i] < '0' || userInput[i] > '9' )
+                    {
+                        isValid = false;
+                        break;
+                    }
                 }
             }
-        }
-        
-        if ( isValid == true )
-        {
-            MazeColumns_Glob = atoi ( userInput );
+            
+            if ( isValid == true )
+            {
+                MazeColumns_Glob = atoi ( userInput );
+            }
         }
     }
 
@@ -340,36 +343,37 @@ int main()
     {
         printf ( "Please enter number of rows for maze, must be greater than 1: " );
         char userInput[100];
-        fgets ( userInput, sizeof ( userInput ), stdin );
-        
-        // Remove newline if present
-        int len = strlen ( userInput );
-        if ( len > 0 && userInput[len - 1] == '\n' )
+        if ( fgets ( userInput, sizeof ( userInput ), stdin ) )
         {
-            userInput[len - 1] = '\0';
-        }
-        
-        // Check if string is a valid number
-        bool isValid = true;
-        if ( userInput[0] == '\0' )
-        {
-            isValid = false;
-        }
-        else
-        {
-            for ( int i = 0; userInput[i] != '\0'; i++ )
+            // Remove newline if present
+            int len = strlen ( userInput );
+            if ( len > 0 && userInput[len - 1] == '\n' )
             {
-                if ( userInput[i] < '0' || userInput[i] > '9' )
+                userInput[len - 1] = '\0';
+            }
+            
+            // Check if string is a valid number
+            bool isValid = true;
+            if ( userInput[0] == '\0' )
+            {
+                isValid = false;
+            }
+            else
+            {
+                for ( int i = 0; userInput[i] != '\0'; i++ )
                 {
-                    isValid = false;
-                    break;
+                    if ( userInput[i] < '0' || userInput[i] > '9' )
+                    {
+                        isValid = false;
+                        break;
+                    }
                 }
             }
-        }
-        
-        if ( isValid == true )
-        {
-            MazeRows_Glob = atoi ( userInput );
+            
+            if ( isValid == true )
+            {
+                MazeRows_Glob = atoi ( userInput );
+            }
         }
     }
 

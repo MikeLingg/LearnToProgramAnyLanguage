@@ -141,6 +141,8 @@ void printMaze()
             printHorizontalWalls ( horizontalWallsUp );
         }
     }
+
+    printf ( "\n" );
 }
 
 
