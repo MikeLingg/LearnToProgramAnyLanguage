@@ -1,625 +1,290 @@
-section .data
-    ; Constants
-    FIRST_CELL equ 0
-    SECOND_CELL equ 1
-    NO_CELL equ -1
-    
-    ; 12 interior walls in a 3x3 maze. Start with all the walls up.
-    wallsUp db 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1
-    
-    ; Identify the cells each wall connects.
-    wallConnections db 0,1, 1,2, 0,3, 1,4, 2,5, 3,4, 4,5, 3,6, 4,7, 5,8, 6,7, 7,8
-    
-    ; Identify which group each cell is a part of.
-    cellToGroup db 0, 1, 2, 3, 4, 5, 6, 7, 8
-    
-    ; Wall removal list
-    wallRemoveList db 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11
-    
-    ; Group cells array - 9 groups of 9 cells each
-    groupCells times 81 db NO_CELL
+#include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
+#include <unistd.h>
 
-section .bss
-    ; Variables
-    currentInteriorWall resb 1
-    mazeComplete resb 1
-    removeWallIndex resb 1
-    nextWallToCheck resb 1
-    firstCell resb 1
-    firstCellGroupIndex resb 1
-    secondCell resb 1
-    secondCellGroupIndex resb 1
-    nextEmptyFirstGroupIndex resb 1
-    cellToMove resb 1
-    
-    ; Loop variables
-    cellIndex resb 1
-    rowIndex resb 1
-    groupCellIndex resb 1
+int main( )
+{
+    /* Define directions */
+    /*const int LEFT = 0;*/
+    /*const int UP = 1;*/
+    /*const int RIGHT = 2;*/
+    /*const int DOWN = 3;*/
 
-section .text
-    global _start
+    const int FIRST_CELL = 0;
+    const int SECOND_CELL = 1;
+    
+    const int NO_CELL = -1;
+    
+    const int interiorWallCount = 12;
 
-_start:
-    ; Initialize groupCells array
-    ; Set each group's first cell: groupCells[group][0] = group
-    mov al, 0
-init_groups_loop:
-    cmp al, 9
-    jge init_groups_done
-    
-    ; Calculate groupCells[group][0] address
-    mov bl, al
-    mov cl, 9
-    mul cl          ; al = group * 9
-    mov [groupCells + rax], bl  ; groupCells[group * 9 + 0] = group
-    
-    mov al, bl      ; Restore group counter
-    inc al
-    jmp init_groups_loop
-    
-init_groups_done:
+    /* For each cell 0-8, indicate if a wall is exterior and cannot be removed ( -1 ) or its interior index for each of */
+    /* the four directions, LEFT, UP, RIGHT, DOWN. */
+    /*int cellToWallLUT[9][4] = {
+        {-1, -1, 0, 2},  {0, -1, 1, 3},   {1, -1, -1, 4},
+        {-1, 2, 5, 7},   {5, 3, 6, 8},    {6, 4, -1, 9},
+        {-1, 7, 10, -1}, {10, 8, 11, -1}, {11, 9, -1, -1}
+    };*/
 
-    ; Print initial maze
-    mov byte [currentInteriorWall], 0
-    
-    ; Print top border: +-+-+-+
-    mov rax, 1      ; sys_write
-    mov rdi, 1      ; stdout
-    mov rsi, plus_char
-    mov rdx, 1
-    syscall
-    
-    mov byte [cellIndex], 0
-top_border_loop:
-    cmp byte [cellIndex], 3
-    jge top_border_done
-    
-    ; Print "-"
-    mov rax, 1
-    mov rdi, 1
-    mov rsi, dash_char
-    mov rdx, 1
-    syscall
-    
-    ; Print "+"
-    mov rax, 1
-    mov rdi, 1
-    mov rsi, plus_char
-    mov rdx, 1
-    syscall
-    
-    inc byte [cellIndex]
-    jmp top_border_loop
-    
-top_border_done:
-    ; Print newline
-    mov rax, 1
-    mov rdi, 1
-    mov rsi, newline_char
-    mov rdx, 1
-    syscall
+    /* 12 interior walls in a 3x3 maze. Start with all the walls up. */
+    int wallsUp[12] = { 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 };
 
-    ; Print maze rows
-    mov byte [rowIndex], 0
-row_loop:
-    cmp byte [rowIndex], 3
-    jge row_loop_done
-    
-    ; Print "|"
-    mov rax, 1
-    mov rdi, 1
-    mov rsi, pipe_char
-    mov rdx, 1
-    syscall
-    
-    mov byte [cellIndex], 0
-cell_loop:
-    cmp byte [cellIndex], 3
-    jge cell_loop_done
-    
-    ; Print " " (space)
-    mov rax, 1
-    mov rdi, 1
-    mov rsi, space_char
-    mov rdx, 1
-    syscall
-    
-    ; Check if should print vertical wall
-    cmp byte [cellIndex], 2
-    je print_pipe
-    
-    ; Check wallsUp[currentInteriorWall]
-    mov al, [currentInteriorWall]
-    mov bl, [wallsUp + rax]
-    cmp bl, 1
-    je print_pipe
-    
-    ; Print space
-    mov rax, 1
-    mov rdi, 1
-    mov rsi, space_char
-    mov rdx, 1
-    syscall
-    jmp check_increment
-    
-print_pipe:
-    ; Print "|"
-    mov rax, 1
-    mov rdi, 1
-    mov rsi, pipe_char
-    mov rdx, 1
-    syscall
-    
-check_increment:
-    cmp byte [cellIndex], 2
-    jge no_increment
-    inc byte [currentInteriorWall]
-    
-no_increment:
-    inc byte [cellIndex]
-    jmp cell_loop
-    
-cell_loop_done:
-    ; Print newline
-    mov rax, 1
-    mov rdi, 1
-    mov rsi, newline_char
-    mov rdx, 1
-    syscall
-    
-    ; Print horizontal walls if not last row
-    cmp byte [rowIndex], 2
-    jge skip_horizontal
-    
-    ; Print "+"
-    mov rax, 1
-    mov rdi, 1
-    mov rsi, plus_char
-    mov rdx, 1
-    syscall
-    
-    mov byte [cellIndex], 0
-horizontal_loop:
-    cmp byte [cellIndex], 3
-    jge horizontal_done
-    
-    ; Check wallsUp[currentInteriorWall]
-    mov al, [currentInteriorWall]
-    mov bl, [wallsUp + rax]
-    cmp bl, 1
-    je print_dash
-    
-    ; Print space
-    mov rax, 1
-    mov rdi, 1
-    mov rsi, space_char
-    mov rdx, 1
-    syscall
-    jmp print_plus
-    
-print_dash:
-    ; Print "-"
-    mov rax, 1
-    mov rdi, 1
-    mov rsi, dash_char
-    mov rdx, 1
-    syscall
-    
-print_plus:
-    ; Print "+"
-    mov rax, 1
-    mov rdi, 1
-    mov rsi, plus_char
-    mov rdx, 1
-    syscall
-    
-    inc byte [cellIndex]
-    jmp horizontal_loop
-    
-horizontal_done:
-    ; Print newline
-    mov rax, 1
-    mov rdi, 1
-    mov rsi, newline_char
-    mov rdx, 1
-    syscall
-    
-skip_horizontal:
-    inc byte [currentInteriorWall]
-    inc byte [rowIndex]
-    jmp row_loop
-    
-row_loop_done:
-    ; Print bottom border: +-+-+-+
-    mov rax, 1
-    mov rdi, 1
-    mov rsi, plus_char
-    mov rdx, 1
-    syscall
-    
-    mov byte [cellIndex], 0
-bottom_border_loop:
-    cmp byte [cellIndex], 3
-    jge bottom_border_done
-    
-    ; Print "-"
-    mov rax, 1
-    mov rdi, 1
-    mov rsi, dash_char
-    mov rdx, 1
-    syscall
-    
-    ; Print "+"
-    mov rax, 1
-    mov rdi, 1
-    mov rsi, plus_char
-    mov rdx, 1
-    syscall
-    
-    inc byte [cellIndex]
-    jmp bottom_border_loop
-    
-bottom_border_done:
-    ; Print newline
-    mov rax, 1
-    mov rdi, 1
-    mov rsi, newline_char
-    mov rdx, 1
-    syscall
+    /* Identify the cells each wall connects. */
+    int wallConnections[12][2] = 
+    {
+        { 0, 1 }, { 1, 2 }, { 0, 3 }, { 1, 4 }, { 2, 5 }, { 3, 4 }, 
+        { 4, 5 }, { 3, 6 }, { 4, 7 }, { 5, 8 }, { 6, 7 }, { 7, 8 }
+    };
 
-    ; Simple randomization - swap a few elements
-    ; Use simple approach: swap element 0 with element 3, element 1 with element 7, etc.
-    mov al, [wallRemoveList + 0]
-    mov bl, [wallRemoveList + 3]
-    mov [wallRemoveList + 0], bl
-    mov [wallRemoveList + 3], al
-    
-    mov al, [wallRemoveList + 1]
-    mov bl, [wallRemoveList + 7]
-    mov [wallRemoveList + 1], bl
-    mov [wallRemoveList + 7], al
-    
-    mov al, [wallRemoveList + 2]
-    mov bl, [wallRemoveList + 9]
-    mov [wallRemoveList + 2], bl
-    mov [wallRemoveList + 9], al
+    /* Identify which group each cell is a part of. */
+    int cellToGroup[9] = { 0, 1, 2, 3, 4, 5, 6, 7, 8 };
 
-    ; Kruskal's algorithm main loop
-    mov byte [mazeComplete], 0
-    mov byte [removeWallIndex], 0
-    
-main_algorithm_loop:
-    cmp byte [removeWallIndex], 12
-    jge algorithm_done
-    
-    ; Get next wall to check
-    mov al, [removeWallIndex]
-    mov bl, [wallRemoveList + rax]
-    mov [nextWallToCheck], bl
-    
-    ; Get cells connected by this wall
-    mov al, [nextWallToCheck]
-    mov cl, 2           ; 2 bytes per wall connection
-    mul cl              ; al = wall * 2
-    mov bl, [wallConnections + rax]     ; firstCell
-    mov [firstCell], bl
-    mov bl, [wallConnections + rax + 1] ; secondCell
-    mov [secondCell], bl
-    
-    ; Get group indices
-    mov al, [firstCell]
-    mov bl, [cellToGroup + rax]
-    mov [firstCellGroupIndex], bl
-    
-    mov al, [secondCell]
-    mov bl, [cellToGroup + rax]
-    mov [secondCellGroupIndex], bl
-    
-    ; Check if different groups
-    mov al, [firstCellGroupIndex]
-    mov bl, [secondCellGroupIndex]
-    cmp al, bl
-    je skip_wall
-    
-    ; Remove wall
-    mov al, [nextWallToCheck]
-    mov byte [wallsUp + rax], 0
-    
-    ; Find empty slot in first group
-    mov byte [nextEmptyFirstGroupIndex], 0
-    mov byte [cellIndex], 0
-    
-find_empty_slot:
-    cmp byte [cellIndex], 9
-    jge found_slot
-    
-    ; Calculate groupCells[firstCellGroupIndex][cellIndex]
-    mov al, [firstCellGroupIndex]
-    mov cl, 9
-    mul cl
-    add al, [cellIndex]
-    mov bl, [groupCells + rax]
-    cmp bl, NO_CELL
-    je found_empty
-    
-    inc byte [cellIndex]
-    jmp find_empty_slot
-    
-found_empty:
-    mov al, [cellIndex]
-    mov [nextEmptyFirstGroupIndex], al
-    
-found_slot:
-    ; Move cells from second group to first group
-    mov byte [groupCellIndex], 8
-    
-merge_loop:
-    cmp byte [groupCellIndex], 255  ; -1 as unsigned byte
-    je merge_done
-    
-    ; Check if valid cell in second group
-    mov al, [secondCellGroupIndex]
-    mov cl, 9
-    mul cl
-    add al, [groupCellIndex]
-    mov bl, [groupCells + rax]
-    cmp bl, NO_CELL
-    je continue_merge
-    
-    ; Move cell to first group
-    mov [cellToMove], bl
-    
-    ; Add to first group
-    mov al, [firstCellGroupIndex]
-    mov cl, 9
-    mul cl
-    add al, [nextEmptyFirstGroupIndex]
-    mov bl, [cellToMove]
-    mov [groupCells + rax], bl
-    
-    ; Update cell's group
-    mov al, [cellToMove]
-    mov bl, [firstCellGroupIndex]
-    mov [cellToGroup + rax], bl
-    
-    ; Clear from second group
-    mov al, [secondCellGroupIndex]
-    mov cl, 9
-    mul cl
-    add al, [groupCellIndex]
-    mov byte [groupCells + rax], NO_CELL
-    
-    inc byte [nextEmptyFirstGroupIndex]
-    
-    ; Check if maze complete (simplified: if we've merged 8 cells total)
-    cmp byte [nextEmptyFirstGroupIndex], 9
-    jl continue_merge
-    mov byte [mazeComplete], 1
-    
-continue_merge:
-    dec byte [groupCellIndex]
-    jmp merge_loop
-    
-merge_done:
-    ; Sleep for half a second (busy wait)
-    mov rcx, 100000000
-sleep_loop:
-    dec rcx
-    jnz sleep_loop
-    
-    ; Print maze again (copy of maze printing code above)
-    mov byte [currentInteriorWall], 0
-    
-    ; Print newline first
-    mov rax, 1
-    mov rdi, 1
-    mov rsi, newline_char
-    mov rdx, 1
-    syscall
-    
-    ; Print top border: +-+-+-+
-    mov rax, 1
-    mov rdi, 1
-    mov rsi, plus_char
-    mov rdx, 1
-    syscall
-    
-    mov byte [cellIndex], 0
-top_border_loop2:
-    cmp byte [cellIndex], 3
-    jge top_border_done2
-    
-    mov rax, 1
-    mov rdi, 1
-    mov rsi, dash_char
-    mov rdx, 1
-    syscall
-    
-    mov rax, 1
-    mov rdi, 1
-    mov rsi, plus_char
-    mov rdx, 1
-    syscall
-    
-    inc byte [cellIndex]
-    jmp top_border_loop2
-    
-top_border_done2:
-    mov rax, 1
-    mov rdi, 1
-    mov rsi, newline_char
-    mov rdx, 1
-    syscall
+    /* Identify which cells are a part of each group */
+    int groupCells[9][9] = 
+    {
+        { 0, NO_CELL, NO_CELL, NO_CELL, NO_CELL, NO_CELL, NO_CELL, NO_CELL, NO_CELL },
+        { 1, NO_CELL, NO_CELL, NO_CELL, NO_CELL, NO_CELL, NO_CELL, NO_CELL, NO_CELL },
+        { 2, NO_CELL, NO_CELL, NO_CELL, NO_CELL, NO_CELL, NO_CELL, NO_CELL, NO_CELL },
+        { 3, NO_CELL, NO_CELL, NO_CELL, NO_CELL, NO_CELL, NO_CELL, NO_CELL, NO_CELL },
+        { 4, NO_CELL, NO_CELL, NO_CELL, NO_CELL, NO_CELL, NO_CELL, NO_CELL, NO_CELL },
+        { 5, NO_CELL, NO_CELL, NO_CELL, NO_CELL, NO_CELL, NO_CELL, NO_CELL, NO_CELL },
+        { 6, NO_CELL, NO_CELL, NO_CELL, NO_CELL, NO_CELL, NO_CELL, NO_CELL, NO_CELL },
+        { 7, NO_CELL, NO_CELL, NO_CELL, NO_CELL, NO_CELL, NO_CELL, NO_CELL, NO_CELL },
+        { 8, NO_CELL, NO_CELL, NO_CELL, NO_CELL, NO_CELL, NO_CELL, NO_CELL, NO_CELL }
+    };
 
-    ; Print maze rows
-    mov byte [rowIndex], 0
-row_loop2:
-    cmp byte [rowIndex], 3
-    jge row_loop_done2
-    
-    mov rax, 1
-    mov rdi, 1
-    mov rsi, pipe_char
-    mov rdx, 1
-    syscall
-    
-    mov byte [cellIndex], 0
-cell_loop2:
-    cmp byte [cellIndex], 3
-    jge cell_loop_done2
-    
-    mov rax, 1
-    mov rdi, 1
-    mov rsi, space_char
-    mov rdx, 1
-    syscall
-    
-    cmp byte [cellIndex], 2
-    je print_pipe2
-    
-    mov al, [currentInteriorWall]
-    mov bl, [wallsUp + rax]
-    cmp bl, 1
-    je print_pipe2
-    
-    mov rax, 1
-    mov rdi, 1
-    mov rsi, space_char
-    mov rdx, 1
-    syscall
-    jmp check_increment2
-    
-print_pipe2:
-    mov rax, 1
-    mov rdi, 1
-    mov rsi, pipe_char
-    mov rdx, 1
-    syscall
-    
-check_increment2:
-    cmp byte [cellIndex], 2
-    jge no_increment2
-    inc byte [currentInteriorWall]
-    
-no_increment2:
-    inc byte [cellIndex]
-    jmp cell_loop2
-    
-cell_loop_done2:
-    mov rax, 1
-    mov rdi, 1
-    mov rsi, newline_char
-    mov rdx, 1
-    syscall
-    
-    cmp byte [rowIndex], 2
-    jge skip_horizontal2
-    
-    mov rax, 1
-    mov rdi, 1
-    mov rsi, plus_char
-    mov rdx, 1
-    syscall
-    
-    mov byte [cellIndex], 0
-horizontal_loop2:
-    cmp byte [cellIndex], 3
-    jge horizontal_done2
-    
-    mov al, [currentInteriorWall]
-    mov bl, [wallsUp + rax]
-    cmp bl, 1
-    je print_dash2
-    
-    mov rax, 1
-    mov rdi, 1
-    mov rsi, space_char
-    mov rdx, 1
-    syscall
-    jmp print_plus2
-    
-print_dash2:
-    mov rax, 1
-    mov rdi, 1
-    mov rsi, dash_char
-    mov rdx, 1
-    syscall
-    
-print_plus2:
-    mov rax, 1
-    mov rdi, 1
-    mov rsi, plus_char
-    mov rdx, 1
-    syscall
-    
-    inc byte [cellIndex]
-    jmp horizontal_loop2
-    
-horizontal_done2:
-    mov rax, 1
-    mov rdi, 1
-    mov rsi, newline_char
-    mov rdx, 1
-    syscall
-    
-skip_horizontal2:
-    inc byte [currentInteriorWall]
-    inc byte [rowIndex]
-    jmp row_loop2
-    
-row_loop_done2:
-    ; Print bottom border
-    mov rax, 1
-    mov rdi, 1
-    mov rsi, plus_char
-    mov rdx, 1
-    syscall
-    
-    mov byte [cellIndex], 0
-bottom_border_loop2:
-    cmp byte [cellIndex], 3
-    jge bottom_border_done2
-    
-    mov rax, 1
-    mov rdi, 1
-    mov rsi, dash_char
-    mov rdx, 1
-    syscall
-    
-    mov rax, 1
-    mov rdi, 1
-    mov rsi, plus_char
-    mov rdx, 1
-    syscall
-    
-    inc byte [cellIndex]
-    jmp bottom_border_loop2
-    
-bottom_border_done2:
-    mov rax, 1
-    mov rdi, 1
-    mov rsi, newline_char
-    mov rdx, 1
-    syscall
-    
-    ; Check if maze complete
-    cmp byte [mazeComplete], 1
-    je algorithm_done
-    
-skip_wall:
-    inc byte [removeWallIndex]
-    jmp main_algorithm_loop
-    
-algorithm_done:
-    ; Exit
-    mov rax, 60
-    mov rdi, 0
-    syscall
+    /* Print maze code: */
+    /* Print out the maze, this is a less painful copy/paste job without functions, but better with loops. */
+    int currentInteriorWall = 0;
 
-section .data
-    plus_char db "+", 0
-    dash_char db "-", 0
-    pipe_char db "|", 0
-    space_char db " ", 0
-    newline_char db 10, 0
+    /* Print the horizontal walls above row 1 - All are exterior walls, no conditions. */
+    /* +-+-+-+ */
+    /* One initial cell with + followed by 3 cells with -+ */
+    printf( "+" );
+    for ( int cellIndex = 0; cellIndex <= 2; cellIndex++ )
+    {
+        printf( "-" );
+        printf( "+" );
+    }
+    printf( "\n" );
+
+    for ( int rowIndex = 0; rowIndex <= 2; rowIndex++ )
+    {
+        /* Vertical walls and cells row 1. */
+        /* The left and right vertical walls are exterior, always up. */
+        /* | | | | */
+        /* Or print one |, followed by 3 cells of <space>| where the | */
+        /* may be down ( <space> ). */
+        printf( "|" );
+        for ( int cellIndex = 0; cellIndex <= 2; cellIndex++ )
+        {
+            printf( " " );
+
+            /* Always print the right most vertical wall, */
+            /* if interior wall, print if the wall is up. */
+            if ( cellIndex == 2 || wallsUp[currentInteriorWall] == 1 )
+            {
+                printf( "|" );
+            }
+            else
+            {
+                printf( " " );
+            }
+            if ( cellIndex < 2 )
+            {
+                currentInteriorWall = currentInteriorWall + 1;
+            }
+        }
+        printf( "\n" );
+
+        /* One fewer horizontal wall than vertical */
+        if ( rowIndex < 2 )
+        {
+            /* Horizontal walls above row rowIndex */
+            /* +-+-+-+ */
+            printf( "+" );
+            for ( int cellIndex = 0; cellIndex <= 2; cellIndex++ )
+            {
+                if ( wallsUp[currentInteriorWall] == 1 )
+                {
+                    printf( "-" );
+                }
+                else
+                {
+                    printf( " " );
+                }
+                printf( "+" );
+            }
+            printf( "\n" );
+        }
+
+        currentInteriorWall = currentInteriorWall + 1;
+    }
+
+    /* Horizontal walls below row 3 - All are exterior walls, no conditions. */
+    /* +-+-+-+ */
+    printf( "+" );
+    for ( int cellIndex = 0; cellIndex <= 2; cellIndex++ )
+    {
+        printf( "-" );
+        printf( "+" );
+    }
+    printf( "\n" );
+
+    /* Create and randomize wall removal list */
+    int wallRemoveList[12] = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11 };
+    
+    srand( time( NULL ) );
+
+    /* Fisher-Yates shuffle algorithm */
+    for ( int shuffleIndex = 11; shuffleIndex > 0; shuffleIndex = shuffleIndex - 1 )
+    {
+        /* Generate random index from 0 to shuffleIndex ( inclusive ) */
+        int otherIndex = rand( ) % ( shuffleIndex + 1 );
+
+        /* Swap wallRemoveList[shuffleIndex] with wallRemoveList[otherIndex] */
+        int temp = wallRemoveList[shuffleIndex];
+        wallRemoveList[shuffleIndex] = wallRemoveList[otherIndex];
+        wallRemoveList[otherIndex] = temp;
+    }
+
+    int mazeComplete = 0;
+
+    /* Remove wall code: */
+    /* Now that we have loops we can implement Kruskal's algorithm. */
+    /* The simple description of the algorithm is first place each */
+    /* cell in its own group.  Then process all walls in random order, */
+    /* if the cells on either side of the wall are in separate groups, */
+    /* remove the wall and merge the groups.  Repeat until all */
+    /* cells are now in the same group. */
+    for ( int removeWallIndex = 0; removeWallIndex <= interiorWallCount - 1; removeWallIndex++ )
+    {
+        int nextWallToCheck = wallRemoveList[removeWallIndex];
+
+        /* If the two cells connected to this wall are not part */
+        /* of the same group, remove the wall and merge the */
+        /* groups. */
+        int firstCell = wallConnections[nextWallToCheck][FIRST_CELL];
+        int firstCellGroupIndex = cellToGroup[firstCell];
+        int secondCell = wallConnections[nextWallToCheck][SECOND_CELL];
+        int secondCellGroupIndex = cellToGroup[secondCell];
+        
+        if ( firstCellGroupIndex != secondCellGroupIndex )
+        {
+            wallsUp[nextWallToCheck] = 0;
+
+            /* Loop through the indices of all cells in the first */
+            /* group until we find a NO_CELL indicating no cell here. */
+            int nextEmptyFirstGroupIndex = 0;
+            for ( int cellIndex = 0; cellIndex <= 8; cellIndex++ )
+            {
+                if ( groupCells[firstCellGroupIndex][cellIndex] == NO_CELL )
+                {
+                    nextEmptyFirstGroupIndex = cellIndex;
+                    break;
+                }
+            }
+
+            /* Loop through the indices of all cells in the second group, */
+            /* move each cell to the first group, and set that cell's */
+            /* group to the first group index. */
+            for ( int groupCellIndex = 8; groupCellIndex >= 0; groupCellIndex-- )
+            {
+                /* Skip until we reach valid cells */
+                if ( groupCells[secondCellGroupIndex][groupCellIndex] != NO_CELL )
+                {
+                    /* Get the id number of the cell to move from */
+                    /* the second group to the first group */
+                    int cellToMove = groupCells[secondCellGroupIndex][groupCellIndex];
+
+                    /* Move the cell number from the second group */
+                    /* to the first group */
+                    groupCells[firstCellGroupIndex][nextEmptyFirstGroupIndex] = cellToMove;
+                    /* Move our empty index to the next cell in this array. */
+                    nextEmptyFirstGroupIndex = nextEmptyFirstGroupIndex + 1;
+                    /* Mark this cell as part of the first group. */
+                    cellToGroup[cellToMove] = firstCellGroupIndex;
+                    /* Remove the cell from the second group ( set the */
+                    /* array entry to NO_CELL ) */
+                    groupCells[secondCellGroupIndex][groupCellIndex] = NO_CELL;
+                    
+                    if ( nextEmptyFirstGroupIndex >= 9 )
+                    {
+                        mazeComplete = 1;
+                    }
+                }
+            }
+
+            /* Print maze code ( copied from above ): */
+            usleep( 500000 ); /* Sleep for 500 milliseconds */
+            currentInteriorWall = 0;
+
+            printf( "\n" );
+            printf( "+" );
+            for ( int cellIndex = 0; cellIndex <= 2; cellIndex++ )
+            {
+                printf( "-" );
+                printf( "+" );
+            }
+            printf( "\n" );
+
+            for ( int rowIndex = 0; rowIndex <= 2; rowIndex++ )
+            {
+                printf( "|" );
+                for ( int cellIndex = 0; cellIndex <= 2; cellIndex++ )
+                {
+                    printf( " " );
+
+                    if ( cellIndex == 2 || wallsUp[currentInteriorWall] == 1 )
+                    {
+                        printf( "|" );
+                    }
+                    else
+                    {
+                        printf( " " );
+                    }
+                    if ( cellIndex < 2 )
+                    {
+                        currentInteriorWall = currentInteriorWall + 1;
+                    }
+                }
+                printf( "\n" );
+
+                if ( rowIndex < 2 )
+                {
+                    printf( "+" );
+                    for ( int cellIndex = 0; cellIndex <= 2; cellIndex++ )
+                    {
+                        if ( wallsUp[currentInteriorWall] == 1 )
+                        {
+                            printf( "-" );
+                        }
+                        else
+                        {
+                            printf( " " );
+                        }
+                        printf( "+" );
+
+                        currentInteriorWall = currentInteriorWall + 1;
+                    }
+                    printf( "\n" );
+                }
+            }
+
+            printf( "+" );
+            for ( int cellIndex = 0; cellIndex <= 2; cellIndex++ )
+            {
+                printf( "-" );
+                printf( "+" );
+            }
+            printf( "\n" );
+
+            if ( mazeComplete == 1 )
+            {
+                break;
+            }
+        }
+    }
+
+    return 0;
+}
