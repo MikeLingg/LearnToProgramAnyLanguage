@@ -1,7 +1,8 @@
-#include <iostream>
-#include <cstdlib>
-#include <ctime>
-#include <cstring>
+#include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
+#include <string.h>
+#include <stdbool.h>
 
 
 
@@ -71,7 +72,7 @@ void printHorizontalWalls ( const bool* HorizontalWallsUp_Par )
 
 // +-+-+-+
 // Prints a horizontal wall, similar to the example above, with all walls up.
-void printHorizontalWalls ()
+void printAllHorizontalWalls ()
 {
     printHorizontalWalls ( AllHorizontalWallsUp_Glob );
 }
@@ -114,7 +115,7 @@ void printMaze ()
     int interiorWallIndex = 0;
 
     // First row is exterior walls
-    printHorizontalWalls ();
+    printAllHorizontalWalls ();
     for ( int rowIndex = 0; rowIndex < MazeRows_Glob; rowIndex = rowIndex + 1 )
     {
         bool verticalWallsUp[MazeColumns_Glob - 1];
@@ -128,7 +129,7 @@ void printMaze ()
 
         if ( rowIndex == MazeRows_Glob - 1 )
         {
-            printHorizontalWalls ();
+            printAllHorizontalWalls ();
         }
         else
         {
@@ -308,6 +309,11 @@ void addCellWallsToFrontier ( int CellIndex_Par )
         addWallToFrontier ( CellToWalls_Glob[CellIndex_Par][RIGHT] );
     }
 }
+
+
+
+// Forward declaration for recursive function
+void divideArea ( int StartRow_Par, int EndRow_Par, int StartCol_Par, int EndCol_Par );
 
 
 
@@ -806,7 +812,7 @@ void buildMazeRecursiveDivision ()
 int main ()
 {
     // Seed random number generator
-    srand ( time ( nullptr ) );
+    srand ( time ( NULL ) );
 
     // Prompt the user for maze size
     MazeColumns_Glob = 0;
@@ -814,7 +820,7 @@ int main ()
     {
         printf ( "Please enter number of columns for maze, must be greater than 1: " );
         char userInput[100];
-        if ( fgets ( userInput, sizeof ( userInput ), stdin ) != nullptr )
+        if ( fgets ( userInput, sizeof ( userInput ), stdin ) != NULL )
         {
             // Remove newline if present
             int len = strlen ( userInput );
@@ -853,7 +859,7 @@ int main ()
     {
         printf ( "Please enter number of rows for maze, must be greater than 1: " );
         char userInput[100];
-        if ( fgets ( userInput, sizeof ( userInput ), stdin ) != nullptr )
+        if ( fgets ( userInput, sizeof ( userInput ), stdin ) != NULL )
         {
             // Remove newline if present
             int len = strlen ( userInput );
@@ -898,7 +904,7 @@ int main ()
         printf ( "4 - Binary Tree Algorithm\n" );
         printf ( "5 - Recursive Division Algorithm\n" );
         char userInput[100];
-        if ( fgets ( userInput, sizeof ( userInput ), stdin ) != nullptr )
+        if ( fgets ( userInput, sizeof ( userInput ), stdin ) != NULL )
         {
             // Remove newline if present
             int len = strlen ( userInput );
@@ -933,7 +939,7 @@ int main ()
     }
 
     // Setup maze datastructures for the user entered size.
-    AllHorizontalWallsUp_Glob = new bool[MazeColumns_Glob];
+    AllHorizontalWallsUp_Glob = malloc ( MazeColumns_Glob * sizeof ( bool ) );
     for ( int columnIndex = 0; columnIndex < MazeColumns_Glob; columnIndex = columnIndex + 1 )
     {
         AllHorizontalWallsUp_Glob[columnIndex] = true;
@@ -941,38 +947,38 @@ int main ()
     
     InteriorWallCount_Glob = MazeRows_Glob * ( MazeColumns_Glob - 1 ) + ( MazeRows_Glob - 1 ) * MazeColumns_Glob;
     
-    WallsUp_Glob = new bool[InteriorWallCount_Glob];
+    WallsUp_Glob = malloc ( InteriorWallCount_Glob * sizeof ( bool ) );
     for ( int wallIndex = 0; wallIndex < InteriorWallCount_Glob; wallIndex = wallIndex + 1 )
     {
         WallsUp_Glob[wallIndex] = true;
     }
 
     // Initialize algorithm state globals
-    CellVisited_Glob = new bool[MazeRows_Glob * MazeColumns_Glob];
+    CellVisited_Glob = malloc ( MazeRows_Glob * MazeColumns_Glob * sizeof ( bool ) );
     for ( int cellIndex = 0; cellIndex < MazeRows_Glob * MazeColumns_Glob; cellIndex = cellIndex + 1 )
     {
         CellVisited_Glob[cellIndex] = false;
     }
     
-    FrontierWalls_Glob = new int[InteriorWallCount_Glob];
+    FrontierWalls_Glob = malloc ( InteriorWallCount_Glob * sizeof ( int ) );
     
-    CellInMaze_Glob = new bool[MazeRows_Glob * MazeColumns_Glob];
+    CellInMaze_Glob = malloc ( MazeRows_Glob * MazeColumns_Glob * sizeof ( bool ) );
     for ( int cellIndex = 0; cellIndex < MazeRows_Glob * MazeColumns_Glob; cellIndex = cellIndex + 1 )
     {
         CellInMaze_Glob[cellIndex] = false;
     }
 
     // Initialize lookup tables based on chosen algorithm
-    WallToCells_Glob = new int*[InteriorWallCount_Glob];
+    WallToCells_Glob = malloc ( InteriorWallCount_Glob * sizeof ( int* ) );
     for ( int wallIndex = 0; wallIndex < InteriorWallCount_Glob; wallIndex = wallIndex + 1 )
     {
-        WallToCells_Glob[wallIndex] = new int[2];
+        WallToCells_Glob[wallIndex] = malloc ( 2 * sizeof ( int ) );
     }
     
-    CellToWalls_Glob = new int*[MazeRows_Glob * MazeColumns_Glob];
+    CellToWalls_Glob = malloc ( MazeRows_Glob * MazeColumns_Glob * sizeof ( int* ) );
     for ( int cellIndex = 0; cellIndex < MazeRows_Glob * MazeColumns_Glob; cellIndex = cellIndex + 1 )
     {
-        CellToWalls_Glob[cellIndex] = new int[4];
+        CellToWalls_Glob[cellIndex] = malloc ( 4 * sizeof ( int ) );
     }
     
     initializeLookupTables ( algorithmChoice );
@@ -1000,23 +1006,23 @@ int main ()
     }
 
     // Clean up global memory
-    delete[] AllHorizontalWallsUp_Glob;
-    delete[] WallsUp_Glob;
-    delete[] CellVisited_Glob;
-    delete[] FrontierWalls_Glob;
-    delete[] CellInMaze_Glob;
+    free ( AllHorizontalWallsUp_Glob );
+    free ( WallsUp_Glob );
+    free ( CellVisited_Glob );
+    free ( FrontierWalls_Glob );
+    free ( CellInMaze_Glob );
     
     for ( int wallIndex = 0; wallIndex < InteriorWallCount_Glob; wallIndex = wallIndex + 1 )
     {
-        delete[] WallToCells_Glob[wallIndex];
+        free ( WallToCells_Glob[wallIndex] );
     }
-    delete[] WallToCells_Glob;
+    free ( WallToCells_Glob );
     
     for ( int cellIndex = 0; cellIndex < MazeRows_Glob * MazeColumns_Glob; cellIndex = cellIndex + 1 )
     {
-        delete[] CellToWalls_Glob[cellIndex];
+        free ( CellToWalls_Glob[cellIndex] );
     }
-    delete[] CellToWalls_Glob;
+    free ( CellToWalls_Glob );
 
     return 0;
 }
