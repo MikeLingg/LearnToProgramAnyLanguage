@@ -1,6 +1,6 @@
 #!/bin/bash
 
-FileNames=("Statements")
+FileNames=("Statements" "CompilerErrors")
 
 for fileName in "${FileNames[@]}"; do
 

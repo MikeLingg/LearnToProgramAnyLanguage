@@ -28,6 +28,13 @@ fn main() {
     let comparison_value = value3 >= value4;
     println!( "First value ( {} ) greater than or equal to second value ( {} ) is {}", value3, value4, comparison_value );
 
+    let string_one = "Hello One!";
+    let string_two = "Hello one!";
+    let string_three = "Hello One!";
+    
+    println!("Compare strings one and two: {:?}", string_one.cmp(string_two));
+    println!("Compare strings one and three: {:?}", string_one.cmp(string_three));
+
     // Assign the result of a logical operation
     let value5 = true;
     let value6 = false;

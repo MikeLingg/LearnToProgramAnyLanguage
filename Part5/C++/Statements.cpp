@@ -1,3 +1,4 @@
+#include <cstring>
 #include <stdio.h>
 #include <stdbool.h>
 
@@ -35,6 +36,13 @@ int main()
     printf ( "First value ( %d ) greater than or equal to second value ( %d ) is %d\n", 
              value3, value4, comparisonValue );
     
+    char stringOne[] = "Hello One!";
+    char stringTwo[] = "Hello one!";
+    char stringThree[] = "Hello One!";
+    
+    printf ( "Compare strings one and two: %d\n", strcmp ( stringOne, stringTwo ) );
+    printf ( "Compare strings one and three: %d\n", strcmp ( stringOne, stringThree ) );
+
     // Assign the result of a logical operation
     bool value5 = true;
     bool value6 = false;

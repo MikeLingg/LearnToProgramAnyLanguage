@@ -1,36 +1,16 @@
 #!/bin/bash
-set +e
-echo "Building Ada program..."
 
-rm -f SystemCalls.exe
-gnatmake SystemCalls.adb -o SystemCalls.exe
-echo "Ada program built: ./SystemCalls.exe"
+FileNames=("SystemCalsl" "Function_AssignmentOutOfPlace" "Function_ExtraParameters" "Function_FunctionReturnReversed" "Function_IgnoredReturn" "Function_IncorrectCapitalization" "Function_IncorrectFunctionName" "Function_MissingParameter" "Function_UsedEquivalance")
 
-rm -f Function_AssignmentOutOfPlace.exe
-gnatmake Function_AssignmentOutOfPlace.adb -o Function_AssignmentOutOfPlace.exe
-echo "Ada program built: ./Function_AssignmentOutOfPlace.exe"
+for fileName in "${FileNames[@]}"; do
 
-rm -f Function_ExtraParameter.exe
-gnatmake Function_ExtraParameter.adb -o Function_ExtraParameter.exe
-echo "Ada program built: ./Function_ExtraParameter.exe"
+    rm -f $fileName.exe
+    gnatmake $fileName.adb -o $fileName.exe
 
-rm -f Function_FunctionReturnReversed.exe
-gnatmake Function_FunctionReturnReversed.adb -o Function_FunctionReturnReversed.exe
-echo "Ada program built: ./Function_FunctionReturnReversed.exe"
+    if [ $? -ne 0 ]; then
+        echo "Build failed for ./$fileName.exe"
+    else
+        echo "Build successful. Run with ./$fileName.exe"
+    fi
 
-rm -f Function_IgnoredReturn.exe
-gnatmake Function_IgnoredReturn.adb -o Function_IgnoredReturn.exe
-echo "Ada program built: ./Function_IgnoredReturn.exe"
-
-rm -f Function_IncorrectCapitalization.exe
-gnatmake Function_IncorrectCapitalization.adb -o Function_IncorrectCapitalization.exe
-echo "Ada program built: ./Function_IncorrectCapitalization.exe"
-
-rm -f Function_IncorrectFunctionName.exe
-gnatmake Function_IncorrectFunctionName.adb -o Function_IncorrectFunctionName.exe
-echo "Ada program built: ./Function_IncorrectFunctionName.exe"
-
-rm -f Function_UsedEquivalance.exe
-gnatmake Function_UsedEquivalance.adb -o Function_UsedEquivalance.exe
-echo "Ada program built: ./Function_UsedEquivalance.exe"
-
+done

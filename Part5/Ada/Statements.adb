@@ -15,6 +15,11 @@ procedure Main is
    value3 : Integer := 7;
    value4 : Integer := 8;
    comparisonValue : Boolean;
+   StringOne   : String := "Hello One!";
+   StringTwo   : String := "Hello one!";
+   StringThree : String := "Hello One!";
+   comparisonOne : Boolean;
+   comparisonTwo : Boolean;
    value5 : Boolean := True;
    value6 : Boolean := False;
    logicalValue : Boolean;
@@ -62,6 +67,13 @@ begin
    comparisonValue := ( value3 >= value4 );
    Put( "First value ( " ); Put( value3 ); Put( " ) greater than or equal to second value ( " );
    Put( value4 ); Put( " ) is " ); Put( Boolean'Image( comparisonValue ) ); New_Line;
+
+   -- Ada uses = for string comparison
+   comparisonOne := stringOne = stringTwo;
+   comparisonTwo := stringOne = StringThree;
+
+   Put_Line ( "Compare strings one and two: " & Boolean'Image ( comparisonOne ) );
+   Put_Line ( "Compare strings one and three: " & Boolean'Image ( comparisonTwo ) );
 
    -- Assign the result of a logical operation
    logicalValue := value5 or value6;

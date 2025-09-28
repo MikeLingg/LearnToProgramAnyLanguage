@@ -1,292 +1,413 @@
-section .data
-    ; This maze program does not necessarily progress the program, 
-    ; but provides a construct we will use eventually in the program.
-    
-    ; mazeWalls - 5 rows x 3 columns of characters
-    mazeWalls db '|', ' ', 0, ' ', ' ', ' ', ' ', '|', 0, ' ', '-', ' ', '|', ' ', 0
-    
-    ; Constants for directions
-    LEFT equ 0
-    UP equ 1
-    RIGHT equ 2
-    DOWN equ 3
-    
-    ; neighborLookup - 9 rows x 4 columns of 32-bit integers
-    neighborLookup dd -1, -1, -1, 3,  ; Cell 0
-                   dd -1, -1, 2, 4,   ; Cell 1
-                   dd 1, -1, -1, 5,   ; Cell 2
-                   dd -1, 0, 4, 6,    ; Cell 3
-                   dd 3, 1, -1, -1,   ; Cell 4
-                   dd -1, 2, -1, 8,   ; Cell 5
-                   dd -1, 3, -1, -1,  ; Cell 6
-                   dd -1, -1, 8, -1,  ; Cell 7
-                   dd 7, 5, -1, -1    ; Cell 8
-    
-    ; topBottomRow - 7 characters
-    topBottomRow db '+', '-', '+', '-', '+', '-', '+'
-    
-    ; Format strings for output
-    char_fmt db "%c", 0
-    newline_fmt db 10, 0
-    string_fmt db "%s", 0
-    int_fmt db "%d", 10, 0
-    
-    ; String literals for maze output
-    cell_0 db "|0", 0
-    cell_1 db "1", 0
-    cell_2 db "2|", 0
-    plus_char db "+", 0
-    cell_3 db "|3", 0
-    cell_4 db "4", 0
-    cell_5 db "5|", 0
-    cell_6 db "|6", 0
-    cell_7 db "7", 0
-    cell_8 db "8|", 0
-    
-    ; Output messages
-    msg_left db "Cell to left of cell 4 is: %d", 10, 0
-    msg_up db "Cell to up of cell 4 is: %d", 10, 0
-    msg_right db "Cell to right of cell 4 is: %d", 10, 0
-    msg_down db "Cell to down of cell 4 is: %d", 10, 0
+section .rodata
+    ; String literals from C++ code
+    LC0 db "|0", 0
+    LC1 db "2|", 0  
+    LC2 db "|3", 0
+    LC3 db "5|", 0
+    LC4 db "|6", 0
+    LC5 db "8|", 0
+    LC6 db "Cell to left of cell 4 is: %d", 10, 0
+    LC7 db "Cell to up of cell 4 is: %d", 10, 0
+    LC8 db "Cell to right of cell 4 is: %d", 10, 0
+    LC9 db "Cell to down of cell 4 is: %d", 10, 0
 
 section .text
-    global _start
+    global main
     extern printf
-    extern exit
+    extern putchar
 
-_start:
+main:
+    ; Function prologue
+    push rbp
+    mov rbp, rsp
+    sub rsp, 192        ; Allocate 192 bytes on stack (same as GCC)
+    
+    ; This maze program does not necessarily progress the program,
+    ; but provides a construct we will use eventually in the program.
+    
+    ; Initialize mazeWalls array - char mazeWalls[][3]
+    ; mazeWalls[0] = { '|', ' ', '\0' }
+    mov word [rbp-175], 0x207C    ; '|', ' '
+    mov byte [rbp-173], 0         ; '\0'
+    
+    ; mazeWalls[1] = { ' ', ' ', ' ' }
+    mov word [rbp-172], 0x2020    ; ' ', ' '
+    mov byte [rbp-170], 0x20      ; ' '
+    
+    ; mazeWalls[2] = { ' ', '|', '\0' }
+    mov word [rbp-169], 0x7C20    ; ' ', '|'
+    mov byte [rbp-167], 0         ; '\0'
+    
+    ; mazeWalls[3] = { ' ', '-', ' ' }
+    mov word [rbp-166], 0x2D20    ; ' ', '-'
+    mov byte [rbp-164], 0x20      ; ' '
+    
+    ; mazeWalls[4] = { '|', ' ', '\0' }
+    mov word [rbp-163], 0x207C    ; '|', ' '
+    mov byte [rbp-161], 0         ; '\0'
+    
+    ; Initialize constants - const int LEFT = 0, UP = 1, RIGHT = 2, DOWN = 3
+    mov dword [rbp-192], 0        ; LEFT = 0
+    mov dword [rbp-188], 1        ; UP = 1
+    mov dword [rbp-184], 2        ; RIGHT = 2
+    mov dword [rbp-180], 3        ; DOWN = 3
+    
+    ; Initialize neighborLookup array - int neighborLookup[][4]
+    ; neighborLookup[0] = { -1, -1, -1, 3 } // Cell 0
+    mov dword [rbp-160], -1
+    mov dword [rbp-156], -1
+    mov dword [rbp-152], -1
+    mov dword [rbp-148], 3
+    
+    ; neighborLookup[1] = { -1, -1, 2, 4 } // Cell 1
+    mov dword [rbp-144], -1
+    mov dword [rbp-140], -1
+    mov dword [rbp-136], 2
+    mov dword [rbp-132], 4
+    
+    ; neighborLookup[2] = { 1, -1, -1, 5 } // Cell 2
+    mov dword [rbp-128], 1
+    mov dword [rbp-124], -1
+    mov dword [rbp-120], -1
+    mov dword [rbp-116], 5
+    
+    ; neighborLookup[3] = { -1, 0, 4, 6 } // Cell 3
+    mov dword [rbp-112], -1
+    mov dword [rbp-108], 0
+    mov dword [rbp-104], 4
+    mov dword [rbp-100], 6
+    
+    ; neighborLookup[4] = { 3, 1, -1, -1 } // Cell 4
+    mov dword [rbp-96], 3
+    mov dword [rbp-92], 1
+    mov dword [rbp-88], -1
+    mov dword [rbp-84], -1
+    
+    ; neighborLookup[5] = { -1, 2, -1, 8 } // Cell 5
+    mov dword [rbp-80], -1
+    mov dword [rbp-76], 2
+    mov dword [rbp-72], -1
+    mov dword [rbp-68], 8
+    
+    ; neighborLookup[6] = { -1, 3, -1, -1 } // Cell 6
+    mov dword [rbp-64], -1
+    mov dword [rbp-60], 3
+    mov dword [rbp-56], -1
+    mov dword [rbp-52], -1
+    
+    ; neighborLookup[7] = { -1, -1, 8, -1 } // Cell 7
+    mov dword [rbp-48], -1
+    mov dword [rbp-44], -1
+    mov dword [rbp-40], 8
+    mov dword [rbp-36], -1
+    
+    ; neighborLookup[8] = { 7, 5, -1, -1 } // Cell 8
+    mov dword [rbp-32], 7
+    mov dword [rbp-28], 5
+    mov dword [rbp-24], -1
+    mov dword [rbp-20], -1
+    
+    ; Initialize topBottomRow array - char topBottomRow[] = { '+', '-', '+', '-', '+', '-', '+' }
+    mov dword [rbp-15], 757804331   ; Contains packed characters
+    mov dword [rbp-12], 724380461   ; Contains packed characters
+    
     ; This sort of code will look better when we have loops and functions
-    ; We see how a 3x3 maze is created from the array of data, and using the 
-    ; neighbor lookup provides -1 where a wall is in that direction, otherwise 
+    ; We see how a 3x3 maze is created from the array of data, and using the
+    ; neighbor lookup provides -1 where a wall is in that direction, otherwise
     ; provides the cell number in that direction.
     
     ; Print top border: topBottomRow[0] through topBottomRow[6]
-    movzx esi, byte [topBottomRow + 0]
-    mov rdi, char_fmt
+    movzx eax, byte [rbp-15]      ; topBottomRow[0]
+    movsx eax, al
+    mov edi, eax
+    call putchar
+    
+    movzx eax, byte [rbp-14]      ; topBottomRow[1]
+    movsx eax, al
+    mov edi, eax
+    call putchar
+    
+    movzx eax, byte [rbp-13]      ; topBottomRow[2]
+    movsx eax, al
+    mov edi, eax
+    call putchar
+    
+    movzx eax, byte [rbp-12]      ; topBottomRow[3]
+    movsx eax, al
+    mov edi, eax
+    call putchar
+    
+    movzx eax, byte [rbp-11]      ; topBottomRow[4]
+    movsx eax, al
+    mov edi, eax
+    call putchar
+    
+    movzx eax, byte [rbp-10]      ; topBottomRow[5]
+    movsx eax, al
+    mov edi, eax
+    call putchar
+    
+    movzx eax, byte [rbp-9]       ; topBottomRow[6]
+    movsx eax, al
+    mov edi, eax
+    call putchar
+    
+    ; Print newline
+    mov edi, 10
+    call putchar
+    
+    ; printf( "|0" );
+    lea rax, [rel LC0]
+    mov rdi, rax
+    mov eax, 0
     call printf
     
-    movzx esi, byte [topBottomRow + 1]
-    mov rdi, char_fmt
+    ; printf( "%c", mazeWalls[ 0 ][ 0 ] );
+    movzx eax, byte [rbp-175]     ; mazeWalls[0][0]
+    movsx eax, al
+    mov edi, eax
+    call putchar
+    
+    ; printf( "1" );
+    mov edi, 49                   ; ASCII '1'
+    call putchar
+    
+    ; printf( "%c", mazeWalls[ 0 ][ 1 ] );
+    movzx eax, byte [rbp-174]     ; mazeWalls[0][1]
+    movsx eax, al
+    mov edi, eax
+    call putchar
+    
+    ; printf( "2|" );
+    lea rax, [rel LC1]
+    mov rdi, rax
+    mov eax, 0
     call printf
     
-    movzx esi, byte [topBottomRow + 2]
-    mov rdi, char_fmt
+    ; printf( "\n" );
+    mov edi, 10
+    call putchar
+    
+    ; printf( "+" );
+    mov edi, 43                   ; ASCII '+'
+    call putchar
+    
+    ; printf( "%c", mazeWalls[ 1 ][ 0 ] );
+    movzx eax, byte [rbp-172]     ; mazeWalls[1][0]
+    movsx eax, al
+    mov edi, eax
+    call putchar
+    
+    ; printf( "+" );
+    mov edi, 43
+    call putchar
+    
+    ; printf( "%c", mazeWalls[ 1 ][ 1 ] );
+    movzx eax, byte [rbp-171]     ; mazeWalls[1][1]
+    movsx eax, al
+    mov edi, eax
+    call putchar
+    
+    ; printf( "+" );
+    mov edi, 43
+    call putchar
+    
+    ; printf( "%c", mazeWalls[ 1 ][ 2 ] );
+    movzx eax, byte [rbp-170]     ; mazeWalls[1][2]
+    movsx eax, al
+    mov edi, eax
+    call putchar
+    
+    ; printf( "+" );
+    mov edi, 43
+    call putchar
+    
+    ; printf( "\n" );
+    mov edi, 10
+    call putchar
+    
+    ; printf( "|3" );
+    lea rax, [rel LC2]
+    mov rdi, rax
+    mov eax, 0
     call printf
     
-    movzx esi, byte [topBottomRow + 3]
-    mov rdi, char_fmt
+    ; printf( "%c", mazeWalls[ 2 ][ 0 ] );
+    movzx eax, byte [rbp-169]     ; mazeWalls[2][0]
+    movsx eax, al
+    mov edi, eax
+    call putchar
+    
+    ; printf( "4" );
+    mov edi, 52                   ; ASCII '4'
+    call putchar
+    
+    ; printf( "%c", mazeWalls[ 2 ][ 1 ] );
+    movzx eax, byte [rbp-168]     ; mazeWalls[2][1]
+    movsx eax, al
+    mov edi, eax
+    call putchar
+    
+    ; printf( "5|" );
+    lea rax, [rel LC3]
+    mov rdi, rax
+    mov eax, 0
     call printf
     
-    movzx esi, byte [topBottomRow + 4]
-    mov rdi, char_fmt
+    ; printf( "\n" );
+    mov edi, 10
+    call putchar
+    
+    ; printf( "+" );
+    mov edi, 43
+    call putchar
+    
+    ; printf( "%c", mazeWalls[ 3 ][ 0 ] );
+    movzx eax, byte [rbp-166]     ; mazeWalls[3][0]
+    movsx eax, al
+    mov edi, eax
+    call putchar
+    
+    ; printf( "+" );
+    mov edi, 43
+    call putchar
+    
+    ; printf( "%c", mazeWalls[ 3 ][ 1 ] );
+    movzx eax, byte [rbp-165]     ; mazeWalls[3][1]
+    movsx eax, al
+    mov edi, eax
+    call putchar
+    
+    ; printf( "+" );
+    mov edi, 43
+    call putchar
+    
+    ; printf( "%c", mazeWalls[ 3 ][ 2 ] );
+    movzx eax, byte [rbp-164]     ; mazeWalls[3][2]
+    movsx eax, al
+    mov edi, eax
+    call putchar
+    
+    ; printf( "+" );
+    mov edi, 43
+    call putchar
+    
+    ; printf( "\n" );
+    mov edi, 10
+    call putchar
+    
+    ; printf( "|6" );
+    lea rax, [rel LC4]
+    mov rdi, rax
+    mov eax, 0
     call printf
     
-    movzx esi, byte [topBottomRow + 5]
-    mov rdi, char_fmt
+    ; printf( "%c", mazeWalls[ 4 ][ 0 ] );
+    movzx eax, byte [rbp-163]     ; mazeWalls[4][0]
+    movsx eax, al
+    mov edi, eax
+    call putchar
+    
+    ; printf( "7" );
+    mov edi, 55                   ; ASCII '7'
+    call putchar
+    
+    ; printf( "%c", mazeWalls[ 4 ][ 1 ] );
+    movzx eax, byte [rbp-162]     ; mazeWalls[4][1]
+    movsx eax, al
+    mov edi, eax
+    call putchar
+    
+    ; printf( "8|" );
+    lea rax, [rel LC5]
+    mov rdi, rax
+    mov eax, 0
     call printf
     
-    movzx esi, byte [topBottomRow + 6]
-    mov rdi, char_fmt
-    call printf
-    
-    mov rdi, newline_fmt
-    call printf
-    
-    ; Print first row: |0 + mazeWalls[0][0] + 1 + mazeWalls[0][1] + 2|
-    mov rsi, cell_0
-    mov rdi, string_fmt
-    call printf
-    
-    ; mazeWalls[0][0] - first row, first column
-    movzx esi, byte [mazeWalls + 0*3 + 0]
-    mov rdi, char_fmt
-    call printf
-    
-    mov rsi, cell_1
-    mov rdi, string_fmt
-    call printf
-    
-    ; mazeWalls[0][1] - first row, second column
-    movzx esi, byte [mazeWalls + 0*3 + 1]
-    mov rdi, char_fmt
-    call printf
-    
-    mov rsi, cell_2
-    mov rdi, string_fmt
-    call printf
-    
-    mov rdi, newline_fmt
-    call printf
-    
-    ; Print second row: + + mazeWalls[1][0] + + + mazeWalls[1][1] + + + mazeWalls[1][2] + +
-    mov rsi, plus_char
-    mov rdi, string_fmt
-    call printf
-    
-    movzx esi, byte [mazeWalls + 1*3 + 0]
-    mov rdi, char_fmt
-    call printf
-    
-    mov rsi, plus_char
-    mov rdi, string_fmt
-    call printf
-    
-    movzx esi, byte [mazeWalls + 1*3 + 1]
-    mov rdi, char_fmt
-    call printf
-    
-    mov rsi, plus_char
-    mov rdi, string_fmt
-    call printf
-    
-    movzx esi, byte [mazeWalls + 1*3 + 2]
-    mov rdi, char_fmt
-    call printf
-    
-    mov rsi, plus_char
-    mov rdi, string_fmt
-    call printf
-    
-    mov rdi, newline_fmt
-    call printf
-    
-    ; Print third row: |3 + mazeWalls[2][0] + 4 + mazeWalls[2][1] + 5|
-    mov rsi, cell_3
-    mov rdi, string_fmt
-    call printf
-    
-    movzx esi, byte [mazeWalls + 2*3 + 0]
-    mov rdi, char_fmt
-    call printf
-    
-    mov rsi, cell_4
-    mov rdi, string_fmt
-    call printf
-    
-    movzx esi, byte [mazeWalls + 2*3 + 1]
-    mov rdi, char_fmt
-    call printf
-    
-    mov rsi, cell_5
-    mov rdi, string_fmt
-    call printf
-    
-    mov rdi, newline_fmt
-    call printf
-    
-    ; Print fourth row: + + mazeWalls[3][0] + + + mazeWalls[3][1] + + + mazeWalls[3][2] + +
-    mov rsi, plus_char
-    mov rdi, string_fmt
-    call printf
-    
-    movzx esi, byte [mazeWalls + 3*3 + 0]
-    mov rdi, char_fmt
-    call printf
-    
-    mov rsi, plus_char
-    mov rdi, string_fmt
-    call printf
-    
-    movzx esi, byte [mazeWalls + 3*3 + 1]
-    mov rdi, char_fmt
-    call printf
-    
-    mov rsi, plus_char
-    mov rdi, string_fmt
-    call printf
-    
-    movzx esi, byte [mazeWalls + 3*3 + 2]
-    mov rdi, char_fmt
-    call printf
-    
-    mov rsi, plus_char
-    mov rdi, string_fmt
-    call printf
-    
-    mov rdi, newline_fmt
-    call printf
-    
-    ; Print fifth row: |6 + mazeWalls[4][0] + 7 + mazeWalls[4][1] + 8|
-    mov rsi, cell_6
-    mov rdi, string_fmt
-    call printf
-    
-    movzx esi, byte [mazeWalls + 4*3 + 0]
-    mov rdi, char_fmt
-    call printf
-    
-    mov rsi, cell_7
-    mov rdi, string_fmt
-    call printf
-    
-    movzx esi, byte [mazeWalls + 4*3 + 1]
-    mov rdi, char_fmt
-    call printf
-    
-    mov rsi, cell_8
-    mov rdi, string_fmt
-    call printf
-    
-    mov rdi, newline_fmt
-    call printf
+    ; printf( "\n" );
+    mov edi, 10
+    call putchar
     
     ; Print bottom border: topBottomRow[0] through topBottomRow[6]
-    movzx esi, byte [topBottomRow + 0]
-    mov rdi, char_fmt
-    call printf
+    movzx eax, byte [rbp-15]      ; topBottomRow[0]
+    movsx eax, al
+    mov edi, eax
+    call putchar
     
-    movzx esi, byte [topBottomRow + 1]
-    mov rdi, char_fmt
-    call printf
+    movzx eax, byte [rbp-14]      ; topBottomRow[1]
+    movsx eax, al
+    mov edi, eax
+    call putchar
     
-    movzx esi, byte [topBottomRow + 2]
-    mov rdi, char_fmt
-    call printf
+    movzx eax, byte [rbp-13]      ; topBottomRow[2]
+    movsx eax, al
+    mov edi, eax
+    call putchar
     
-    movzx esi, byte [topBottomRow + 3]
-    mov rdi, char_fmt
-    call printf
+    movzx eax, byte [rbp-12]      ; topBottomRow[3]
+    movsx eax, al
+    mov edi, eax
+    call putchar
     
-    movzx esi, byte [topBottomRow + 4]
-    mov rdi, char_fmt
-    call printf
+    movzx eax, byte [rbp-11]      ; topBottomRow[4]
+    movsx eax, al
+    mov edi, eax
+    call putchar
     
-    movzx esi, byte [topBottomRow + 5]
-    mov rdi, char_fmt
-    call printf
+    movzx eax, byte [rbp-10]      ; topBottomRow[5]
+    movsx eax, al
+    mov edi, eax
+    call putchar
     
-    movzx esi, byte [topBottomRow + 6]
-    mov rdi, char_fmt
-    call printf
+    movzx eax, byte [rbp-9]       ; topBottomRow[6]
+    movsx eax, al
+    mov edi, eax
+    call putchar
     
-    mov rdi, newline_fmt
-    call printf
+    ; printf( "\n" );
+    mov edi, 10
+    call putchar
     
-    ; So take cell number 4 and see what rooms are around it, 
+    ; So take cell number 4 and see what rooms are around it,
     ; cell 3 is to the left and cell 1 is up, but walls are right and down.
     
-    ; neighborLookup[4][LEFT] - row 4, column LEFT (0)
-    mov esi, [neighborLookup + 4*4*4 + LEFT*4]  ; 4 bytes per int, 4 ints per row
-    mov rdi, msg_left
+    ; printf( "Cell to left of cell 4 is: %d\n", neighborLookup[ 4 ][ LEFT ] );
+    mov eax, [rbp-96]             ; neighborLookup[4][LEFT]
+    mov esi, eax
+    lea rax, [rel LC6]
+    mov rdi, rax
+    mov eax, 0
     call printf
     
-    ; neighborLookup[4][UP] - row 4, column UP (1)
-    mov esi, [neighborLookup + 4*4*4 + UP*4]
-    mov rdi, msg_up
+    ; printf( "Cell to up of cell 4 is: %d\n", neighborLookup[ 4 ][ UP ] );
+    mov eax, [rbp-92]             ; neighborLookup[4][UP]
+    mov esi, eax
+    lea rax, [rel LC7]
+    mov rdi, rax
+    mov eax, 0
     call printf
     
-    ; neighborLookup[4][RIGHT] - row 4, column RIGHT (2)
-    mov esi, [neighborLookup + 4*4*4 + RIGHT*4]
-    mov rdi, msg_right
+    ; printf( "Cell to right of cell 4 is: %d\n", neighborLookup[ 4 ][ RIGHT ] );
+    mov eax, [rbp-88]             ; neighborLookup[4][RIGHT]
+    mov esi, eax
+    lea rax, [rel LC8]
+    mov rdi, rax
+    mov eax, 0
     call printf
     
-    ; neighborLookup[4][DOWN] - row 4, column DOWN (3)
-    mov esi, [neighborLookup + 4*4*4 + DOWN*4]
-    mov rdi, msg_down
+    ; printf( "Cell to down of cell 4 is: %d\n", neighborLookup[ 4 ][ DOWN ] );
+    mov eax, [rbp-84]             ; neighborLookup[4][DOWN]
+    mov esi, eax
+    lea rax, [rel LC9]
+    mov rdi, rax
+    mov eax, 0
     call printf
     
-    ; Exit program
-    mov rdi, 0
-    call exit
+    ; return 0;
+    mov eax, 0
+    
+    ; Function epilogue
+    leave
+    ret
 
-section .note.GNU-stack
+section .note.GNU-stack noalloc noexec nowrite progbits

@@ -11,6 +11,11 @@ program main
     integer :: value3 = 7
     integer :: value4 = 8
     logical :: comparisonValue
+    character(len=10) :: stringOne = "Hello One!"
+    character(len=10) :: stringTwo = "Hello one!"
+    character(len=10) :: stringThree = "Hello One!"
+    integer :: comparisonOne
+    integer :: comparisonTwo
     logical :: value5 = .true.
     logical :: value6 = .false.
     logical :: logicalValue
@@ -55,6 +60,13 @@ program main
     comparisonValue = ( value3 >= value4 )
     write( *, * ) 'First value ( ', value3, ' ) greater than or equal to second value ( ', value4, ' ) is ', comparisonValue
     
+    ! Fortran only uses == for string comparison
+    comparisonOne = stringOne == stringTwo
+    comparisonTwo = stringOne == stringThree
+
+    print *, 'Compare strings one and two: ', comparisonOne
+    print *, 'Compare strings one and three: ', comparisonTwo
+
     ! Assign the result of a logical operation
     logicalValue = value5 .or. value6
     write( *, * ) 'First value ( ', value5, ' ) ORed with second value ( ', value6, ' ) is ', logicalValue

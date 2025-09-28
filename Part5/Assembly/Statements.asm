@@ -19,6 +19,11 @@ section .data
     value3 dd 7
     value4 dd 8
     comparisonValue dd 0
+    stringOne   db 'Hello One!', 0
+    stringTwo   db 'Hello one!', 0
+    stringThree db 'Hello One!', 0    
+    fmt_msg1    db 'Compare strings one and two: %d', 10, 0
+    fmt_msg2    db 'Compare strings one and three: %d', 10, 0
     value5 dd 1  ; true
     value6 dd 0  ; false
     logicalValue dd 0
@@ -38,12 +43,20 @@ section .data
     day dd 6
     isWeekend dd 0
 
-section .text
-    global _start
-    extern printf
-    extern exit
+section .bss
+    result1     resd 1      ; Storage for first comparison result
+    result2     resd 1      ; Storage for second comparison result
 
-_start:
+section .text
+    global main             ; Change from _start to main
+    extern printf           ; External C library functions
+    extern strcmp
+
+main:
+    ; Set up stack frame
+    push rbp
+    mov rbp, rsp
+
     ; Most programs allow this operation, but where is the result? We can't use it!
     mov eax, 5
     add eax, 3  ; Result in eax but we don't use it
@@ -103,6 +116,30 @@ _start:
     mov ecx, [comparisonValue]
     xor rax, rax
     call printf
+
+    ; Compare stringOne and stringTwo
+    mov rdi, stringOne      ; First argument (string1)
+    mov rsi, stringTwo      ; Second argument (string2)
+    call strcmp             ; Call C library strcmp
+    mov [result1], eax      ; Store comparison result
+    
+    ; Print first result
+    mov rdi, fmt_msg1       ; Format string
+    mov esi, [result1]      ; Load stored result
+    xor rax, rax
+    call printf             ; Call C library printf
+    
+    ; Compare stringOne and stringThree
+    mov rdi, stringOne      ; First argument (string1)
+    mov rsi, stringThree    ; Second argument (string2)
+    call strcmp             ; Call C library strcmp
+    mov [result2], eax      ; Store comparison result
+    
+    ; Print second result
+    mov rdi, fmt_msg2       ; Format string
+    mov esi, [result2]      ; Load stored result
+    xor rax, rax
+    call printf             ; Call C library printf
 
     ; Assign the result of a logical operation ( value5 || value6 )
     mov eax, [value5]
@@ -221,6 +258,7 @@ _start:
     or eax, ebx             ; Combine the two comparisons
     mov [isWeekend], eax
 
-    ; Exit program
-    mov rdi, 0      ; exit status
-    call exit
+    ; Return 0 from main
+    xor rax, rax
+    leave
+    ret

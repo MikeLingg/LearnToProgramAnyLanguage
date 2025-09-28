@@ -1,7 +1,16 @@
 #!/bin/bash
-set +e
-echo "Building C# program..."
 
-rm -r SystemCalls.exe
-mcs -out:SystemCalls.exe SystemCalls.cs
-echo "C# program built: SystemCalls.exe"
+FileNames=("SystemCalls" "Function_AssignmentOutOfPlace" "Function_ExtraParameter" "Function_FunctionReturnReversed" "Function_IgnoredReturn" "Function_IncorrectCapitalization" "Function_IncorrectFunctionName" "Function_MissingParameter" "Function_UsedEquivalance")
+
+for fileName in "${FileNames[@]}"; do
+
+    rm -r $fileName.exe
+    mcs -out:$fileName.exe $fileName.cs
+
+    if [ $? -ne 0 ]; then
+        echo "Build failed for ./$fileName.exe"
+    else
+        echo "Build successful. Run with mono ./$fileName.exe"
+    fi
+
+done

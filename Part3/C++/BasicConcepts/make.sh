@@ -1,11 +1,16 @@
 #!/bin/bash
 
-# Don't stop if any command fails
-set +e
+FileNames=("BasicConcepts" "ComplieErrors")
 
-echo "Building C++ program..."
+for fileName in "${FileNames[@]}"; do
 
-rm -f BasicConcepts.exe
-g++ -Wall -Wextra -O2 -o BasicConcepts.exe BasicConcepts.cpp
-echo "C++ program built: ./BasicConcepts.exe"
+    rm -f $fileName.exe
+    g++ -Wall -Wextra -O2 -o $fileName.exe $fileName.cpp
 
+    if [ $? -ne 0 ]; then
+        echo "Build failed for ./$fileName.exe"
+    else
+        echo "Build successful. Run with ./$fileName.exe"
+    fi
+
+done

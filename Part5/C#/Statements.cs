@@ -31,8 +31,15 @@ class Program
         // Assign the result of a comparison operation
         int value3 = 7;
         int value4 = 8;
-        bool comparisonValue = (value3 >= value4);
-        Console.WriteLine($"First value ( {value3} ) greater than or equal to second value ( {value4} ) is {comparisonValue}");
+        bool comparisonValue = ( value3 >= value4 );
+        Console.WriteLine ( $"First value ( {value3} ) greater than or equal to second value ( {value4} ) is {comparisonValue}" );
+
+        string stringOne = "Hello One!";
+        string stringTwo = "Hello one!";
+        string stringThree = "Hello One!";
+        
+        Console.WriteLine("Compare strings one and two: " + string.Compare(stringOne, stringTwo));
+        Console.WriteLine("Compare strings one and three: " + string.Compare(stringOne, stringThree));
 
         // Assign the result of a logical operation
         bool value5 = true;
@@ -95,6 +102,6 @@ class Program
         bool isWeekend = (day == SATURDAY || SUNDAY);
 
         // This is what you should do
-        isWeekend = (day == SATURDAY) || (day == SUNDAY);
+        bool isWeekend = (day == SATURDAY) || (day == SUNDAY);
     }
 }

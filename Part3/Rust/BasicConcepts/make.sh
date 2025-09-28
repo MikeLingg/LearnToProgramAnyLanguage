@@ -1,12 +1,16 @@
 #!/bin/bash
-set +e
-echo "Building Rust program..."
 
-rm -f BasicConcepts.exe
-rustc BasicConcepts.rs -o BasicConcepts.exe
-echo "Rust program built: ./BasicConcepts.exe"
+FileNames=("BasicConcepts" "BasicConcepts_ArrayOutOfBounds" "CompileErrors")
 
-rm -f BasicConcepts_ArrayOutOfBounds.exe
-rustc BasicConcepts_ArrayOutOfBounds.rs -o BasicConcepts_ArrayOutOfBounds.exe
-echo "Rust program built: ./BasicConcepts_ArrayOutOfBounds.exe"
+for fileName in "${FileNames[@]}"; do
 
+    rm -f $fileName.exe
+    rustc $fileName.rs -o $fileName.exe || true
+
+    if [ $? -ne 0 ]; then
+        echo "Build failed for ./$fileName.exe"
+    else
+        echo "Build successful. Run with ./$fileName.exe"
+    fi
+
+done

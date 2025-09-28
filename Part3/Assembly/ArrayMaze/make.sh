@@ -1,20 +1,24 @@
 #!/bin/bash
 
-rm -r ArrayMaze.exe
+FileNames=("ArrayMaze")
 
-# Assemble
-nasm -f elf64 ArrayMaze.asm -o ArrayMaze.o
-if [ $? -ne 0 ]; then
-    echo "Assembly failed."
-    exit 1
-fi
+for fileName in "${FileNames[@]}"; do
 
-# Link
-ld ArrayMaze.o -lc --dynamic-linker /lib64/ld-linux-x86-64.so.2 -o ArrayMaze
-if [ $? -ne 0 ]; then
-    echo "Linking failed."
-    exit 1
-fi
+    rm -r $fileName.exe
 
-echo "Build successful. Run with ./ArrayMaze.exe"
+    # Assemble
+    nasm -f elf64 $fileName.asm -o $fileName.o
+    if [ $? -ne 0 ]; then
+        echo "Assembly failed."
+        exit 1
+    fi
 
+    # Link
+    gcc -no-pie $fileName.o -o $fileName.exe
+    if [ $? -ne 0 ]; then
+        echo "Linking failed for ./$fileName.exe"
+    else
+    echo "Build successful. Run with ./$fileName.exe"
+    fi
+
+done

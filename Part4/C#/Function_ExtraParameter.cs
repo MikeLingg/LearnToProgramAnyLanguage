@@ -1,0 +1,18 @@
+using System;
+
+class Program
+{
+    static void Main()
+    {
+        int extraInput = 5;
+        string userInput;
+        
+        Console.WriteLine("Type 1 and press enter.");
+        userInput = Console.ReadLine();
+        
+        // Function only takes 1 parameter, but we're passing 2
+        int enteredInteger = int.Parse(userInput, extraInput);
+        
+        Console.WriteLine("The user entered the integer {0}", enteredInteger);
+    }
+}

@@ -1,8 +1,16 @@
 #!/bin/bash
-set +e
-echo "Building Ada program..."
 
-rm -f BasicConcepts.exe
-gnatmake BasicConcepts.adb -o BasicConcepts.exe
-echo "Ada program built: ./BasicConcepts.exe"
+FileNames=("BasicConcepts" "CompileErrors")
 
+for fileName in "${FileNames[@]}"; do
+
+    rm -f $fileName.exe
+    gnatmake $fileName.adb -o $fileName.exe
+
+    if [ $? -ne 0 ]; then
+        echo "Build failed for ./$fileName.exe"
+    else
+        echo "Build successful. Run with ./$fileName.exe"
+    fi
+
+done
