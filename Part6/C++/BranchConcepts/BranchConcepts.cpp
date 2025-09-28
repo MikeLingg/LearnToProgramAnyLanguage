@@ -67,6 +67,16 @@ int main()
 
     printf( "Heater is on: %d\n", heaterOn );
 
+    // Short Circuit Example
+    printf ( "Short Circuit Example\n" );
+    int gamesPlayed = 0;
+    int totalScore = 150;
+    
+    if ( gamesPlayed > 0 && totalScore / gamesPlayed > 10 )
+    {
+        printf ( "You are averaging more than 10 points per game!\n" );
+    }
+
     // Using a code block that executes if a condition is true.
     float budget = 5000.00f;
     float buffer = 500.00f;

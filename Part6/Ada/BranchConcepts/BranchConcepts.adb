@@ -84,6 +84,25 @@ begin
       New_Line;
    end;
 
+   -- Short Circuit Example
+   declare
+      Games_Played : Integer := 0;
+      Total_Score  : Integer := 150;
+   begin
+
+      Put_Line ( "Short Circuit Example" );
+
+      -- WRONG: Uses 'and' which doesn't short-circuit!
+      if gamesPlayed > 0 and totalScore / gamesPlayed > 10 then
+         Put_Line ( "You are averaging more than 10 points per game!" );
+      end if;
+   
+      -- RIGHT: Uses 'and then' which short-circuits!
+      if gamesPlayed > 0 and then totalScore / gamesPlayed > 10 then
+         Put_Line ( "You are averaging more than 10 points per game!" );
+      end if;
+   end
+
    -- Using a code block that executes if a condition is true.
    declare
       budget : Float := 5000.00;

@@ -42,6 +42,14 @@ def main():
 
     print(f"Heater is on: {heaterOn}")
 
+    # Short Circuit Example
+    print ( "Short Circuit Example" )
+    gamesPlayed = 0
+    totalScore = 150
+
+    if gamesPlayed > 0 and totalScore / gamesPlayed > 10:
+        print ( "You are averaging more than 10 points per game!" )
+
     # Using a code block that executes if a condition is true.
     budget = 5000.00
     buffer = 500.00

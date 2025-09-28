@@ -61,6 +61,14 @@ program BranchConcepts
 
     write( *, '(A,L1)' ) 'Heater is on: ', heaterOn
 
+    ! Short Circuit Example
+    print *, 'Short Circuit Example'
+
+    ! May or may not short-circuit depending on compiler
+    if ( games_played > 0 .and. total_score / games_played > 10 ) then
+        print *, 'You are averaging more than 10 points per game!'
+    end if
+    
     ! Using a code block that executes if a condition is true.
     budget = 5000.00
     buffer = 500.00

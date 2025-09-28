@@ -53,6 +53,15 @@ func main() {
 
 	fmt.Printf("Heater is on: %t\n", heaterOn)
 
+	// Short Circuit Example
+	fmt.Println ( "Short Circuit Example" )
+    gamesPlayed := 0
+    totalScore := 150
+    
+    if gamesPlayed > 0 && totalScore / gamesPlayed > 10 {
+        fmt.Println ( "You are averaging more than 10 points per game!" )
+    }
+	
 	// Using a code block that executes if a condition is true.
 	budget := 5000.00
 	buffer := 500.00

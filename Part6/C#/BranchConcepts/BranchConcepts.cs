@@ -63,6 +63,16 @@ class Program
 
         Console.Write( $"Heater is on: {heaterOn}\n" );
 
+        // Short Circuit Example
+        Console.WriteLine("Short Circuit Example");
+        int gamesPlayed = 0;
+        int totalScore = 150;
+        
+        if ( gamesPlayed > 0 && totalScore / gamesPlayed > 10 )
+        {
+            Console.WriteLine ( "You are averaging more than 10 points per game!" );
+        }
+        
         // Using a code block that executes if a condition is true.
         float budget = 5000.00f;
         float buffer = 500.00f;

@@ -59,6 +59,16 @@ fn main()
 
     println!( "Heater is on: {}", heater_on );
 
+    // Short Circuit Example.
+    println! ( "Short Circuit Example" );
+    let games_played = 0;
+    let total_score = 150;
+    
+    if games_played > 0 && total_score / games_played > 10
+    {
+        println! ( "You are averaging more than 10 points per game!" );
+    }
+    
     // Using a code block that executes if a condition is true.
     let budget = 5000.00;
     let mut buffer = 500.00;
