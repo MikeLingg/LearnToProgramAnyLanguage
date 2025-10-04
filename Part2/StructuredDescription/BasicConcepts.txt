@@ -1,0 +1,128 @@
+// This signifies a number of basic concepts that would be included in one program, except some of these concepts will prevent compilation or crash the program. So this program will be broken up as specific languages require it.
+// Note how in the print statements if we are printing a variable, it is surrounded 
+// by {} to indicate it is the value, not the name, of the variable being printed.
+
+boolean falseBoolean set to True
+boolean trueBoolean set to False
+
+print Boolean range with {falseBoolean} and {trueBoolean}
+
+8 bit signed integer minSigned8 set to -128
+8 bit signed integer maxSigned8 set to 127
+8 bit unsigned integer minUnsigned8 set to 0
+8 bit unsigned integer maxUnsigned8 set to 255
+
+print 8 bit signed int range with {minSigned8} and {maxSigned8}
+print 8 bit unsigned int range with {minUnsigned8} and {maxUnsigned8}
+
+16 bit signed integer minSigned16 set to -32768
+16 bit signed integer maxSigned16 set to 32767
+16 bit unsigned integer minUnsigned16 set to 0
+16 bit unsigned integer maxUnsigned16 set to 65535
+
+print 16 bit signed int range with {minSigned16} and {maxSigned16}
+print 16 bit unsigned int range with {minUnsigned16} and {maxUnsigned16}
+
+32 bit signed integer minSigned32 set to –2147483648
+32 bit signed integer maxSigned32 set to 2147483647
+32 bit unsigned integer minUnsigned32 set to 0
+32 bit unsigned integer maxUnsigned32 set to 4294967295
+
+print 32 bit signed int range with {minSigned32} and {maxSigned32}
+print 32 bit unsigned int range with {minUnsigned32} and {maxUnsigned32}
+
+64 bit signed integer minSigned64 set to –9223372036854775808
+64 bit signed integer maxSigned64 set to 9223372036854775807
+64 bit unsigned integer minUnsigned64 set to 0
+64 bit unsigned integer minUnsigned64 set to 18446744073709551615
+
+print 64 bit signed int range with {minSigned64} and {maxSigned64}
+print 64 bit unsigned int range with {minUnsigned64} and {maxUnsigned64}
+
+32 bit float floatMax set to FLT_MAX
+32 bit float floatMin set to FLT_MIN
+
+print 32 bit float with {floatMin} and {floatMax}
+
+32 bit float zeroPointOne set to 0.1
+32 bit float zeroPointTwo set to 0.2
+32 bit float zeroPointThree set to 0.3
+
+// So let’s look at how far off the actual floating point value is from the value it was set to.
+print Floating point 0.1, 0.2, 0.3 -> {zeroPointOne} and {zeroPointTwo} and {zeroPointThree}
+
+64 bit float doubleMax set to DBL_MAX
+64 bit float doubleMin set to DBL_MIN
+
+print 64 bit float with {doubleMin} and {doubleMax}
+
+// Shows the basics of ASCII characters, including special ones.
+// This should print 1 followed by a tab followed by 2, then on the next line print 3.
+char charOne set to ‘1’
+char charTab set to ‘\t’
+char charTwo set to ‘2’
+char charNewLine set to ‘\n’
+char charThree set to ‘3’
+print Characters: {charOne} and {charTab} and {charTwo} and {charNewLine} and {charThree}
+
+// Show how printing as an integer, not a character, can be confusing
+print {charOne as an integer}
+
+// Note some languages may not compile this code so it will be in a separate file, others may throw warnings.
+boolean outOfRangeBoolean to 55
+
+print Out of range Boolean with {outOfRangeBoolean}
+
+// Note some languages may not compile this code so it will be in a separate file, others may throw warnings.
+16 bit signed integer outOfRange set to 100000
+
+print Out of range value with {outOfRange}
+
+32 bit float outOfRangeFloat set to FLT_MAX + 0.0001
+64 bit float outOfRangeDouble set to DBL_MAX + 0.0001
+
+print Out of range float and double with {outOfRangeFloat} and {outOfRangeDouble}
+
+// So the ASCII table shows the tab symbol as TAB, but this doesn’t work in programming.
+// I think in some programs this will crash, so it will be in a separate program.
+char charInvalid to ‘TAB’
+print Invalid char {charInvalid}
+
+// Don’t forget to declare your variables as appropriate to the language, some languages will fail to compile with this program
+char validName set to ‘a’
+char wrongCase set to ‘a’
+char wrOngLetter set to ‘a’
+
+print {invalidName}
+print {validname}
+print {wrongcase}
+print {wr0ngLetter}
+
+// Don’t start your variables with numbers or use hyphens
+integer 2NameInvalid set to 5
+char invalid-name set to ‘a’
+
+print {2NameInvalid}
+print {invalid-name}
+
+// Also avoid using keywords already reserved by the programming language
+integer class set to FRESHMAN // Change class to studentClass
+bool private set to True // Change to isPrivate
+
+print {class}
+print {private}
+
+// I think in some programs this will cause a crash or failure to compile, so it will be a separate program.
+declare myCharacter without initializing with a value
+print {myCharacter}
+
+// Do not redeclare variable names in most languages:
+declare duplicateCharacter = ‘a’
+declare duplicateCharacter = ‘b’
+
+print {duplicateCharacter}
+
+// Do not mix your types in many languages
+integer myInt = 123.45
+float myFloat = ‘a’
+char myChar = 543.21

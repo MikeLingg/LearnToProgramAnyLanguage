@@ -69,10 +69,10 @@ int main()
     // This should print 1 followed by a tab followed by 2, then on the next line print 3.
     char charOne = '1';
     char charTab = '\t';
-    char charTwo = '2';
+    char singleQuotes = '\'';
     char charNewLine = '\n';
-    char charThree = '3';
-    printf ( "Characters: %c%c%c%c%c\n", charOne, charTab, charTwo, charNewLine, charThree );
+    char doubleQuotes = '\"';
+    printf ( "Characters: %c%c%c%c%c\n", charOne, charTab, singleQuotes, charNewLine, doubleQuotes );
     
     // Show how printing as an integer, not a character, can be confusing
     printf ( "charOne as an integer: %d\n", charOne );

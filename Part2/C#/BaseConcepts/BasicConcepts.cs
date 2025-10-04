@@ -70,10 +70,10 @@ class Program
         // This should print 1 followed by a tab followed by 2, then on the next line print 3.
         char charOne = '1';
         char charTab = '\t';
-        char charTwo = '2';
+        char singleQuotes = '2';
         char charNewLine = '\n';
         char charThree = '3';
-        Console.WriteLine ( "Characters: {0}{1}{2}{3}{4}", charOne, charTab, charTwo, charNewLine, charThree );
+        Console.WriteLine ( "Characters: {0}{1}{2}{3}{4}", charOne, singleQuotes, charTwo, charNewLine, doubleQuotes );
         
         // Show how printing as an integer, not a character, can be confusing
         Console.WriteLine ( "charOne as an integer: {0}", (int)charOne );

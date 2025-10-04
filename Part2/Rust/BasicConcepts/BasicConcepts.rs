@@ -4,8 +4,8 @@ fn main()
     // except some of these concepts will prevent compilation or crash the program. 
     // So this program will be broken up as specific languages require it.
 
-    let false_boolean: bool = true;
-    let true_boolean: bool = false;
+    let false_boolean: bool = false;
+    let true_boolean: bool = true;
     
     println!("Boolean range: {} {}", false_boolean, true_boolean);
     
@@ -66,10 +66,10 @@ fn main()
     // This should print 1 followed by a tab followed by 2, then on the next line print 3.
     let char_one: char = '1';
     let char_tab: char = '\t';
-    let char_two: char = '2';
+    let single_quotes: char = '\'';
     let char_new_line: char = '\n';
-    let char_three: char = '3';
-    println!("Characters: {}{}{}{}{}", char_one, char_tab, char_two, char_new_line, char_three);
+    let double_quotes: char = '\"';
+    println!("Characters: {}{}{}{}{}", char_one, char_tab, single_quotes, char_new_line, double_quotes);
     
     // Show how printing as an integer, not a character, can be confusing
     println!("charOne as an integer: {}", char_one as u32);
@@ -86,9 +86,9 @@ fn main()
     
     println!("Out of range value: {}", out_of_range);
     
-    println!("Note that adding a small amount to float max is lost in the precision, so using infinity.");
-    let out_of_range_float: f32 = f32::INFINITY;
-    let out_of_range_double: f64 = f64::INFINITY;
+    println!("Note that adding a small amount to float max is lost in the precision, so we doubled MAX.");
+    let out_of_range_float: f32 = f32::MAX + f32::MAX;
+    let out_of_range_double: f64 = f64::MAX + f64::MAX;
     
     println!("Out of range float and double: {} {}", out_of_range_float, out_of_range_double);
 

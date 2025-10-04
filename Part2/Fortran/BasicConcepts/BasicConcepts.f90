@@ -43,9 +43,9 @@ program BasicConcepts
     ! This should print 1 followed by a tab followed by 2, then on the next line print 3.
     character(len=1) :: charOne = '1'
     character(len=1) :: charTab = char(9)   ! ASCII tab
-    character(len=1) :: charTwo = '2'
+    character(len=1) :: singleQuotes = ''''
     character(len=1) :: charNewLine = char(10)  ! ASCII newline
-    character(len=1) :: charThree = '3'
+    character(len=1) :: doubleQuotes = """"
 
     ! Note some languages may not compile this code so it will be in a separate file, others may throw warnings.
     ! Fortran doesn't allow implicit conversion from int to logical

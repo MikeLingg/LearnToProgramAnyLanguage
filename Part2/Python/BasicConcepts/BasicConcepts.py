@@ -5,12 +5,13 @@ def main():
     # except some of these concepts will prevent compilation or crash the program. 
     # So this program will be broken up as specific languages require it.
 
-    falseBoolean = True
-    trueBoolean = False
+    falseBoolean = False
+    trueBoolean = True
     
     print ( "Boolean range:", falseBoolean, trueBoolean )
     
     print ( "Note: Python handles any range of integers automatically, no overflow issues like C++ and other typed languages." )
+
     veryLargeInt = 1234567890123456789012345678901234567890
     veryNegativeInt = -1234567890123456789012345678901234567890
 
@@ -33,10 +34,10 @@ def main():
     # This should print 1 followed by a tab followed by 2, then on the next line print 3.
     charOne = '1'
     charTab = '\t'
-    charTwo = '2'
+    singleQuotes = '\''
     charNewLine = '\n'
-    charThree = '3'
-    print ( "Characters:", charOne + charTab + charTwo + charNewLine + charThree )
+    doubleQuotes = "\""
+    print ( "Characters:", charOne + charTab + singleQuotes + charNewLine + doubleQuotes )
     
     # Show how printing as an integer, not a character, can be confusing
     print ( "charOne as an integer:", ord ( charOne ) )
