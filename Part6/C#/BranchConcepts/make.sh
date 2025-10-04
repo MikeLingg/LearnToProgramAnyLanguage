@@ -1,6 +1,6 @@
 #!/bin/bash
 
-FileNames=("BranchConcepts")
+FileNames=("BranchConcepts" "CompilerErrors")
 
 for fileName in "${FileNames[@]}"; do
 

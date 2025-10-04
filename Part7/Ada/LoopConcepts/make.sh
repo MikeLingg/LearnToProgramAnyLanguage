@@ -1,6 +1,6 @@
 #!/bin/bash
 
-FileNames=("LoopConcepts")
+FileNames=("LoopConcepts" "CompileErrors")
 
 for fileName in "${FileNames[@]}"; do
 

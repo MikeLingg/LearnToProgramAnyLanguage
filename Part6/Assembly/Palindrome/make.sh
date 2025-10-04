@@ -14,7 +14,7 @@ for fileName in "${FileNames[@]}"; do
     fi
 
     # Link
-    ld $fileName.o -o $fileName.exe -lc -lm --dynamic-linker=/lib64/ld-linux-x86-64.so.2
+    gcc -no-pie $fileName.o -o $fileName.exe
     if [ $? -ne 0 ]; then
         echo "Linking failed for ./$fileName.exe"
     else

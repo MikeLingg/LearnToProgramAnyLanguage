@@ -6,6 +6,7 @@ for fileName in "${FileNames[@]}"; do
 
     rm -f $fileName.exe
     g++ -Wall -Wextra -O2 -o $fileName.exe $fileName.cpp
+    g++ -S $fileName.cpp
 
     if [ $? -ne 0 ]; then
         echo "Build failed for ./$fileName.exe"
