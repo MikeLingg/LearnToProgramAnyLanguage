@@ -1,28 +1,16 @@
 #!/bin/bash
-set +e
-echo "Building Rust program..."
 
-rm -f BasicConcepts.exe
-rustc BasicConcepts.rs -o BasicConcepts.exe
-echo "Rust program built: ./BasicConcepts.exe"
+FileNames=("BasicConcepts" "BasicConcepts_InvalidASCII" "BasicConcepts_InvalidNames" "BasicConcepts_MixedTypes" "BasicConcepts_Redeclaration" "BasicConcepts_Uninitialized")
 
-rm -f BasicConcepts_InvalidASCII.exe
-rustc BasicConcepts_InvalidASCII.rs -o BasicConcepts_InvalidASCII.exe
-echo "Rust program built: ./BasicConcepts_InvalidASCII.exe"
+for fileName in "${FileNames[@]}"; do
 
-rm -f BasicConcepts_InvalidNames.exe
-rustc BasicConcepts_InvalidNames.rs -o BasicConcepts_InvalidNames.exe
-echo "Rust program built: ./BasicConcepts_InvalidNames.exe"
+    rm -f $fileName.exe
+    rustc $fileName.rs -o $fileName.exe || true
 
-rm -f BasicConcepts_Uninitialized.exe
-rustc BasicConcepts_Uninitialized.rs -o BasicConcepts_Uninitialized.exe
-echo "Rust program built: ./BasicConcepts_Uninitialized.exe"
+    if [ $? -ne 0 ]; then
+        echo "Build failed for ./$fileName.exe"
+    else
+        echo "Build successful. Run with ./$fileName.exe"
+    fi
 
-rm -f BasicConcepts_Redeclaration.exe
-rustc BasicConcepts_Redeclaration.rs -o BasicConcepts_Redeclaration.exe
-echo "Rust program built: ./BasicConcepts_Redeclaration.exe"
-
-rm -f BasicConcepts_MixedTypes.exe
-rustc BasicConcepts_MixedTypes.rs -o BasicConcepts_MixedTypes.exe
-echo "Rust program built: ./BasicConcepts_MixedTypes.exe"
-
+done

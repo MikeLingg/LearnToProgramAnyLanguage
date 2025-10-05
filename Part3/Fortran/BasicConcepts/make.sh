@@ -1,12 +1,16 @@
 #!/bin/bash
-set +e
-echo "Building Fortran program..."
 
-rm -f BasicConcepts.exe
-gfortran -o BasicConcepts.exe BasicConcepts.f90
-echo "Fortran program built: ./BasicConcepts.exe"
+FileNames=("BasicConcepts" "BasicConcepts_ArrayOutOfBounds")
 
-rm -f BasicConcepts_ArrayOutOfBounds.exe
-gfortran -o BasicConcepts_ArrayOutOfBounds.exe BasicConcepts_ArrayOutOfBounds.f90
-echo "Fortran program built: ./BasicConcepts_ArrayOutOfBounds.exe"
+for fileName in "${FileNames[@]}"; do
 
+    rm -f $fileName.exe
+    gfortran -o $fileName.exe $fileName.f90
+
+    if [ $? -ne 0 ]; then
+        echo "Build failed for ./$fileName.exe"
+    else
+        echo "Build successful. Run with ./$fileName.exe"
+    fi
+
+done

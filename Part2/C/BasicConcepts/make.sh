@@ -1,30 +1,16 @@
 #!/bin/bash
 
-# Don't stop if any command fails
-set +e
+FileNames=("BasicConcepts" "BasicConcepts_InvalidASCII" "BasicConcepts_InvalidNames" "BasicConcepts_MixedTypes" "BasicConcepts_Redeclaration" "BasicConcepts_Uninitialized")
 
-echo "Building C program..."
+for fileName in "${FileNames[@]}"; do
 
-rm -f BasicConcepts.exe
-gcc -Wall -Wextra -O2 -o BasicConcepts.exe BasicConcepts.c
-echo "C program built: ./BasicConcepts.exe"
+    rm -f $fileName.exe
+    gcc -Wall -Wextra -O2 -o $fileName.exe $fileName.c
 
-rm -f BasicConcepts_InvalidASCII.exe
-gcc -Wall -Wextra -O2 -o BasicConcepts_InvalidASCII.exe BasicConcepts_InvalidASCII.c
-echo "C program built: ./BasicConcepts_InvalidASCII.exe"
+    if [ $? -ne 0 ]; then
+        echo "Build failed for ./$fileName.exe"
+    else
+        echo "Build successful. Run with ./$fileName.exe"
+    fi
 
-rm -f BasicConcepts_InvalidNames.exe
-gcc -Wall -Wextra -O2 -o BasicConcepts_InvalidNames.exe BasicConcepts_InvalidNames.c
-echo "C program built: ./BasicConcepts_InvalidNames.exe"
-
-rm -f BasicConcepts_Uninitialized.exe
-gcc -Wall -Wextra -O2 -o BasicConcepts_Uninitialized.exe BasicConcepts_Uninitialized.c
-echo "C program built: ./BasicConcepts_Uninitialized.exe"
-
-rm -f BasicConcepts_Redeclaration.exe
-gcc -Wall -Wextra -O2 -o BasicConcepts_Redeclaration.exe BasicConcepts_Redeclaration.c
-echo "C program built: ./BasicConcepts_Redeclaration.exe"
-
-rm -f BasicConcepts_MixedTypes.exe
-gcc -Wall -Wextra -O2 -o BasicConcepts_MixedTypes.exe BasicConcepts_MixedTypes.c
-echo "C program built: ./BasicConcepts_MixedTypes.exe"
+done

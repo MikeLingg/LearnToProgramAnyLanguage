@@ -1,29 +1,16 @@
 #!/bin/bash
-set +e
 
-echo "Building Go program..."
+FileNames=("BasicConcepts" "BasicConcepts_InvalidASCII" "BasicConcepts_InvalidNames" "BasicConcepts_MixedTypes" "BasicConcepts_Redeclaration" "BasicConcepts_Uninitialized")
 
-rm -f BasicConcepts.exe
-go build -o BasicConcepts.exe BasicConcepts.go
-echo "Go program built: ./BasicConcepts.exe"
+for fileName in "${FileNames[@]}"; do
 
-rm -f BasicConcepts_InvalidASCII.exe
-go build -o BasicConcepts_InvalidASCII.exe BasicConcepts_InvalidASCII.go
-echo "Go program built: ./BasicConcepts_InvalidASCII.exe"
+    rm -f $fileName.exe
+    go build -o $fileName.exe $fileName.go
 
-rm -f BasicConcepts_InvalidNames.exe
-go build -o BasicConcepts_InvalidNames.exe BasicConcepts_InvalidNames.go
-echo "Go program built: ./BasicConcepts_InvalidNames.exe"
+    if [ $? -ne 0 ]; then
+        echo "Build failed for ./$fileName.exe"
+    else
+        echo "Build successful. Run with ./$fileName.exe"
+    fi
 
-rm -f BasicConcepts_Uninitialized.exe
-go build -o BasicConcepts_Uninitialized.exe BasicConcepts_Uninitialized.go
-echo "Go program built: ./BasicConcepts_Uninitialized.exe"
-
-rm -f BasicConcepts_Redeclaration.exe
-go build -o BasicConcepts_Redeclaration.exe BasicConcepts_Redeclaration.go
-echo "Go program built: ./BasicConcepts_Redeclaration.exe"
-
-rm -f BasicConcepts_MixedTypes.exe
-go build -o BasicConcepts_MixedTypes.exe BasicConcepts_MixedTypes.go
-echo "Go program built: ./BasicConcepts_MixedTypes.exe"
-
+done

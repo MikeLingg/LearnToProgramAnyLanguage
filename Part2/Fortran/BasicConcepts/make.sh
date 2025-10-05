@@ -1,28 +1,16 @@
 #!/bin/bash
-set +e
-echo "Building Fortran program..."
 
-rm -f BasicConcepts.exe
-gfortran -o BasicConcepts.exe BasicConcepts.f90
-echo "Fortran program built: ./BasicConcepts.exe"
+FileNames=("BasicConcepts" "BasicConcepts_InvalidASCII" "BasicConcepts_InvalidNames" "BasicConcepts_MixedTypes" "BasicConcepts_Redeclaration" "BasicConcepts_Uninitialized")
 
-rm -f BasicConcepts_InvalidASCII.exe
-gfortran -o BasicConcepts_InvalidASCII.exe BasicConcepts_InvalidASCII.f90
-echo "Fortran program built: ./BasicConcepts_InvalidASCII.exe"
+for fileName in "${FileNames[@]}"; do
 
-rm -f BasicConcepts_InvalidNames.exe
-gfortran -o BasicConcepts_InvalidNames.exe BasicConcepts_InvalidNames.f90
-echo "Fortran program built: ./BasicConcepts_InvalidNames.exe"
+    rm -f $fileName.exe
+    gfortran -o $fileName.exe $fileName.f90
 
-rm -f BasicConcepts_Uninitialized.exe
-gfortran -o BasicConcepts_Uninitialized.exe BasicConcepts_Uninitialized.f90
-echo "Fortran program built: ./BasicConcepts_Uninitialized.exe"
+    if [ $? -ne 0 ]; then
+        echo "Build failed for ./$fileName.exe"
+    else
+        echo "Build successful. Run with ./$fileName.exe"
+    fi
 
-rm -f BasicConcepts_Redeclaration.exe
-gfortran -o BasicConcepts_Redeclaration.exe BasicConcepts_Redeclaration.f90
-echo "Fortran program built: ./BasicConcepts_Redeclaration.exe"
-
-rm -f BasicConcepts_MixedTypes.exe
-gfortran -o BasicConcepts_MixedTypes.exe BasicConcepts_MixedTypes.f90
-echo "Fortran program built: ./BasicConcepts_MixedTypes.exe"
-
+done

@@ -1,28 +1,16 @@
 #!/bin/bash
-set +e
-echo "Building Ada program..."
 
-rm -f BasicConcepts.exe
-gnatmake BasicConcepts.adb -o BasicConcepts.exe
-echo "Ada program built: ./BasicConcepts.exe"
+FileNames=("BasicConcepts" "BasicConcepts_InvalidASCII" "BasicConcepts_InvalidNames" "BasicConcepts_MixedTypes" "BasicConcepts_Redeclaration" "BasicConcepts_Uninitialized")
 
-rm -f BasicConcepts_InvalidASCII.exe
-gnatmake BasicConcepts_InvalidASCII.adb -o BasicConcepts_InvalidASCII.exe
-echo "Ada program built: ./BasicConcepts_InvalidASCII.exe"
+for fileName in "${FileNames[@]}"; do
 
-rm -f BasicConcepts_InvalidNames.exe
-gnatmake BasicConcepts_InvalidNames.adb -o BasicConcepts_InvalidNames.exe
-echo "Ada program built: ./BasicConcepts_InvalidNames.exe"
+    rm -f $fileName.exe
+    gnatmake $fileName.adb -o $fileName.exe
 
-rm -f BasicConcepts_Uninitialized.exe
-gnatmake BasicConcepts_Uninitialized.adb -o BasicConcepts_Uninitialized.exe
-echo "Ada program built: ./BasicConcepts_Uninitialized.exe"
+    if [ $? -ne 0 ]; then
+        echo "Build failed for ./$fileName.exe"
+    else
+        echo "Build successful. Run with ./$fileName.exe"
+    fi
 
-rm -f BasicConcepts_Redeclaration.exe
-gnatmake BasicConcepts_Redeclaration.adb -o BasicConcepts_Redeclaration.exe
-echo "Ada program built: ./BasicConcepts_Redeclaration.exe"
-
-rm -f BasicConcepts_MixedTypes.exe
-gnatmake BasicConcepts_MixedTypes.adb -o BasicConcepts_MixedTypes.exe
-echo "Ada program built: ./BasicConcepts_MixedTypes.exe"
-
+done
