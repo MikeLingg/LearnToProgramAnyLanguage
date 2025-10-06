@@ -1,7 +1,6 @@
 #!/bin/bash
 
-# Stop if any command fails
-set -e
+set +e
 
 echo "Building C program..."
 

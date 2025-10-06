@@ -1,6 +1,6 @@
 def main():
     # Python allows multi-character strings, unlike C++
-    invalidTab = char ( 'TAB' )
+    invalidTab = 'TAB'
     print ( "Invalid Tab:", invalidTab )
 
     # If you want a tab you have to use \ escape characters.

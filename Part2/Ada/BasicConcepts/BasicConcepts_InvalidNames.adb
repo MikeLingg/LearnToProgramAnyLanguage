@@ -6,6 +6,18 @@ procedure BasicConcepts_InvalidNames is
    wrongCase : Character := 'a';
    wrOngLetter : Character := 'a';
    
+   -- Also avoid using keywords already reserved by the programming language
+   -- This will cause compile error - reserved keyword
+   Procedure : Integer := 1;
+   -- This will cause compile error - reserved keyword
+   Package : Integer := 2;
+   
+   -- Don't start your variables with numbers or use hyphens
+   -- This will cause compile error - invalid identifier
+   2NameInvalid : Integer := 5;
+   -- This will cause compile error - invalid identifier (hyphens not allowed)
+   Invalid-Name : Character := 'a';
+   
 begin
    -- This will cause compile error - undefined variable
    Put_Line ( invalidName & "" );
@@ -16,22 +28,10 @@ begin
    -- This will cause compile error - undefined variable
    Put_Line ( wr0ngLetter & "" );
  
-   -- Don't start your variables with numbers or use hyphens
-   -- This will cause compile error - invalid identifier
-   2NameInvalid : Integer := 5;
-   -- This will cause compile error - invalid identifier (hyphens not allowed)
-   invalid-Name : Character := 'a';
+   Put_Line (Integer'Image(2NameInvalid));
+   Put_Line (Invalid-Name & "");
    
-   Put_Line (Integer'Image ( 2NameInvalid ) );
-   Put_Line ( invalid-Name & "" );
-   
-   -- Also avoid using keywords already reserved by the programming language
-   -- This will cause compile error - reserved keyword
-   Procedure : Integer := 1;
-   -- This will cause compile error - reserved keyword
-   Package : Integer := 2;
-   
-   Put_Line ( Integer'Image ( Procedure ) );
-   Put_Line ( Integer'Image ( Package ) );
+   Put_Line (Integer'Image(Procedure));
+   Put_Line (Integer'Image(Package));
 
 end BasicConcepts_InvalidNames;

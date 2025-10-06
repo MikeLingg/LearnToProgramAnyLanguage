@@ -8,9 +8,7 @@ program InvalidNames
     
     ! This will cause compile error - undefined variable
     write(*,*) invalidName
-    ! This will cause compile error - undefined variable
     write(*,*) validname
-    ! This will cause compile error - undefined variable
     write(*,*) wrongcase
     ! This will cause compile error - undefined variable
     write(*,*) wr0ngLetter

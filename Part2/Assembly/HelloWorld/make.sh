@@ -1,5 +1,8 @@
 #!/bin/bash
 
+# Don't stop if any command fails
+set +e
+
 # Check if filename was provided
 if [ $# -eq 0 ]; then
     echo "Usage: $0 <base_filename_without_extension>"

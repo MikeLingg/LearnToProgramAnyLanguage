@@ -8,6 +8,6 @@ class Program
         // I think in some programs this will crash, so it will be in a separate program.
         // C# doesn't allow multi-character literals - this will cause compile error
         char charInvalid = 'TAB';
-        Console.WriteLine("Invalid char: {0}", charInvalid);
+        Console.WriteLine ( "Invalid char: {0}", charInvalid );
     }
 }

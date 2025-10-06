@@ -5,8 +5,8 @@ program BasicConcepts
     ! except some of these concepts will prevent compilation or crash the program. 
     ! So this program will be broken up as specific languages require it.
 
-    logical :: falseBoolean = .true.
-    logical :: trueBoolean = .false.
+    logical :: falseBoolean = .false.
+    logical :: trueBoolean = .true.
     
     integer(kind=1) :: minSigned8 = -128
     integer(kind=1) :: maxSigned8 = 127
@@ -87,7 +87,7 @@ program BasicConcepts
     write(*,*) 'Note that scientific notation must be used to print such a small number.'
     write(*,*) '64 bit float range:', doubleMin, doubleMax
     
-    write(*,'(5A1)') charOne, charTab, charTwo, charNewLine, charThree
+    write(*,'(5A1)') charOne, charTab, singleQuotes, charNewLine, doubleQuotes
     
     ! Show how printing as an integer, not a character, can be confusing
     write(*,*) 'charOne as an integer:', ichar(charOne)

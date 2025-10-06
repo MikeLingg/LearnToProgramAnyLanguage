@@ -1,6 +1,10 @@
+use std::char;
+use std::i8;
+use std::f32;
+
 fn main() {
     // Do not redeclare variable names in most languages:
-    let duplicate_character: char = 'a';
-    let duplicate_character: char = 'b';
-    println!("duplicate_character: {}", duplicate_character);
+    let duplicateCharacter: char = 'a';
+    let duplicateCharacter: char = 'b';
+    println!("duplicateCharacter: {}", duplicateCharacter);
 }

@@ -33,7 +33,6 @@ fn main()
     println!("32 bit signed int range: {} {}", min_signed32, max_signed32);
     println!("32 bit unsigned int range: {} {}", min_unsigned32, max_unsigned32);
     
-    println!("Note: Rust handles large integers within specified bit ranges without overflow by default.");
     let min_signed64: i64 = -9223372036854775808;
     let max_signed64: i64 = 9223372036854775807;
     let min_unsigned64: u64 = 0;

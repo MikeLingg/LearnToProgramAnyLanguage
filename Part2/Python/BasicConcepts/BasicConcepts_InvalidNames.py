@@ -1,5 +1,3 @@
-import keyword
-
 def main():
     # Don't forget to declare your variables as appropriate to the language, some languages will fail to compile with this program
     validName = 'a'
@@ -32,9 +30,6 @@ def main():
     
     print ( class )
     print ( def )
-
-    print ( keyword.kwlist )
-    print ( f"Total: { len ( keyword.kwlist ) } " )
 
 if __name__ == "__main__":
     main()

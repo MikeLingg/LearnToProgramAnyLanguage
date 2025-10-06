@@ -57,8 +57,8 @@ procedure BasicConcepts is
    outOfRange : Integer range -32768 .. 32767 := 32767;
    
    -- Ada will throw a compiler error to prevent this.
-   outOfRangeFloat : Float := Float'Last * 2.0;  -- This might become infinity
-   outOfRangeDouble : Long_Float := Long_Float'Last * 2.0;  -- This might become infinity
+   --outOfRangeFloat : Float := Float'Last * 2.0;  -- This might become infinity
+   --outOfRangeDouble : Long_Float := Long_Float'Last * 2.0;  -- This might become infinity
 
    -- Ada character can handle ASCII range
    outOfRangeChar : Character := Character'Val ( 65 );  -- 'A' character
@@ -85,6 +85,15 @@ begin
    -- So let's look at how far off the actual floating point value is from the value it was set to.
    Put_Line ( "Floating point 0.1, 0.2, 0.3 -> " & Float'Image ( zeroPointOne ) & 
              " and " & Float'Image ( zeroPointTwo ) & " and " & Float'Image ( zeroPointThree ));
+
+   Put(zeroPointOne, Fore => 1, Aft => 20, Exp => 0);
+   New_Line;  -- Add newline separately
+   
+   Put(zeroPointOne, Fore => 1, Aft => 20, Exp => 0);
+   New_Line;  -- Add newline separately
+   
+   Put(zeroPointOne, Fore => 1, Aft => 20, Exp => 0);
+   New_Line;  -- Add newline separately
    
    Put_Line ( "Note that scientific notation must be used to print such a small number." );
    Put_Line ( "64 bit float range: " & Long_Float'Image ( doubleMin ) & " " & Long_Float'Image ( doubleMax ));
@@ -104,8 +113,8 @@ begin
    
    Put_Line ( "Out of range value: " & Integer'Image ( outOfRange ));
    
-   Put_Line ( "Note that adding a small amount to float max is lost in the precision, so multiplying by 2." );
-   Put_Line ( "Out of range float and double: " & Float'Image ( outOfRangeFloat ) & " " & Long_Float'Image ( outOfRangeDouble ));
+   --Put_Line ( "Note that adding a small amount to float max is lost in the precision, so multiplying by 2." );
+   --Put_Line ( "Out of range float and double: " & Float'Image ( outOfRangeFloat ) & " " & Long_Float'Image ( outOfRangeDouble ));
 
    Put_Line ( "Out of range char: " & outOfRangeChar );
 

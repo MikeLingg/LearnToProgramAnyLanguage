@@ -1,5 +1,5 @@
 #!/bin/bash
-set -e
+set +e
 echo "Building Go program..."
 
 rm -r HelloWorld.exe

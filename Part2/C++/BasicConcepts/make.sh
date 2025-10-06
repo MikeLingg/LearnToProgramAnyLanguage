@@ -1,6 +1,6 @@
 #!/bin/bash
 
-FileNames=("BasicConcepts" "BasicConcepts_InvalidASCII" "BasicConcepts_InvaildNames" "BasicConcepts_MixedTypes" "BasicConcepts_Redeclaration" "BasicConcepts_Uninitialiezd")
+FileNames=("BasicConcepts" "BasicConcepts_InvalidASCII" "BasicConcepts_InvalidNames" "BasicConcepts_MixedTypes" "BasicConcepts_Redeclaration" "BasicConcepts_Uninitialized")
 
 for fileName in "${FileNames[@]}"; do
 

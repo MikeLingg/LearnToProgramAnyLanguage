@@ -10,7 +10,7 @@ class Program
 
         bool falseBoolean = true;
         bool trueBoolean = false;
-        
+
         Console.WriteLine ( "Boolean range: {0} {1}", falseBoolean, trueBoolean );
         
         sbyte minSigned8 = -128;
@@ -57,7 +57,7 @@ class Program
         float zeroPointThree = 0.3f;
         
         // So let's look at how far off the actual floating point value is from the value it was set to.
-        Console.WriteLine ( "Floating point 0.1, 0.2, 0.3 -> {0:F17} and {1:F17} and {2:F17}", 
+        Console.WriteLine ( "Floating point 0.1, 0.2, 0.3 -> {0:G17} and {1:G17} and {2:G17}", 
                            zeroPointOne, zeroPointTwo, zeroPointThree );
         
         double doubleMax = double.MaxValue;
@@ -70,10 +70,10 @@ class Program
         // This should print 1 followed by a tab followed by 2, then on the next line print 3.
         char charOne = '1';
         char charTab = '\t';
-        char singleQuotes = '2';
+        char singleQuotes = '\'';
         char charNewLine = '\n';
-        char charThree = '3';
-        Console.WriteLine ( "Characters: {0}{1}{2}{3}{4}", charOne, singleQuotes, charTwo, charNewLine, doubleQuotes );
+        char doubleQuotes = '\"';
+        Console.WriteLine ( "Characters: {0}{1}{2}{3}{4}", charOne, charTab, singleQuotes, charNewLine, doubleQuotes );
         
         // Show how printing as an integer, not a character, can be confusing
         Console.WriteLine ( "charOne as an integer: {0}", (int)charOne );
@@ -91,8 +91,8 @@ class Program
         Console.WriteLine ( "Out of range value: {0}", outOfRange );
         
         Console.WriteLine ( "Note that adding a small amount to float max is lost in the precision, so using infinity." );
-        float outOfRangeFloat = float.PositiveInfinity;
-        double outOfRangeDouble = double.PositiveInfinity;
+        float outOfRangeFloat = -float.MaxValue - float.MaxValue; //float.PositiveInfinity;
+        double outOfRangeDouble = -double.MaxValue - double.MaxValue;
         
         Console.WriteLine ( "Out of range float and double: {0} {1}", outOfRangeFloat, outOfRangeDouble );
 

@@ -7,6 +7,6 @@ func main() {
 	duplicateCharacter := 'a'
 	// This will cause compile error - variable already declared
 	duplicateCharacter := 'b'
-	
-	fmt.Printf ( "duplicateCharacter: %c\n", duplicateCharacter )
+
+	fmt.Printf("duplicateCharacter: %c\n", duplicateCharacter)
 }

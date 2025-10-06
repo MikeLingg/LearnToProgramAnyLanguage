@@ -22,7 +22,7 @@ _start:
     mov eax, [undefinedVariable]   ; ERROR: undefinedVariable not declared
     
     ; This will cause an error - typo in label name (case sensitive)
-    mov ebx, [ValidNumber]         ; ERROR: ValidNumber vs validNumber
+    mov ebx, [validnumber]         ; ERROR: validnumber vs validNumber
     
     ; This would work if the above errors weren't present
     mov rax, 1
