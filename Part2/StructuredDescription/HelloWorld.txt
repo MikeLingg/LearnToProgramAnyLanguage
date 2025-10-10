@@ -1,0 +1,4 @@
+// Let’s just start with making sure we can build and run a program in each language.
+// If you want to skip this I am not offended, but it can help with running a very basic program.
+// This will also be our only introductory example printing a string
+print Hello world!

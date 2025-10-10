@@ -34,10 +34,10 @@ _start:
     mov byte [rsp+11], 'd'
     mov byte [rsp+12], '!'
     mov byte [rsp+13], 10     ; newline
-    mov byte [rsp+14], 0      ; null
 
     ; Set up arguments
     mov rsi, rsp         ; Address of the string in stack memory
+    mov rdx, 14          ; Length = 13 characters + newline
 
     call print_string
 
