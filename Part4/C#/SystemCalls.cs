@@ -63,6 +63,11 @@ class Program
         userInput = Console.ReadLine ();
         bool floatParseSuccess = float.TryParse ( userInput, out float enteredFloat );
         Console.WriteLine ( "The user entered the float {0} (parse succeeded: {1})", enteredFloat, floatParseSuccess );
+        Console.WriteLine ( $"The user entered the float {enteredFloat,4:F1}" );
+        Console.WriteLine ( $"The user entered the float {enteredFloat,3:F1}" );
+        Console.WriteLine ( $"The user entered the float {enteredFloat,5:F1}" );
+        Console.WriteLine ( $"The user entered the float {enteredFloat,4:F0}" );
+        Console.WriteLine ( $"The user entered the float {enteredFloat,4:F2}" );
 
         Console.Write ( "Type Hello World! and press enter." );
         userInput = Console.ReadLine ();

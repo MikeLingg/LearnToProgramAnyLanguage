@@ -74,6 +74,11 @@ fn main() {
     let parse_result = user_input.trim().parse::<f32>();
     let entered_float: f32 = parse_result.clone().unwrap_or( 0.0 );
     println!( "The user entered the float {} (error: {:?})", entered_float, parse_result.err() );
+    println!( "The user entered the float {:4.1}", entered_float );
+    println!( "The user entered the float {:3.1}", entered_float );
+    println!( "The user entered the float {:5.1}", entered_float );
+    println!( "The user entered the float {:4.0}", entered_float );
+    println!( "The user entered the float {:4.2}", entered_float );
 
     user_input.clear();
     println!( "Type Hello World! and press enter." );

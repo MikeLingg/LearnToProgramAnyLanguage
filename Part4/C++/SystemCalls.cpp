@@ -45,6 +45,11 @@ int main ( )
     terminalResult = fgets ( userInput, sizeof ( userInput ), stdin );
     float enteredFloat = atof ( userInput );
     printf ( "The user entered the float %f\n", enteredFloat );
+    printf ( "The user entered the float %4.1f\n", enteredFloat );
+    printf ( "The user entered the float %3.1f\n", enteredFloat );
+    printf ( "The user entered the float %5.1f\n", enteredFloat );
+    printf ( "The user entered the float %4.0f\n", enteredFloat );
+    printf ( "The user entered the float %4.2f\n", enteredFloat );
 
     printf ( "Type Hello World! and press enter.\n" );
     terminalResult = fgets ( userInput, sizeof ( userInput ), stdin );

@@ -38,6 +38,26 @@ begin
       -- The same issue can happen if the Get parse fails.
       Skip_Line;
       Put_Line ( "The user entered the float" & Float'Image ( Entered_Float ) );
+
+      Put("The user entered the float ");
+      Put(Entered_Float, Fore => 2, Aft => 1, Exp => 0);
+      New_Line;
+   
+      Put("The user entered the float ");
+      Put(Entered_Float, Fore => 1, Aft => 1, Exp => 0);
+      New_Line;
+   
+      Put("The user entered the float ");
+      Put(Entered_Float, Fore => 3, Aft => 1, Exp => 0);
+      New_Line;
+   
+      Put("The user entered the float ");
+      Put(Entered_Float, Fore => 2, Aft => 0, Exp => 0);
+      New_Line;
+   
+      Put("The user entered the float ");
+      Put(Entered_Float, Fore => 2, Aft => 2, Exp => 0);
+      New_Line;
    exception
       when others =>
          Put_Line ( "The user entered the float 0.0 (parse error occurred)" );

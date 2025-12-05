@@ -74,6 +74,11 @@ func main () {
 	userInput = scanner.Text ()
 	enteredFloat, err := strconv.ParseFloat ( userInput, 64 )
 	fmt.Printf ( "The user entered the float %f (error: %v)\n", enteredFloat, err )
+    fmt.Printf ( "The user entered the float %4.1f\n", enteredFloat )
+    fmt.Printf ( "The user entered the float %3.1f\n", enteredFloat )
+    fmt.Printf ( "The user entered the float %5.1f\n", enteredFloat )
+    fmt.Printf ( "The user entered the float %4.0f\n", enteredFloat )
+    fmt.Printf ( "The user entered the float %4.2f\n", enteredFloat )
 
 	fmt.Print ( "Type Hello World! and press enter.\n" )
 	scanner.Scan ()

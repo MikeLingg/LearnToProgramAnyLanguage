@@ -64,7 +64,12 @@ program io_math_demo
     write ( *, '(A)', advance='no' ) 'Type 55.5 and press enter.'
     read ( *, *, iostat=ios_status ) entered_float
     write ( *, '(A,F0.1,A,I0,A)' ) 'The user entered the float ', entered_float, ' (iostat: ', ios_status, ')'
-    
+    write ( *,'(A,F4.1)' ) 'The user entered the float ', entered_float
+    write ( *,'(A,F3.1)' ) 'The user entered the float ', entered_float
+    write ( *,'(A,F5.1)' ) 'The user entered the float ', entered_float
+    write ( *,'(A,F4.0)' ) 'The user entered the float ', entered_float
+    write ( *,'(A,F4.2)' ) 'The user entered the float ', entered_float
+
     write ( *, '(A)', advance='no' ) 'Type Hello World! and press enter.'
     read ( *, '(A)', iostat=ios_status ) user_input
     write ( *, '(A,A,A,I0,A)' ) 'The user entered the string ', trim ( user_input ), ' (iostat: ', ios_status, ')'
