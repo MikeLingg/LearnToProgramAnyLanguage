@@ -1,6 +1,10 @@
 program BasicConcepts
     implicit none
-    
+
+    ! ANSI color codes
+    character(len=*), parameter :: COLOR_RESET = char(27)//'[0m'
+    character(len=*), parameter :: COLOR_BOLD = char(27)//'[1m'
+        
     ! This signifies a number of basic concepts that would be included in one program, 
     ! except some of these concepts will prevent compilation or crash the program. 
     ! So this program will be broken up as specific languages require it.
@@ -77,6 +81,11 @@ program BasicConcepts
     write(*,*) '64 bit signed int range:', minSigned64, maxSigned64
     write(*,*) '64 bit unsigned int range:', minUnsigned64, maxUnsigned64
     
+    call demonstrate_8bit()
+    call demonstrate_16bit()
+    call demonstrate_32bit()
+    call demonstrate_64bit()
+
     write(*,*) 'Note that scientific notation must be used to print such a small number.'
     write(*,*) '32 bit float:', floatMin, floatMax
     
@@ -102,5 +111,157 @@ program BasicConcepts
 
     write(*,*) 'Out of range char:', outOfRangeChar
 
+ 
+contains
+
+    subroutine print_bg_rgb_color(r, g, b, text)
+        integer, intent(in) :: r, g, b
+        character(len=*), intent(in) :: text
+        
+        write(*, '(A,I0,A,I0,A,I0,A,A,A)', advance='no') &
+            char(27)//'[48;2;', r, ';', g, ';', b, 'm', text, COLOR_RESET
+    end subroutine print_bg_rgb_color
+    
+    subroutine value_to_color(normalized, r, g, b)
+        real(8), intent(in) :: normalized
+        integer, intent(out) :: r, g, b
+        real(8) :: t
+        
+        if (normalized < 0.5d0) then
+            ! Blue to Green
+            t = normalized * 2.0d0
+            r = 0
+            g = int(t * 255.0d0)
+            b = int((1.0d0 - t) * 255.0d0)
+        else
+            ! Green to Red
+            t = (normalized - 0.5d0) * 2.0d0
+            r = int(t * 255.0d0)
+            g = int((1.0d0 - t) * 255.0d0)
+            b = 0
+        end if
+    end subroutine value_to_color
+    
+    subroutine print_header()
+        print '(A)', COLOR_BOLD//''
+        print '(A)', 'FORTRAN INTEGER GRANULARITY VISUALIZATION'//COLOR_RESET
+        print '(A)', 'Showing how bit-width affects numeric resolution'
+        print '(A)', '==============================================='
+    end subroutine print_header
+    
+    subroutine demonstrate_8bit()
+        integer :: i, val, r, g, b
+        real(8) :: normalized
+        integer, dimension(12) :: values
+        
+        values = [10, 20, 30, 40, 50, 60, 70, 80, 90, 100, 127, 255]
+        
+        print *, ''
+        print '(A)', COLOR_BOLD//'=== 8-BIT UNSIGNED (0-255) ==='//COLOR_RESET
+        print '(A)', '256 possible values - Coarse granularity'
+        print *, ''
+        
+        do i = 1, size(values)
+            val = values(i)
+            normalized = real(val, 8) / 255.0d0
+            call value_to_color(normalized, r, g, b)
+            
+            write(*, '(A,I3,A)', advance='no') '  ', val, ': '
+            call print_bg_rgb_color(r, g, b, '    ')
+            write(*, '(A,I3,A,I3,A,I3,A)') ' RGB(', r, ',', g, ',', b, ')'
+        end do
+    end subroutine demonstrate_8bit
+    
+    subroutine demonstrate_16bit()
+        integer :: i, val, r, g, b
+        real(8) :: normalized
+        integer, dimension(21) :: values
+        
+        values = [10, 20, 30, 40, 50, 60, 70, 80, 90, 100, 3000, 6000, 9000, &
+                  12000, 15000, 18000, 21000, 24000, 27000, 32767, 65535]
+        
+        print *, ''
+        print '(A)', COLOR_BOLD//'=== 16-BIT UNSIGNED (0-65535) ==='//COLOR_RESET
+        print '(A)', '65,536 possible values - 256x finer than 8-bit'
+        print *, ''
+        
+        do i = 1, size(values)
+            val = values(i)
+            normalized = real(val, 8) / 65535.0d0
+            call value_to_color(normalized, r, g, b)
+            
+            write(*, '(A,I5,A)', advance='no') '  ', val, ': '
+            call print_bg_rgb_color(r, g, b, '    ')
+            write(*, '(A,I3,A,I3,A,I3,A)') ' RGB(', r, ',', g, ',', b, ')'
+        end do
+    end subroutine demonstrate_16bit
+    
+    subroutine demonstrate_32bit()
+        integer :: i, r, g, b
+        integer(8) :: val
+        real(8) :: normalized
+        integer(8), dimension(17) :: values
+        
+        values = [int(10,8), int(20,8), int(30,8), int(40,8), int(50,8), &
+                  int(60,8), int(70,8), int(80,8), int(90,8), int(100,8), &
+                  int(250000000,8), int(500000000,8), int(1000000000,8), &
+                  int(1500000000,8), int(2000000000,8), int(2147483647,8), &
+                  4294967295_8]
+        
+        print *, ''
+        print '(A)', COLOR_BOLD//'=== 32-BIT UNSIGNED (0-4294967295) ==='//COLOR_RESET
+        print '(A)', '4,294,967,296 possible values - 65,536x finer than 16-bit'
+        print *, ''
+        
+        do i = 1, size(values)
+            val = values(i)
+            normalized = real(val, 8) / 4294967295.0d0
+            call value_to_color(normalized, r, g, b)
+            
+            write(*, '(A,I10,A)', advance='no') '  ', val, ': '
+            call print_bg_rgb_color(r, g, b, '    ')
+            write(*, '(A,I3,A,I3,A,I3,A)') ' RGB(', r, ',', g, ',', b, ')'
+        end do
+    end subroutine demonstrate_32bit
+    
+    subroutine demonstrate_64bit()
+        integer :: i, r, g, b
+        integer(8) :: val
+        real(8) :: normalized
+        integer(8), dimension(16) :: values
+        
+        values = [int(10,8), int(20,8), int(30,8), int(40,8), int(50,8), &
+                  int(60,8), int(70,8), int(80,8), int(90,8), int(100,8), &
+                  625000000000000000_8, 1250000000000000000_8, &
+                  2500000000000000000_8, 5000000000000000000_8, &
+                  9223372036854775807_8, -1_8]  ! -1 in signed = max unsigned
+        
+        print *, ''
+        print '(A)', COLOR_BOLD//'=== 64-BIT UNSIGNED (0-18446744073709551615) ==='//COLOR_RESET
+        print '(A)', '18,446,744,073,709,551,616 possible values - 4,294,967,296x finer than 32-bit'
+        print *, ''
+        
+        do i = 1, size(values)
+            val = values(i)
+            if (val < 0) then
+                ! Handle max value specially (displayed as unsigned)
+                normalized = 1.0d0
+            else
+                normalized = real(val, 8) / 18446744073709551615.0d0
+            end if
+            call value_to_color(normalized, r, g, b)
+            
+            if (val < 0) then
+                write(*, '(A,I20,A)', advance='no') '  ', 0, ': '  ! Will print incorrectly, but show the color
+                call print_bg_rgb_color(r, g, b, '    ')
+                write(*, '(A,I3,A,I3,A,I3,A)') ' RGB(', r, ',', g, ',', b, ') [max value]'
+            else
+                write(*, '(A,I20,A)', advance='no') '  ', val, ': '
+                call print_bg_rgb_color(r, g, b, '    ')
+                write(*, '(A,I3,A,I3,A,I3,A)') ' RGB(', r, ',', g, ',', b, ')'
+            end if
+        end do
+    end subroutine demonstrate_64bit
+    
 end program BasicConcepts
 

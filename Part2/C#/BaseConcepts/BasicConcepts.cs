@@ -2,6 +2,110 @@ using System;
 
 class Program
 {
+    const string COLOR_RESET = "\x1b[0m";
+    const string COLOR_BOLD = "\x1b[1m";
+
+    static void PrintBgRGB(byte r, byte g, byte b, string text)
+    {
+        Console.Write($"\x1b[48;2;{r};{g};{b}m{text}{COLOR_RESET}");
+    }
+
+    static (byte, byte, byte) ValueToColor(double normalized)
+    {
+        byte r, g, b;
+        if (normalized < 0.5)
+        {
+            // Blue to Green
+            double t = normalized * 2.0;
+            r = 0;
+            g = (byte)(t * 255);
+            b = (byte)((1.0 - t) * 255);
+        }
+        else
+        {
+            // Green to Red
+            double t = (normalized - 0.5) * 2.0;
+            r = (byte)(t * 255);
+            g = (byte)((1.0 - t) * 255);
+            b = 0;
+        }
+        return (r, g, b);
+    }
+
+    static void Demonstrate8Bit()
+    {
+        Console.WriteLine($"\n{COLOR_BOLD}=== 8-BIT UNSIGNED (0-255) ==={COLOR_RESET}");
+        Console.WriteLine("256 possible values - Coarse granularity\n");
+
+        ushort[] values = { 10, 20, 30, 40, 50, 60, 70, 80, 90, 100, 127, 255 };
+
+        foreach (var val in values)
+        {
+            double normalized = val / 255.0;
+            var (r, g, b) = ValueToColor(normalized);
+
+            Console.Write($"  {val,3}: ");
+            PrintBgRGB(r, g, b, "    ");
+            Console.WriteLine($" RGB({r,3},{g,3},{b,3})");
+        }
+    }
+
+    static void Demonstrate16Bit()
+    {
+        Console.WriteLine($"\n{COLOR_BOLD}=== 16-BIT UNSIGNED (0-65535) ==={COLOR_RESET}");
+        Console.WriteLine("65,536 possible values - 256x finer than 8-bit\n");
+
+        uint[] values = { 10, 20, 30, 40, 50, 60, 70, 80, 90, 100, 3000, 6000, 9000, 12000, 15000, 18000, 21000, 24000, 27000, 32767, 65535 };
+
+        foreach (var val in values)
+        {
+            double normalized = val / 65535.0;
+            var (r, g, b) = ValueToColor(normalized);
+
+            Console.Write($"  {val,5}: ");
+            PrintBgRGB(r, g, b, "    ");
+            Console.WriteLine($" RGB({r,3},{g,3},{b,3})");
+        }
+    }
+
+    static void Demonstrate32Bit()
+    {
+        Console.WriteLine($"\n{COLOR_BOLD}=== 32-BIT UNSIGNED (0-4294967295) ==={COLOR_RESET}");
+        Console.WriteLine("4,294,967,296 possible values - 65,536x finer than 16-bit\n");
+
+        ulong[] values = { 10, 20, 30, 40, 50, 60, 70, 80, 90, 100, 250000000, 500000000, 1000000000, 1500000000, 2000000000,
+                          2147483647, 4294967295 };
+
+        foreach (var val in values)
+        {
+            double normalized = val / 4294967295.0;
+            var (r, g, b) = ValueToColor(normalized);
+
+            Console.Write($"  {val,10}: ");
+            PrintBgRGB(r, g, b, "    ");
+            Console.WriteLine($" RGB({r,3},{g,3},{b,3})");
+        }
+    }
+
+    static void Demonstrate64Bit()
+    {
+        Console.WriteLine($"\n{COLOR_BOLD}=== 64-BIT UNSIGNED (0-18446744073709551615) ==={COLOR_RESET}");
+        Console.WriteLine("18,446,744,073,709,551,616 possible values - 4,294,967,296x finer than 32-bit\n");
+
+        ulong[] values = { 10, 20, 30, 40, 50, 60, 70, 80, 90, 100, 625000000000000000, 1250000000000000000, 2500000000000000000, 5000000000000000000,
+                          9223372036854775807, 18446744073709551615 };
+
+        foreach (var val in values)
+        {
+            double normalized = val / 18446744073709551615.0;
+            var (r, g, b) = ValueToColor(normalized);
+
+            Console.Write($"  {val,20}: ");
+            PrintBgRGB(r, g, b, "    ");
+            Console.WriteLine($" RGB({r,3},{g,3},{b,3})");
+        }
+    }
+
     static void Main()
     {
         // This signifies a number of basic concepts that would be included in one program, 
@@ -42,6 +146,11 @@ class Program
         long maxSigned64 = 9223372036854775807;
         ulong minUnsigned64 = 0;
         ulong maxUnsigned64 = 18446744073709551615;
+
+        Demonstrate8Bit();
+        Demonstrate16Bit();
+        Demonstrate32Bit();
+        Demonstrate64Bit();
         
         Console.WriteLine ( "64 bit signed int range: {0} {1}", minSigned64, maxSigned64 );
         Console.WriteLine ( "64 bit unsigned int range: {0} {1}", minUnsigned64, maxUnsigned64 );
@@ -91,7 +200,7 @@ class Program
         Console.WriteLine ( "Out of range value: {0}", outOfRange );
         
         Console.WriteLine ( "Note that adding a small amount to float max is lost in the precision, so using infinity." );
-        float outOfRangeFloat = -float.MaxValue - float.MaxValue; //float.PositiveInfinity;
+        float outOfRangeFloat = float.MaxValue + float.MaxValue; //float.PositiveInfinity;
         double outOfRangeDouble = -double.MaxValue - double.MaxValue;
         
         Console.WriteLine ( "Out of range float and double: {0} {1}", outOfRangeFloat, outOfRangeDouble );

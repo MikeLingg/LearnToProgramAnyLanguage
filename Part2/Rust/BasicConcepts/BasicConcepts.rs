@@ -1,3 +1,89 @@
+const COLOR_RESET: &str = "\x1b[0m";
+const COLOR_BOLD: &str = "\x1b[1m";
+
+fn print_bg_rgb(r: u8, g: u8, b: u8, text: &str) {
+    print!("\x1b[48;2;{};{};{}m{}{}", r, g, b, text, COLOR_RESET);
+}
+
+fn value_to_color(normalized: f64) -> (u8, u8, u8) {
+    if normalized < 0.5 {
+        // Blue to Green
+        let t = normalized * 2.0;
+        (0, (t * 255.0) as u8, ((1.0 - t) * 255.0) as u8)
+    } else {
+        // Green to Red
+        let t = (normalized - 0.5) * 2.0;
+        ((t * 255.0) as u8, ((1.0 - t) * 255.0) as u8, 0)
+    }
+}
+
+fn demonstrate_8bit() {
+    println!("\n{COLOR_BOLD}=== 8-BIT UNSIGNED (0-255) ==={COLOR_RESET}");
+    println!("256 possible values - Coarse granularity\n");
+    
+    let values: [u16; 12] = [10, 20, 30, 40, 50, 60, 70, 80, 90, 100, 127, 255];
+    
+    for val in values.iter() {
+        let normalized = *val as f64 / 255.0;
+        let (r, g, b) = value_to_color(normalized);
+        
+        print!("  {:3}: ", val);
+        print_bg_rgb(r, g, b, "    ");
+        println!(" RGB({:3},{:3},{:3})", r, g, b);
+    }
+}
+
+fn demonstrate_16bit() {
+    println!("\n{COLOR_BOLD}=== 16-BIT UNSIGNED (0-65535) ==={COLOR_RESET}");
+    println!("65,536 possible values - 256x finer than 8-bit\n");
+    
+    let values: [u32; 21] = [10, 20, 30, 40, 50, 60, 70, 80, 90, 100, 3000, 6000, 9000, 12000, 15000, 18000, 21000, 24000, 27000, 32767, 65535];
+    
+    for val in values.iter() {
+        let normalized = *val as f64 / 65535.0;
+        let (r, g, b) = value_to_color(normalized);
+        
+        print!("  {:5}: ", val);
+        print_bg_rgb(r, g, b, "    ");
+        println!(" RGB({:3},{:3},{:3})", r, g, b);
+    }
+}
+
+fn demonstrate_32bit() {
+    println!("\n{COLOR_BOLD}=== 32-BIT UNSIGNED (0-4294967295) ==={COLOR_RESET}");
+    println!("4,294,967,296 possible values - 65,536x finer than 16-bit\n");
+    
+    let values: [u64; 17] = [10, 20, 30, 40, 50, 60, 70, 80, 90, 100, 250000000, 500000000, 1000000000, 1500000000, 2000000000,
+                             2147483647, 4294967295];
+    
+    for val in values.iter() {
+        let normalized = *val as f64 / 4294967295.0;
+        let (r, g, b) = value_to_color(normalized);
+        
+        print!("  {:10}: ", val);
+        print_bg_rgb(r, g, b, "    ");
+        println!(" RGB({:3},{:3},{:3})", r, g, b);
+    }
+}
+
+fn demonstrate_64bit() {
+    println!("\n{COLOR_BOLD}=== 64-BIT UNSIGNED (0-18446744073709551615) ==={COLOR_RESET}");
+    println!("18,446,744,073,709,551,616 possible values - 4,294,967,296x finer than 32-bit\n");
+    
+    let values: [u64; 16] = [10, 20, 30, 40, 50, 60, 70, 80, 90, 100, 625000000000000000, 1250000000000000000, 2500000000000000000, 5000000000000000000,
+                             9223372036854775807, 18446744073709551615];
+    
+    for val in values.iter() {
+        let normalized = *val as f64 / 18446744073709551615.0;
+        let (r, g, b) = value_to_color(normalized);
+        
+        print!("  {:20}: ", val);
+        print_bg_rgb(r, g, b, "    ");
+        println!(" RGB({:3},{:3},{:3})", r, g, b);
+    }
+}
+
+
 fn main()
 {
     // This signifies a number of basic concepts that would be included in one program, 
@@ -40,6 +126,11 @@ fn main()
     
     println!("64 bit signed int range: {} {}", min_signed64, max_signed64);
     println!("64 bit unsigned int range: {} {}", min_unsigned64, max_unsigned64);
+
+    demonstrate_8bit();
+    demonstrate_16bit();
+    demonstrate_32bit();
+    demonstrate_64bit();
     
     let float_max: f32 = f32::MAX;
     let float_min: f32 = f32::MIN_POSITIVE;
@@ -87,7 +178,7 @@ fn main()
     
     println!("Note that adding a small amount to float max is lost in the precision, so we doubled MAX.");
     let out_of_range_float: f32 = f32::MAX + f32::MAX;
-    let out_of_range_double: f64 = f64::MAX + f64::MAX;
+    let out_of_range_double: f64 = -f64::MAX - f64::MAX;
     
     println!("Out of range float and double: {} {}", out_of_range_float, out_of_range_double);
 

@@ -3,6 +3,109 @@
 #include <stdbool.h>
 #include <stdio.h>
 
+/* ANSI 24-bit (RGB) color code format: \x1b[38;2;R;G;Bm */
+#define COLOR_RESET "\x1b[0m"
+#define COLOR_BOLD  "\x1b[1m"
+
+void print_bg_rgb_color(uint8_t r, uint8_t g, uint8_t b, const char* text) {
+    printf("\x1b[48;2;%d;%d;%dm%s" COLOR_RESET, r, g, b, text);
+}
+
+/* Map a value in range [0.0, 1.0] to RGB color gradient (blue -> green -> red) */
+void value_to_color(double normalized, uint8_t* r, uint8_t* g, uint8_t* b) {
+    if (normalized < 0.5) {
+        /* Blue to Green */
+        double t = normalized * 2.0;
+        *r = 0;
+        *g = (uint8_t)(t * 255);
+        *b = (uint8_t)((1.0 - t) * 255);
+    } else {
+        /* Green to Red */
+        double t = (normalized - 0.5) * 2.0;
+        *r = (uint8_t)(t * 255);
+        *g = (uint8_t)((1.0 - t) * 255);
+        *b = 0;
+    }
+}
+
+void demonstrate_8bit() {
+    printf("\n%s=== 8-BIT UNSIGNED (0-255) ===%s\n", COLOR_BOLD, COLOR_RESET);
+    printf("256 possible values - Coarse granularity\n\n");
+    
+    uint16_t values[] = {10, 20, 30, 40, 50, 60, 70, 80, 90, 100, 127, 255};
+    int count = sizeof(values) / sizeof(values[0]);
+    
+    for (int i = 0; i < count; i++) {
+        uint16_t val = values[i];
+        double normalized = (double)val / 255.0;
+        uint8_t r, g, b;
+        value_to_color(normalized, &r, &g, &b);
+        
+        printf("  %3d: ", val);
+        print_bg_rgb_color(r, g, b, "    ");
+        printf(" RGB(%3d,%3d,%3d)\n", r, g, b);
+    }
+}
+
+void demonstrate_16bit() {
+    printf("\n%s=== 16-BIT UNSIGNED (0-65535) ===%s\n", COLOR_BOLD, COLOR_RESET);
+    printf("65,536 possible values - 256x finer than 8-bit\n\n");
+    
+    uint32_t values[] = {10, 20, 30, 40, 50, 60, 70, 80, 90, 100, 3000, 6000, 9000, 12000, 15000, 18000, 21000, 24000, 27000, 32767, 65535};
+    int count = sizeof(values) / sizeof(values[0]);
+    
+    for (int i = 0; i < count; i++) {
+        uint32_t val = values[i];
+        double normalized = (double)val / 65535.0;
+        uint8_t r, g, b;
+        value_to_color(normalized, &r, &g, &b);
+        
+        printf("  %5d: ", val);
+        print_bg_rgb_color(r, g, b, "    ");
+        printf(" RGB(%3d,%3d,%3d)\n", r, g, b);
+    }
+}
+
+void demonstrate_32bit() {
+    printf("\n%s=== 32-BIT UNSIGNED (0-4294967295) ===%s\n", COLOR_BOLD, COLOR_RESET);
+    printf("4,294,967,296 possible values - 65,536x finer than 16-bit\n\n");
+    
+    uint64_t values[] = {10, 20, 30, 40, 50, 60, 70, 80, 90, 100, 250000000, 500000000, 1000000000, 1500000000, 2000000000,
+                         2147483647ULL, 4294967295ULL};
+    int count = sizeof(values) / sizeof(values[0]);
+    
+    for (int i = 0; i < count; i++) {
+        uint64_t val = values[i];
+        double normalized = (double)val / 4294967295.0;
+        uint8_t r, g, b;
+        value_to_color(normalized, &r, &g, &b);
+        
+        printf("  %10llu: ", (unsigned long long)val);
+        print_bg_rgb_color(r, g, b, "    ");
+        printf(" RGB(%3d,%3d,%3d)\n", r, g, b);
+    }
+}
+
+void demonstrate_64bit() {
+    printf("\n%s=== 64-BIT UNSIGNED (0-18446744073709551615) ===%s\n", COLOR_BOLD, COLOR_RESET);
+    printf("18,446,744,073,709,551,616 possible values - 4,294,967,296x finer than 32-bit\n\n");
+    
+    uint64_t values[] = {10, 20, 30, 40, 50, 60, 70, 80, 90, 100, 625000000000000000ULL, 1250000000000000000ULL, 2500000000000000000ULL, 5000000000000000000ULL,
+                         9223372036854775807ULL, 18446744073709551615ULL};
+    int count = sizeof(values) / sizeof(values[0]);
+    
+    for (int i = 0; i < count; i++) {
+        uint64_t val = values[i];
+        double normalized = (double)val / 18446744073709551615.0;
+        uint8_t r, g, b;
+        value_to_color(normalized, &r, &g, &b);
+        
+        printf("  %20llu: ", (unsigned long long)val);
+        print_bg_rgb_color(r, g, b, "    ");
+        printf(" RGB(%3d,%3d,%3d)\n", r, g, b);
+    }
+}
+
 int main()
 {
     // This signifies a number of basic concepts that would be included in one program, 
@@ -47,6 +150,11 @@ int main()
     printf ( "64 bit signed int range: %lld %lld\n", minSigned64, maxSigned64 );
     printf ( "64 bit unsigned int range: %llu %llu\n", minUnsigned64, maxUnsigned64 );
     
+    demonstrate_8bit();
+    demonstrate_16bit();
+    demonstrate_32bit();
+    demonstrate_64bit();
+
     float floatMax = FLT_MAX;
     float floatMin = FLT_MIN;
     
