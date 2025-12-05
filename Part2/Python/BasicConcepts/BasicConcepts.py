@@ -10,7 +10,7 @@ def main():
     
     print ( "Boolean range:", falseBoolean, trueBoolean )
     
-    print ( "Note: Python handles any range of integers automatically, no overflow issues like C++ and other typed languages." )
+    print ( "Note: Python handles any range of integers automatically, any number of any size is valid unlike C++ and other typed languages." )
 
     veryLargeInt = 1234567890123456789012345678901234567890
     veryNegativeInt = -1234567890123456789012345678901234567890
