@@ -25,13 +25,21 @@ main:
     ; This maze program does not necessarily progress the program,
     ; but provides a construct we will use eventually in the program.
     
+    ; Initialize constants - const int LEFT = 0, UP = 1, RIGHT = 2, DOWN = 3
+    mov dword [rbp-192], 0        ; LEFT = 0
+    mov dword [rbp-188], 1        ; UP = 1
+    mov dword [rbp-184], 2        ; RIGHT = 2
+    mov dword [rbp-180], 3        ; DOWN = 3
+    
     ; Initialize mazeWalls array - char mazeWalls[][3]
     ; mazeWalls[0] = { '|', ' ', '\0' }
-    mov word [rbp-175], 0x207C    ; '|', ' '
+    mov word [rbp-175], 0x7C    ; '|'
+    mov word [rbp-174], 0x20    ; ' '
     mov byte [rbp-173], 0         ; '\0'
     
     ; mazeWalls[1] = { ' ', ' ', ' ' }
-    mov word [rbp-172], 0x2020    ; ' ', ' '
+    mov word [rbp-172], 0x20    ; ' '
+    mov word [rbp-171], 0x20    ; ' '
     mov byte [rbp-170], 0x20      ; ' '
     
     ; mazeWalls[2] = { ' ', '|', '\0' }
@@ -45,12 +53,6 @@ main:
     ; mazeWalls[4] = { '|', ' ', '\0' }
     mov word [rbp-163], 0x207C    ; '|', ' '
     mov byte [rbp-161], 0         ; '\0'
-    
-    ; Initialize constants - const int LEFT = 0, UP = 1, RIGHT = 2, DOWN = 3
-    mov dword [rbp-192], 0        ; LEFT = 0
-    mov dword [rbp-188], 1        ; UP = 1
-    mov dword [rbp-184], 2        ; RIGHT = 2
-    mov dword [rbp-180], 3        ; DOWN = 3
     
     ; Initialize neighborLookup array - int neighborLookup[][4]
     ; neighborLookup[0] = { -1, -1, -1, 3 } // Cell 0
@@ -368,11 +370,18 @@ main:
     mov edi, 10
     call putchar
     
-    ; So take cell number 4 and see what rooms are around it,
+; So take cell number 4 and see what rooms are around it,
     ; cell 3 is to the left and cell 1 is up, but walls are right and down.
     
     ; printf( "Cell to left of cell 4 is: %d\n", neighborLookup[ 4 ][ LEFT ] );
-    mov eax, [rbp-96]             ; neighborLookup[4][LEFT]
+    mov eax, 4                    ; Cell index = 4
+    cdqe                          ; Sign-extend to rax
+    lea rdx, [rax*4]              ; rdx = 4 * 4 = 16 (offset for row 4)
+    mov eax, [rbp-192]            ; Load LEFT constant (0)
+    cdqe                          ; Sign-extend to rax
+    add rax, rdx                  ; Add column offset to row offset
+    lea rdx, [rbp-160]            ; Load base address of neighborLookup
+    mov eax, [rdx + rax*4]        ; Access neighborLookup[4][LEFT]
     mov esi, eax
     lea rax, [rel LC6]
     mov rdi, rax
@@ -380,7 +389,14 @@ main:
     call printf
     
     ; printf( "Cell to up of cell 4 is: %d\n", neighborLookup[ 4 ][ UP ] );
-    mov eax, [rbp-92]             ; neighborLookup[4][UP]
+    mov eax, 4                    ; Cell index = 4
+    cdqe                          ; Sign-extend to rax
+    lea rdx, [rax*4]              ; rdx = 4 * 4 = 16 (offset for row 4)
+    mov eax, [rbp-188]            ; Load UP constant (1)
+    cdqe                          ; Sign-extend to rax
+    add rax, rdx                  ; Add column offset to row offset
+    lea rdx, [rbp-160]            ; Load base address of neighborLookup
+    mov eax, [rdx + rax*4]        ; Access neighborLookup[4][UP]
     mov esi, eax
     lea rax, [rel LC7]
     mov rdi, rax
@@ -388,7 +404,14 @@ main:
     call printf
     
     ; printf( "Cell to right of cell 4 is: %d\n", neighborLookup[ 4 ][ RIGHT ] );
-    mov eax, [rbp-88]             ; neighborLookup[4][RIGHT]
+    mov eax, 4                    ; Cell index = 4
+    cdqe                          ; Sign-extend to rax
+    lea rdx, [rax*4]              ; rdx = 4 * 4 = 16 (offset for row 4)
+    mov eax, [rbp-184]            ; Load RIGHT constant (2)
+    cdqe                          ; Sign-extend to rax
+    add rax, rdx                  ; Add column offset to row offset
+    lea rdx, [rbp-160]            ; Load base address of neighborLookup
+    mov eax, [rdx + rax*4]        ; Access neighborLookup[4][RIGHT]
     mov esi, eax
     lea rax, [rel LC8]
     mov rdi, rax
@@ -396,13 +419,20 @@ main:
     call printf
     
     ; printf( "Cell to down of cell 4 is: %d\n", neighborLookup[ 4 ][ DOWN ] );
-    mov eax, [rbp-84]             ; neighborLookup[4][DOWN]
+    mov eax, 4                    ; Cell index = 4
+    cdqe                          ; Sign-extend to rax
+    lea rdx, [rax*4]              ; rdx = 4 * 4 = 16 (offset for row 4)
+    mov eax, [rbp-180]            ; Load DOWN constant (3)
+    cdqe                          ; Sign-extend to rax
+    add rax, rdx                  ; Add column offset to row offset
+    lea rdx, [rbp-160]            ; Load base address of neighborLookup
+    mov eax, [rdx + rax*4]        ; Access neighborLookup[4][DOWN]
     mov esi, eax
     lea rax, [rel LC9]
     mov rdi, rax
     mov eax, 0
     call printf
-    
+        
     ; return 0;
     mov eax, 0
     

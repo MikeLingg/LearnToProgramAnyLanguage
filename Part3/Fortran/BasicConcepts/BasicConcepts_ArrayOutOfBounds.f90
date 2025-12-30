@@ -15,8 +15,7 @@ program main
    testStructInstance%intArray = 0
    testStructInstance%myInt = 0
 
-   outOfBoundsIndex = 10
-   outOfBoundsIndex = outOfBoundsIndex + 1
+   outOfBoundsIndex = 11
 
    ! In Fortran, buffer overflows are prevented by bounds checking (when enabled)
    ! This code demonstrates what would happen

@@ -19,7 +19,7 @@ procedure Main is
    RIGHT : constant Integer := 3;
    DOWN : constant Integer := 4;
    
-   type Neighbor_Lookup_Array is array ( 1 .. 9, 1 .. 4 ) of Integer;
+   type Neighbor_Lookup_Array is array ( 0 .. 8, 1 .. 4 ) of Integer;
    neighborLookup : Neighbor_Lookup_Array := (
       ( -1, -1, -1, 3 ),  -- Cell 0
       ( -1, -1, 2, 4 ),   -- Cell 1
@@ -100,16 +100,16 @@ begin
    -- So take cell number 4 and see what rooms are around it, 
    -- cell 3 is to the left and cell 1 is up, but walls are right and down.
    Put ( "Cell to left of cell 4 is: " );
-   Put ( neighborLookup( 5, LEFT ), Width => 0 );
+   Put ( neighborLookup( 4, LEFT ), Width => 0 );
    New_Line;
    Put ( "Cell to up of cell 4 is: " );
-   Put ( neighborLookup( 5, UP ), Width => 0 );
+   Put ( neighborLookup( 4, UP ), Width => 0 );
    New_Line;
    Put ( "Cell to right of cell 4 is: " );
-   Put ( neighborLookup( 5, RIGHT ), Width => 0 );
+   Put ( neighborLookup( 4, RIGHT ), Width => 0 );
    New_Line;
    Put ( "Cell to down of cell 4 is: " );
-   Put ( neighborLookup( 5, DOWN ), Width => 0 );
+   Put ( neighborLookup( 4, DOWN ), Width => 0 );
    New_Line;
 
 end Main;

@@ -32,7 +32,7 @@ def main ():
     testScores[ 3 ] = 99
     print ( f"Fourth test score is now { testScores[ 3 ] }" )
 
-    # set bookNumber at index third entry to 75681
+    # set bookNumber at third entry to 75681
     bookIndex = 2
     bookNumber[ bookIndex ] = 75681
     print ( f"Third book number is now { bookNumber[ bookIndex ] }" )
@@ -87,6 +87,7 @@ def main ():
     # Python doesn't automatically detect null terminator, so we need to find it manually
     nullIndex = myString.index( '\0' ) if '\0' in myString else len( myString )
     print ( ''.join( myString[ :nullIndex ] ) )  # Print up to null terminator
+    #print ( str ( myString ) )
 
     # A more proper string built from individual characters.
     myString1 = [ 'H', 'e', 'l', 'l', 'o', ' ', 'W', 'o', 'r', 'l', 'd', '.' ]
@@ -120,9 +121,9 @@ def main ():
     # Note: the actual implementation of this code will use some advanced 
     # techniques that will not be described, only the results of the code observed.
     print ( "twoDArray memory location as flat data: ", end='' )
-    for i in range ( 4 ):
-        for j in range ( 4 ):
-            print ( twoDArray[ i ][ j ], end='' )
+    for rowIndex in range ( 4 ):
+        for columnIndex in range ( 4 ):
+            print ( twoDArray[ rowIndex ][ columnIndex ], end='' )
     print ()
 
     # Note these are not defined as constant, but the capital naming 
@@ -135,6 +136,10 @@ def main ():
     MAGENTA = 5
     WHITE = 6
 
+    RGB_RED = 0
+    RGB_GREEN = 1
+    RGB_BLUE = 2
+
     # Columns: Red Intensity, Green Intensity, Blue Intensity
     colorTable = [
         [ 255, 0,   0   ],  # Red
@@ -146,7 +151,7 @@ def main ():
         [ 255, 255, 255 ]   # White = Red + Green + Blue
     ]
 
-    print ( f"CYAN color values: { colorTable[ CYAN ][ 0 ] } { colorTable[ CYAN ][ 1 ] } { colorTable[ CYAN ][ 2 ] }" )
+    print ( f"CYAN color values: { colorTable[ WHITE ][ RGB_RED ] } { colorTable[ WHITE ][ RGB_GREEN ] } { colorTable[ WHITE ][ RGB_BLUE ] }" )
 
 if __name__ == "__main__":
     main ()

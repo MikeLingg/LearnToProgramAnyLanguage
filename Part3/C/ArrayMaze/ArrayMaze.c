@@ -16,7 +16,7 @@ int main() {
     const int RIGHT = 2;
     const int DOWN = 3;
     
-    int neighborLookup[ ][ 4 ] = {
+    int neighborLookup[ 9 ][ 4 ] = {
         { -1, -1, -1, 3 }, // Cell 0
         { -1, -1, 2, 4 },  // Cell 1
         { 1, -1, -1, 5 },  // Cell 2

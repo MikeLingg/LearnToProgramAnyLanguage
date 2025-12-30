@@ -5,11 +5,6 @@ import (
 	"unsafe"
 )
 
-type TestStruct struct {
-	intArray [ 10 ]int
-	myInt    int
-}
-
 func main () {
 	// Note the structured example is assuming zero based indexing.
 	// One based index languages will differ.
@@ -116,29 +111,6 @@ func main () {
 	myString2 := "Hello World."
 	fmt.Printf ( "%s\n", myString2 )
 
-	// In Go, buffer overflows are prevented by bounds checking in safe code
-	// This code demonstrates what would happen in unsafe code
-	// The following would panic in safe Go:
-	// testStruct.intArray[ 10 ] = 55  // This would panic with index out of bounds
-
-	// Using unsafe code to demonstrate buffer overflow (dangerous!)
-	testStruct := TestStruct{ }
-	
-	// UNSAFE: This demonstrates the dangerous buffer overflow
-	// Convert struct to byte slice to access raw memory
-	intArrayPtr := ( *[ 11 ]int )( unsafe.Pointer( &testStruct.intArray[ 0 ] ) )
-	
-	// This is the dangerous operation - writing beyond array bounds
-	intArrayPtr[ 10 ] = 55 // This writes to myInt's memory location!
-
-	// myInt should now be corrupted due to buffer overflow
-	fmt.Printf ( "myInt value: %d\n", testStruct.myInt )
-
-	testStruct.myInt = testStruct.myInt + 1
-
-	// Reading the out-of-bounds location shows the change
-	fmt.Printf ( "Out of bounds array value: %d\n", intArrayPtr[ 10 ] )
-
 	// 2D Array (Go uses true multidimensional arrays)
 	var twoDArray [ 4 ][ 4 ]byte
 	twoDArray[ 0 ][ 0 ] = '0'
@@ -177,6 +149,10 @@ func main () {
 	const MAGENTA = 5
 	const WHITE = 6
 
+	const RGB_RED = 0
+	const RGB_GREEN = 1
+	const RGB_BLUE = 2
+
 	// Columns: Red Intensity, Green Intensity, Blue Intensity
 	colorTable := [ 7 ][ 3 ]int{
 		{ 255, 0, 0 },     // Red
@@ -188,6 +164,6 @@ func main () {
 		{ 255, 255, 255 }, // White = Red + Green + Blue
 	}
 
-	fmt.Printf ( "CYAN color values: %d %d %d\n", colorTable[ CYAN ][ 0 ],
-		colorTable[ CYAN ][ 1 ], colorTable[ CYAN ][ 2 ] )
+	fmt.Printf ( "CYAN color values: %d %d %d\n", colorTable[ CYAN ][ RGB_RED ],
+		colorTable[ CYAN ][ RGB_GREEN ], colorTable[ CYAN ][ RGB_BLUE ] )
 }

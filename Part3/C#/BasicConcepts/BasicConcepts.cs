@@ -138,6 +138,10 @@ class Program
         const int CYAN = 4;
         const int MAGENTA = 5;
         const int WHITE = 6;
+
+        const int RGB_RED = 0;
+        const int RGB_GREEN = 1;
+        const int RGB_BLUE = 2;
         
         // Columns: Red Intensity, Green Intensity, Blue Intensity
         int[ , ] colorTable = {
@@ -150,6 +154,6 @@ class Program
             { 255, 255, 255 }   // White = Red + Green + Blue
         };
         
-        Console.WriteLine ( $"CYAN color values: { colorTable[ CYAN, 0 ] } { colorTable[ CYAN, 1 ] } { colorTable[ CYAN, 2 ] }" );
+        Console.WriteLine ( $"CYAN color values: { colorTable[ CYAN, RGB_RED ] } { colorTable[ CYAN, RGB_GREEN ] } { colorTable[ CYAN, RGB_BLUE ] }" );
     }
 }

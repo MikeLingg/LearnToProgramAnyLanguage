@@ -6,7 +6,7 @@ int main() {
     // One based index languages will differ.
     // Also note how some references are array location, with ranges from first to last, 
     // while indexes being zero based are 0 to size - 1.
-    
+
     int temperatures[ ] = { 55, 58, 60, 65, 70, 73, 76, 79, 81, 83, 84, 85, 85, 84, 83, 81, 78, 75, 72, 69, 65, 62, 59, 57 };
     int testScores[ ] = { 95, 75, 86, 86, 78, 94 };
     int bookNumber[ ] = { 12495, 35786, 15863, 84962, 42697 };
@@ -18,7 +18,7 @@ int main() {
     
     // 2nd entry (0-based index 1)
     int bookTwoIndex = 1;
-    printf( "Second book index is %d\n", bookNumber[ bookTwoIndex ] );
+    printf( "Second book is %d\n", bookNumber[ bookTwoIndex ] );
     
     // First and last 0 based indexes, 0 and array size - 1.
     int hourCount = 24;
@@ -35,7 +35,7 @@ int main() {
     testScores[ 3 ] = 99;
     printf( "Fourth test score is now %d\n", testScores[ 3 ] );
     
-    // set bookNumber at index third entry to 75681
+    // set bookNumber at third entry to 75681
     int bookIndex = 2;
     bookNumber[ bookIndex ] = 75681;
     printf( "Third book number is now %d\n", bookNumber[ bookIndex ] );
@@ -135,10 +135,8 @@ int main() {
     // Note: the actual implementation of this code will use some advanced 
     // techniques that will not be described, only the results of the code observed.
     printf( "twoDArray memory location as flat data: " );
-    for ( int i = 0; i < 4; i++ ) {
-        for ( int j = 0; j < 4; j++ ) {
-            printf( "%c", twoDArray[ i ][ j ] );
-        }
+    for ( int i = 0; i < 16; i++ ) {
+        printf( "%c", *((char*)twoDArray + i) );
     }
     printf( "\n" );
     
@@ -151,9 +149,15 @@ int main() {
     const int CYAN = 4;
     const int MAGENTA = 5;
     const int WHITE = 6;
+    const int COLOR_COUNT = 7;
+
+    const int RGB_RED = 0;
+    const int RGB_GREEN = 1;
+    const int RGB_BLUE = 2;
+    const int RGB_COUNT = 3;
     
     // Columns: Red Intensity, Green Intensity, Blue Intensity
-    int colorTable[ 7 ][ 3 ] = {
+    int colorTable[ COLOR_COUNT ][ RGB_COUNT ] = {
         { 255, 0,   0   },  // Red
         { 0,   255, 0   },  // Green
         { 0,   0,   255 },  // Blue
@@ -163,8 +167,8 @@ int main() {
         { 255, 255, 255 }   // White = Red + Green + Blue
     };
     
-    printf( "CYAN color values: %d %d %d\n", colorTable[ CYAN ][ 0 ], 
-            colorTable[ CYAN ][ 1 ], colorTable[ CYAN ][ 2 ] );
-    
+    printf( "CYAN color values: %d %d %d\n", colorTable[ WHITE ][ RGB_RED ], 
+            colorTable[ WHITE ][ RGB_GREEN ], colorTable[ WHITE ][ RGB_BLUE ] );
+
     return 0;
 }

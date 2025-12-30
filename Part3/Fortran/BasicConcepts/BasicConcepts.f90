@@ -16,15 +16,15 @@ program main
    ! Variables for indexing
    integer :: bookTwoIndex = 2
    integer :: hourCount = 24
-   integer :: firstTemperatureIndex = 1
+   integer :: firstTemperatureIndex
    integer :: lastTemperatureIndex
-   integer :: bookIndex = 3
+   integer :: bookIndex
    integer :: largeArraySize = 10000
 
    ! Large arrays with default 1-based indexing
-   logical, dimension( 10000 ) :: largeArray
-   integer, dimension( 1000 ) :: largeArray1
-   real, dimension( 5000 ) :: largeArray2
+   logical, dimension( 10000 ) :: largeArray = .false.
+   integer, dimension( 1000 ) :: largeArray1 = 0
+   real, dimension( 5000 ) :: largeArray2 = 0.0
 
    ! Character arrays with default 1-based indexing
    character(len=1), dimension( 100 ) :: myString
@@ -34,32 +34,27 @@ program main
    character(len=12) :: myString2 = "Hello World."
 
    ! 2D Array with default 1-based indexing
-   character(len=1), dimension( 4, 4 ) :: twoDArray
+   character(len=1), dimension( 4, 5 ) :: twoDArray = ' '
+   character(len=1), dimension(16) :: flatView
 
    ! Color constants
-   integer, parameter :: RED = 0
-   integer, parameter :: GREEN = 1
-   integer, parameter :: BLUE = 2
-   integer, parameter :: YELLOW = 3
-   integer, parameter :: CYAN = 4
-   integer, parameter :: MAGENTA = 5
-   integer, parameter :: WHITE = 6
+   integer, parameter :: RED = 1
+   integer, parameter :: GREEN = 2
+   integer, parameter :: BLUE = 3
+   integer, parameter :: YELLOW = 4
+   integer, parameter :: CYAN = 5
+   integer, parameter :: MAGENTA = 6
+   integer, parameter :: WHITE = 7
+
+   integer, parameter :: RGB_RED = 1
+   integer, parameter :: RGB_GREEN = 2
+   integer, parameter :: RGB_BLUE = 3
 
    ! Color table
-   integer, dimension( 0:6, 0:2 ) :: colorTable = reshape( [ &
-      255, 0,   0,   &  ! Red
-      0,   255, 0,   &  ! Green
-      0,   0,   255, &  ! Blue
-      255, 255, 0,   &  ! Yellow = Red + Green
-      0,   255, 255, &  ! Cyan   = Green + Blue
-      255, 0,   255, &  ! Magenta = Red + Blue
-      255, 255, 255  &  ! White = Red + Green + Blue
-   ], [7, 3] )
+   integer, dimension( 7, 3 ) :: colorTable
 
    ! Loop variables
    integer :: i, j, nullIndex
-
-   lastTemperatureIndex = hourCount
 
    ! 10th entry (1-based index 10)
    write(*,'(A,I0)') "Temperature at tenth hour is ", temperatures( 10 )
@@ -69,6 +64,9 @@ program main
 
    ! 2nd entry (1-based index 2)
    write(*,'(A,I0)') "Second book index is ", bookNumber( bookTwoIndex )
+
+   firstTemperatureIndex = 1
+   lastTemperatureIndex = hourCount
 
    ! First and last 1 based indexes, 1 and array size.
    write(*,'(A,I0)') "First temperature is ", temperatures( firstTemperatureIndex )
@@ -82,7 +80,8 @@ program main
    testScores( 4 ) = 99
    write(*,'(A,I0)') "Fourth test score is now ", testScores( 4 )
 
-   ! set bookNumber at index third entry to 75681
+   ! set bookNumber at third entry to 75681
+   bookIndex = 3
    bookNumber( bookIndex ) = 75681
    write(*,'(A,I0)') "Third book number is now ", bookNumber( bookIndex )
 
@@ -112,7 +111,7 @@ program main
    largeArray2( 1 ) = 27.5
    ! set largeArray2 last entry to 58.25
    largeArray2( 5000 ) = 58.25
-   write(*,'(A,F3.1,A,F5.2)') "Third large array first and last values: ", largeArray2( 1 ), " ", &
+   write(*,'(A,F4.1,A,F5.2)') "Third large array first and last values: ", largeArray2( 1 ), " ", &
                                largeArray2( 5000 )
 
    ! Character array (Fortran style)
@@ -155,33 +154,37 @@ program main
 
    ! 2D Array
    twoDArray( 1, 1 ) = '0'
-   twoDArray( 1, 2 ) = '1'
-   twoDArray( 1, 3 ) = '2'
-   twoDArray( 1, 4 ) = '3'
-   twoDArray( 2, 1 ) = '4'
+   twoDArray( 2, 1 ) = '1'
+   twoDArray( 3, 1 ) = '2'
+   twoDArray( 4, 1 ) = '3'
+   twoDArray( 1, 2 ) = '4'
    twoDArray( 2, 2 ) = '5'
-   twoDArray( 2, 3 ) = '6'
-   twoDArray( 2, 4 ) = '7'
-   twoDArray( 3, 1 ) = '8'
-   twoDArray( 3, 2 ) = '9'
+   twoDArray( 3, 2 ) = '6'
+   twoDArray( 4, 2 ) = '7'
+   twoDArray( 1, 3 ) = '8'
+   twoDArray( 2, 3 ) = '9'
    twoDArray( 3, 3 ) = 'A'
-   twoDArray( 3, 4 ) = 'B'
-   twoDArray( 4, 1 ) = 'C'
-   twoDArray( 4, 2 ) = 'D'
-   twoDArray( 4, 3 ) = 'E'
+   twoDArray( 4, 3 ) = 'B'
+   twoDArray( 1, 4 ) = 'C'
+   twoDArray( 2, 4 ) = 'D'
+   twoDArray( 3, 4 ) = 'E'
    twoDArray( 4, 4 ) = 'F'
 
    ! Note: the actual implementation of this code will use some advanced
    ! techniques that will not be described, only the results of the code observed.
    write(*,'(A)', advance='no') "twoDArray memory location as flat data: "
-   do i = 1, 4
-      do j = 1, 4
-         write(*,'(A1)', advance='no') twoDArray( i, j )
-      end do
-   end do
-   write(*,*)
+   flatView = transfer(twoDArray, flatView)
+   write(*,'(*(A1))') flatView
 
-   write(*,'(A,I0,A,I0,A,I0)') "CYAN color values: ", colorTable( CYAN, 0 ), " ", &
-                               colorTable( CYAN, 1 ), " ", colorTable( CYAN, 2 )
+   colorTable(1,:) = [ 255,   0,   0 ]  ! Red
+   colorTable(2,:) = [   0, 255,   0 ]  ! Green
+   colorTable(3,:) = [   0,   0, 255 ]  ! Blue
+   colorTable(4,:) = [ 255, 255,   0 ]  ! Yellow = Red + Green
+   colorTable(5,:) = [   0, 255, 255 ]  ! Cyan   = Green + Blue
+   colorTable(6,:) = [ 255,   0, 255 ]  ! Magenta = Red + Blue
+   colorTable(7,:) = [ 255, 255, 255 ]  ! White = Red + Green + Blue
+
+   write(*,'(A,I0,A,I0,A,I0)') "CYAN color values: ", colorTable( CYAN, RGB_RED ), " ", &
+                               colorTable( CYAN, RGB_GREEN ), " ", colorTable( CYAN, RGB_BLUE )
 
 end program main

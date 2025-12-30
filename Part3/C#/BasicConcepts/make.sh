@@ -5,7 +5,7 @@ FileNames=("BasicConcepts" "BasicConcepts_ArrayOutOfBounds" "CompileErrors")
 for fileName in "${FileNames[@]}"; do
 
     rm -r $fileName.exe
-    mcs -out:$fileName.exe $fileName.cs
+    mcs /unsafe -out:$fileName.exe $fileName.cs
 
     if [ $? -ne 0 ]; then
         echo "Build failed for ./$fileName.exe"

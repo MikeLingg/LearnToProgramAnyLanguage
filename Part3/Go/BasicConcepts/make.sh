@@ -1,6 +1,6 @@
 #!/bin/bash
 
-FileNames=("BasicConcepts" "CompileErrors")
+FileNames=("BasicConcepts" "BasicConcepts_ArrayOutOfBounds" "CompileErrors")
 
 for fileName in "${FileNames[@]}"; do
 

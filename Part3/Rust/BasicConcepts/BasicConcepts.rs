@@ -38,20 +38,20 @@ fn main() {
     println!( "Third book number is now {}", book_number[ book_index ] );
     
     // Large arrays - Rust requires explicit initialization
-    let large_array_size = 10000;
-    let mut large_array = [ false; 10000 ];
+    const LARGE_ARRAY_SIZE : usize = 10000;
+    let mut large_array = [ false; LARGE_ARRAY_SIZE ];
     let mut large_array1 = [ 0; 1000 ];
     let mut large_array2 = [ 0.0; 5000 ];
     
-    println!( "First large array first and last initial values: {} {}", large_array[ 0 ], large_array[ large_array_size - 1 ] );
+    println!( "First large array first and last initial values: {} {}", large_array[ 0 ], large_array[ LARGE_ARRAY_SIZE - 1 ] );
     println!( "Second large array first and last initial values: {} {}", large_array1[ 0 ], large_array1[ 999 ] );
-    println!( "Third large array first and last initial values: {} {}", large_array2[ 0 ], large_array2[ 4999 ] );
+    println!( "Third large array first and last initial values: {:.1} {:.1}", large_array2[ 0 ], large_array2[ 4999 ] );
     
     // set large_array first entry to true
     large_array[ 0 ] = true;
     // set large_array last entry to false
-    large_array[ large_array_size - 1 ] = false;
-    println!( "First large array first and last values: {} {}", large_array[ 0 ], large_array[ large_array_size - 1 ] );
+    large_array[ LARGE_ARRAY_SIZE - 1 ] = false;
+    println!( "First large array first and last values: {} {}", large_array[ 0 ], large_array[ LARGE_ARRAY_SIZE - 1 ] );
     
     // set large_array1 first entry to 25
     large_array1[ 0 ] = 25;
@@ -93,33 +93,32 @@ fn main() {
     println!( "{}", my_string2 );
 
     // 2D Array
-    let mut two_d_array = [ [ '\0'; 4 ]; 4 ];
-    two_d_array[ 0 ][ 0 ] = '0';
-    two_d_array[ 0 ][ 1 ] = '1';
-    two_d_array[ 0 ][ 2 ] = '2';
-    two_d_array[ 0 ][ 3 ] = '3';
-    two_d_array[ 1 ][ 0 ] = '4';
-    two_d_array[ 1 ][ 1 ] = '5';
-    two_d_array[ 1 ][ 2 ] = '6';
-    two_d_array[ 1 ][ 3 ] = '7';
-    two_d_array[ 2 ][ 0 ] = '8';
-    two_d_array[ 2 ][ 1 ] = '9';
-    two_d_array[ 2 ][ 2 ] = 'A';
-    two_d_array[ 2 ][ 3 ] = 'B';
-    two_d_array[ 3 ][ 0 ] = 'C';
-    two_d_array[ 3 ][ 1 ] = 'D';
-    two_d_array[ 3 ][ 2 ] = 'E';
-    two_d_array[ 3 ][ 3 ] = 'F';
+    let mut two_d_array = [ [ 0; 4 ]; 4 ];
+    two_d_array[ 0 ][ 0 ] = 0;
+    two_d_array[ 0 ][ 1 ] = 1;
+    two_d_array[ 0 ][ 2 ] = 2;
+    two_d_array[ 0 ][ 3 ] = 3;
+    two_d_array[ 1 ][ 0 ] = 4;
+    two_d_array[ 1 ][ 1 ] = 5;
+    two_d_array[ 1 ][ 2 ] = 6;
+    two_d_array[ 1 ][ 3 ] = 7;
+    two_d_array[ 2 ][ 0 ] = 8;
+    two_d_array[ 2 ][ 1 ] = 9;
+    two_d_array[ 2 ][ 2 ] = 10;
+    two_d_array[ 2 ][ 3 ] = 11;
+    two_d_array[ 3 ][ 0 ] = 12;
+    two_d_array[ 3 ][ 1 ] = 13;
+    two_d_array[ 3 ][ 2 ] = 14;
+    two_d_array[ 3 ][ 3 ] = 15;
     
-    // Note: the actual implementation of this code will use some advanced 
-    // techniques that will not be described, only the results of the code observed.
-    print!( "twoDArray memory location as flat data: " );
-    for i in 0..4 {
-        for j in 0..4 {
-            print!( "{}", two_d_array[ i ][ j ] );
-        }
-    }
-    println!();
+    let bytes: &[i32] = unsafe {
+        std::slice::from_raw_parts(
+            two_d_array.as_ptr() as *const i32,
+            std::mem::size_of_val(&two_d_array) / 4
+        )
+    };
+
+    println!("{:?}", bytes);
     
     // Note these are not defined as constant, but the capital naming 
     // indicates the values should not change.
@@ -130,6 +129,10 @@ fn main() {
     const CYAN: usize = 4;
     const MAGENTA: usize = 5;
     const WHITE: usize = 6;
+
+    const RGB_RED: usize = 0;
+    const RGB_GREEN: usize = 1;
+    const RGB_BLUE: usize = 2;
     
     // Columns: Red Intensity, Green Intensity, Blue Intensity
     let color_table = [
@@ -142,6 +145,6 @@ fn main() {
         [ 255, 255, 255 ]   // White = Red + Green + Blue
     ];
     
-    println!( "CYAN color values: {} {} {}", color_table[ CYAN ][ 0 ], 
-              color_table[ CYAN ][ 1 ], color_table[ CYAN ][ 2 ] );
+    println!( "CYAN color values: {} {} {}", color_table[ MAGENTA ][ RGB_RED ], 
+              color_table[ MAGENTA ][ RGB_GREEN ], color_table[ MAGENTA ][ RGB_BLUE ] );
 }

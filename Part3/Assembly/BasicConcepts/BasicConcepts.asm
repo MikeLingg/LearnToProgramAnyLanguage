@@ -12,7 +12,7 @@ section .data
     bookTwoIndex dd 1
     hourCount dd 24
     firstTemperatureIndex dd 0
-    lastTemperatureIndex dd 23
+    lastTemperatureIndex dd 0 ; Will calculate the last index
     bookIndex dd 2
     largeArraySize dd 10000
     
@@ -44,6 +44,13 @@ section .data
     CYAN equ 4
     MAGENTA equ 5
     WHITE equ 6
+
+    RGB_RED equ 0
+    RGB_GREEN equ 1
+    RGB_BLUE equ 2
+
+    RGB_COLUMN_COUNT equ 3
+    VALUE_SIZE equ 4
     
     ; Color table - 7 rows x 3 columns of 32-bit integers
     colorTable dd 255, 0,   0,     ; Red
@@ -104,6 +111,11 @@ _start:
     mov esi, [temperatures + eax*4]
     mov rdi, msg_temp_first
     call printf
+
+    ; Calculate last temperature index (hourCount - 1)
+    mov eax, [hourCount]         ; Load hourCount (24)
+    dec eax                      ; Subtract 1 to get last index (23)
+    mov [lastTemperatureIndex], eax  ; Store in lastTemperatureIndex variable
     
     ; Last temperature - temperatures[lastTemperatureIndex]
     mov eax, [lastTemperatureIndex]
@@ -123,7 +135,7 @@ _start:
     mov rdi, msg_score_now
     call printf
     
-    ; Set bookNumber at index third entry to 75681
+    ; Set bookNumber at third entry to 75681
     mov eax, [bookIndex]
     mov dword [bookNumber + eax*4], 75681
     mov esi, [bookNumber + eax*4]
@@ -131,16 +143,25 @@ _start:
     call printf
     
     ; Large arrays - show initial values (garbage)
-    mov esi, 0  ; largeArray[0] - treating as int for display
-    mov eax, [largeArraySize]
-    dec eax
-    mov edx, 0  ; largeArray[largeArraySize-1]
+    mov eax, 0                          ; Index 0
+    mov esi, [largeArray + eax]       ; largeArray[0] - load actual value
+    mov eax, [largeArraySize]           ; Load array size
+    dec eax                             ; Calculate last index (size - 1)
+    mov edx, [largeArray + eax]       ; largeArray[largeArraySize-1] - load actual value
     mov rdi, msg_large_init
     call printf
     
     mov esi, [largeArray1]
     mov edx, [largeArray1 + 999*4]
     mov rdi, msg_large_init2
+    call printf
+
+    ; Large array 2 - floating point values
+    movsd xmm0, [largeArray2]           ; largeArray2[0] - first double
+    mov eax, 5000                       ; Size of largeArray2
+    dec eax                             ; Calculate last index (4999)
+    movsd xmm1, [largeArray2 + eax*8]   ; largeArray2[4999] - last double (note *8 for qword)
+    mov rdi, msg_large_init3
     call printf
     
     ; Set largeArray first entry to 1 (true)
@@ -165,9 +186,27 @@ _start:
     mov edx, [largeArray1 + 999*4]
     mov rdi, msg_large_set2
     call printf
+
+; Large array 2 - floating point values (initial 0s)
+    ; Update largeArray2 values
+    mov rax, __float64__(27.5)          ; Load 27.5 as 64-bit float constant
+    mov [largeArray2], rax              ; Store to largeArray2[0]
+    
+    mov rax, __float64__(58.25)         ; Load 58.25 as 64-bit float constant
+    mov ecx, 5000                       ; Size of largeArray2
+    dec ecx                             ; Calculate last index (4999)
+    mov [largeArray2 + ecx*8], rax      ; Store to largeArray2[4999]
+
+    ; Print updated values
+    movsd xmm0, [largeArray2]           ; largeArray2[0] - now 27.5
+    mov eax, 5000                       ; Size of largeArray2
+    dec eax                             ; Calculate last index (4999)
+    movsd xmm1, [largeArray2 + eax*8]   ; largeArray2[4999] - now 58.25
+    mov rdi, msg_large_init3
+    call printf
     
     ; Character array - set each character individually
-    mov byte [myString], 'H'
+    mov byte [myString + 0], 'H'
     mov byte [myString + 1], 'e'
     mov byte [myString + 2], 'l'
     mov byte [myString + 3], 'l'
@@ -266,9 +305,9 @@ end_outer:
     
     ; Color table access - colorTable[CYAN][0], [1], [2]
     ; CYAN = 4, so we want row 4: offset = 4 * 3 * 4 = 48 bytes
-    mov esi, [colorTable + CYAN*3*4 + 0*4]  ; CYAN red
-    mov edx, [colorTable + CYAN*3*4 + 1*4]  ; CYAN green
-    mov ecx, [colorTable + CYAN*3*4 + 2*4]  ; CYAN blue
+    mov esi, [colorTable + CYAN*RGB_COLUMN_COUNT*VALUE_SIZE + RGB_RED*VALUE_SIZE]  ; CYAN red
+    mov edx, [colorTable + CYAN*RGB_COLUMN_COUNT*VALUE_SIZE + RGB_GREEN*VALUE_SIZE]  ; CYAN green
+    mov ecx, [colorTable + CYAN*RGB_COLUMN_COUNT*VALUE_SIZE + RGB_BLUE*VALUE_SIZE]  ; CYAN blue
     mov rdi, msg_cyan
     call printf
     
