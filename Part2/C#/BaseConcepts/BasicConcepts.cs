@@ -112,8 +112,8 @@ class Program
         // except some of these concepts will prevent compilation or crash the program. 
         // So this program will be broken up as specific languages require it.
 
-        bool falseBoolean = true;
-        bool trueBoolean = false;
+        bool falseBoolean = false;
+        bool trueBoolean = true;
 
         Console.WriteLine ( "Boolean range: {0} {1}", falseBoolean, trueBoolean );
         
@@ -147,13 +147,13 @@ class Program
         ulong minUnsigned64 = 0;
         ulong maxUnsigned64 = 18446744073709551615;
 
+        Console.WriteLine ( "64 bit signed int range: {0} {1}", minSigned64, maxSigned64 );
+        Console.WriteLine ( "64 bit unsigned int range: {0} {1}", minUnsigned64, maxUnsigned64 );
+        
         Demonstrate8Bit();
         Demonstrate16Bit();
         Demonstrate32Bit();
         Demonstrate64Bit();
-        
-        Console.WriteLine ( "64 bit signed int range: {0} {1}", minSigned64, maxSigned64 );
-        Console.WriteLine ( "64 bit unsigned int range: {0} {1}", minUnsigned64, maxUnsigned64 );
         
         float floatMax = float.MaxValue;
         float floatMin = float.Epsilon;

@@ -123,8 +123,8 @@ int main()
     // except some of these concepts will prevent compilation or crash the program. 
     // So this program will be broken up as specific languages require it.
 
-    bool falseBoolean = true;
-    bool trueBoolean = false;
+    bool falseBoolean = false;
+    bool trueBoolean = true;
     
     printf ( "Boolean range: %d %d\n", falseBoolean, trueBoolean );
     
@@ -209,7 +209,7 @@ int main()
     
     printf ( "Note that adding a small amount to FLT_MAX or DBL_MAX is lost in the precision, so the value is added to itself to be out of range.\n" );
     float outOfRangeFloat = FLT_MAX + FLT_MAX;
-    double outOfRangeDouble = DBL_MAX + DBL_MAX;
+    double outOfRangeDouble = -DBL_MAX - DBL_MAX;
     
     printf ( "Out of range float and double: %f %f\n", outOfRangeFloat, outOfRangeDouble );
 

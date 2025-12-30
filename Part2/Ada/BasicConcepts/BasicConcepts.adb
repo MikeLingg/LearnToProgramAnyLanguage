@@ -18,8 +18,8 @@ procedure BasicConcepts is
    -- except some of these concepts will prevent compilation or crash the program. 
    -- So this program will be broken up as specific languages require it.
 
-   falseBoolean : Boolean := True;
-   trueBoolean : Boolean := False;
+   falseBoolean : Boolean := False;
+   trueBoolean : Boolean := True;
    
    minSigned8 : Integer range -128 .. 127 := -128;
    maxSigned8 : Integer range -128 .. 127 := 127;
@@ -266,10 +266,10 @@ begin
    Put(zeroPointOne, Fore => 1, Aft => 20, Exp => 0);
    New_Line;  -- Add newline separately
    
-   Put(zeroPointOne, Fore => 1, Aft => 20, Exp => 0);
+   Put(zeroPointTwo, Fore => 1, Aft => 20, Exp => 0);
    New_Line;  -- Add newline separately
    
-   Put(zeroPointOne, Fore => 1, Aft => 20, Exp => 0);
+   Put(zeroPointThree, Fore => 1, Aft => 20, Exp => 0);
    New_Line;  -- Add newline separately
    
    Put_Line ( "Note that scientific notation must be used to print such a small number." );

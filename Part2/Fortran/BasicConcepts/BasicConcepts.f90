@@ -60,7 +60,7 @@ program BasicConcepts
     integer(kind=2) :: outOfRange = 32767
 
     real(kind=4) :: outOfRangeFloat = huge(1.0_4) * 2.0_4
-    real(kind=8) :: outOfRangeDouble = huge(1.0_8) * 2.0_8
+    real(kind=8) :: outOfRangeDouble = -huge(1.0_8) * (2.0_8)
 
     ! Fortran character can handle values beyond ASCII range
     character(len=1) :: outOfRangeChar = char(65)  ! 'A' character
