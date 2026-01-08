@@ -9,14 +9,19 @@ def main ():
     # booleans so we will identify which languages this fails with, and revisit how to make 
     # this work in the branches video.
 
+    print ( "Type 55 and press enter." )
+    user_input = input ()
+    entered_integer = int ( user_input )
+    print ( f"The user entered the integer {entered_integer}" )
+
     print ( "Type 0 and press enter." )
     user_input = input ()
-    entered_boolean = bool ( int ( user_input ) )
+    entered_boolean = bool ( user_input )
     print ( f"The user entered the boolean {entered_boolean}" )
 
     print ( "Type 1 and press enter." )
     user_input = input ()
-    entered_boolean = bool ( int ( user_input ) )
+    entered_boolean = bool ( user_input )
     print ( f"The user entered the boolean {entered_boolean}" )
 
     print ( "Type False and press enter." )
@@ -48,11 +53,6 @@ def main ():
     user_input = input ()
     entered_boolean = bool ( int ( user_input ) )
     print ( f"The user entered the boolean {entered_boolean}" )
-
-    print ( "Type 55 and press enter." )
-    user_input = input ()
-    entered_integer = int ( user_input )
-    print ( f"The user entered the integer {entered_integer}" )
 
     print ( "Type 55.5 and press enter." )
     user_input = input ()
