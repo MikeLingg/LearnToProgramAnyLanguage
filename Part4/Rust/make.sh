@@ -2,9 +2,9 @@
 set -e
 echo "Building Rust program..."
 
-rm -f SystemCalls.exe
-rustc SystemCalls.rs -o SystemCalls.exe || true
-echo "Rust program built: ./SystemCalls.exe"
+rm -f StandardCalls.exe
+rustc StandardCalls.rs -o StandardCalls.exe || true
+echo "Rust program built: ./StandardCalls.exe"
 
 rm -f Function_AssignmentOutOfPlace.exe
 rustc Function_AssignmentOutOfPlace.rs -o Function_AssignmentOutOfPlace.exe || true
