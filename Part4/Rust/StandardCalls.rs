@@ -13,6 +13,26 @@ fn main() {
 
     // Note: Rust's bool parsing only accepts "true" and "false" exactly
     // Numbers like "1", "0", "11", "-1" all fail and return false via unwrap_or
+
+    user_input.clear();
+    println!( "Type 55 and press enter." );
+    io::stdin().read_line( &mut user_input ).expect( "Failed to read line" );
+    let parse_result = user_input.trim().parse::<i32>();
+    let entered_integer: i32 = parse_result.clone().unwrap_or( 0 );
+    println!( "The user entered the integer {} (error: {:?})", entered_integer, parse_result.err() );
+
+    user_input.clear();
+    println!( "Type 55.5 and press enter." );
+    io::stdin().read_line( &mut user_input ).expect( "Failed to read line" );
+    let parse_result = user_input.trim().parse::<f32>();
+    let entered_float: f32 = parse_result.clone().unwrap_or( 0.0 );
+    println!( "The user entered the float {} (error: {:?})", entered_float, parse_result.err() );
+    println!( "The user entered the float {:4.1}", entered_float );
+    println!( "The user entered the float {:3.1}", entered_float );
+    println!( "The user entered the float {:5.1}", entered_float );
+    println!( "The user entered the float {:4.0}", entered_float );
+    println!( "The user entered the float {:4.2}", entered_float );
+
     println!( "Type true and press enter." );
     io::stdin().read_line( &mut user_input ).expect( "Failed to read line" );
     let parse_result = user_input.trim().parse::<bool>();
@@ -60,25 +80,6 @@ fn main() {
     let parse_result = user_input.trim().parse::<bool>();
     let entered_boolean: bool = parse_result.clone().unwrap_or( false );
     println!( "The user entered the boolean {} (error: {:?})", entered_boolean, parse_result.err() );
-
-    user_input.clear();
-    println!( "Type 55 and press enter." );
-    io::stdin().read_line( &mut user_input ).expect( "Failed to read line" );
-    let parse_result = user_input.trim().parse::<i32>();
-    let entered_integer: i32 = parse_result.clone().unwrap_or( 0 );
-    println!( "The user entered the integer {} (error: {:?})", entered_integer, parse_result.err() );
-
-    user_input.clear();
-    println!( "Type 55.5 and press enter." );
-    io::stdin().read_line( &mut user_input ).expect( "Failed to read line" );
-    let parse_result = user_input.trim().parse::<f32>();
-    let entered_float: f32 = parse_result.clone().unwrap_or( 0.0 );
-    println!( "The user entered the float {} (error: {:?})", entered_float, parse_result.err() );
-    println!( "The user entered the float {:4.1}", entered_float );
-    println!( "The user entered the float {:3.1}", entered_float );
-    println!( "The user entered the float {:5.1}", entered_float );
-    println!( "The user entered the float {:4.0}", entered_float );
-    println!( "The user entered the float {:4.2}", entered_float );
 
     user_input.clear();
     println!( "Type Hello World! and press enter." );

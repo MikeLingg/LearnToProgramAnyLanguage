@@ -21,9 +21,27 @@ func main () {
 
 	// Note: Go's ParseBool only works with specific strings like "true", "false", "1", "0"
 	// Other values like "11" or "-1" will cause errors
-	fmt.Print ( "Type 0 and press enter.\n" )
+
+	fmt.Print ( "Type 55 and press enter.\n" )
 	scanner.Scan ()
 	userInput := scanner.Text ()
+	enteredInteger, err := strconv.Atoi ( userInput )
+	fmt.Printf ( "The user entered the integer %d (error: %v)\n", enteredInteger, err )
+
+	fmt.Print ( "Type 55.5 and press enter.\n" )
+	scanner.Scan ()
+	userInput = scanner.Text ()
+	enteredFloat, err := strconv.ParseFloat ( userInput, 64 )
+	fmt.Printf ( "The user entered the float %f (error: %v)\n", enteredFloat, err )
+    fmt.Printf ( "The user entered the float %4.1f\n", enteredFloat )
+    fmt.Printf ( "The user entered the float %3.1f\n", enteredFloat )
+    fmt.Printf ( "The user entered the float %5.1f\n", enteredFloat )
+    fmt.Printf ( "The user entered the float %4.0f\n", enteredFloat )
+    fmt.Printf ( "The user entered the float %4.2f\n", enteredFloat )
+
+	fmt.Print ( "Type 0 and press enter.\n" )
+	scanner.Scan ()
+	userInput = scanner.Text ()
 	enteredBoolean, err := strconv.ParseBool ( userInput )
 	fmt.Printf ( "The user entered the boolean %t (error: %v)\n", enteredBoolean, err )
 
@@ -62,23 +80,6 @@ func main () {
 	userInput = scanner.Text ()
 	enteredBoolean, err = strconv.ParseBool ( userInput )
 	fmt.Printf ( "The user entered the boolean %t (error: %v)\n", enteredBoolean, err )
-
-	fmt.Print ( "Type 55 and press enter.\n" )
-	scanner.Scan ()
-	userInput = scanner.Text ()
-	enteredInteger, err := strconv.Atoi ( userInput )
-	fmt.Printf ( "The user entered the integer %d (error: %v)\n", enteredInteger, err )
-
-	fmt.Print ( "Type 55.5 and press enter.\n" )
-	scanner.Scan ()
-	userInput = scanner.Text ()
-	enteredFloat, err := strconv.ParseFloat ( userInput, 64 )
-	fmt.Printf ( "The user entered the float %f (error: %v)\n", enteredFloat, err )
-    fmt.Printf ( "The user entered the float %4.1f\n", enteredFloat )
-    fmt.Printf ( "The user entered the float %3.1f\n", enteredFloat )
-    fmt.Printf ( "The user entered the float %5.1f\n", enteredFloat )
-    fmt.Printf ( "The user entered the float %4.0f\n", enteredFloat )
-    fmt.Printf ( "The user entered the float %4.2f\n", enteredFloat )
 
 	fmt.Print ( "Type Hello World! and press enter.\n" )
 	scanner.Scan ()

@@ -16,8 +16,26 @@ int main ( )
     // Note we are storing the fgets result to avoid compiler warning but not using it, 
     // we will cover this handling in the branches video and 
     // cover what the * means in the references video after we describe functions
+
+    char* terminalResult;
+
+    printf ( "Type 55 and press enter.\n" );
+    terminalResult = fgets ( userInput, sizeof ( userInput ), stdin );
+    int enteredInteger = atoi ( userInput );
+    printf ( "The user entered the integer %d\n", enteredInteger );
+
+    printf ( "Type 55.5 and press enter.\n" );
+    terminalResult = fgets ( userInput, sizeof ( userInput ), stdin );
+    float enteredFloat = atof ( userInput );
+    printf ( "The user entered the float %f\n", enteredFloat );
+    printf ( "The user entered the float %4.1f\n", enteredFloat );
+    printf ( "The user entered the float %3.1f\n", enteredFloat );
+    printf ( "The user entered the float %5.1f\n", enteredFloat );
+    printf ( "The user entered the float %4.0f\n", enteredFloat );
+    printf ( "The user entered the float %4.2f\n", enteredFloat );
+
     printf ( "Type 0 and press enter.\n" );
-    char* terminalResult = fgets ( userInput, sizeof ( userInput ), stdin );
+    terminalResult = fgets ( userInput, sizeof ( userInput ), stdin );
     bool enteredBoolean = atoi ( userInput );
     printf ( "The user entered the boolean %d\n", enteredBoolean );
 
@@ -35,21 +53,6 @@ int main ( )
     terminalResult = fgets ( userInput, sizeof ( userInput ), stdin );
     enteredBoolean = atoi ( userInput );
     printf ( "The user entered the boolean %d\n", enteredBoolean );
-
-    printf ( "Type 55 and press enter.\n" );
-    terminalResult = fgets ( userInput, sizeof ( userInput ), stdin );
-    int enteredInteger = atoi ( userInput );
-    printf ( "The user entered the integer %d\n", enteredInteger );
-
-    printf ( "Type 55.5 and press enter.\n" );
-    terminalResult = fgets ( userInput, sizeof ( userInput ), stdin );
-    float enteredFloat = atof ( userInput );
-    printf ( "The user entered the float %f\n", enteredFloat );
-    printf ( "The user entered the float %4.1f\n", enteredFloat );
-    printf ( "The user entered the float %3.1f\n", enteredFloat );
-    printf ( "The user entered the float %5.1f\n", enteredFloat );
-    printf ( "The user entered the float %4.0f\n", enteredFloat );
-    printf ( "The user entered the float %4.2f\n", enteredFloat );
 
     printf ( "Type Hello World! and press enter.\n" );
     terminalResult = fgets ( userInput, sizeof ( userInput ), stdin );

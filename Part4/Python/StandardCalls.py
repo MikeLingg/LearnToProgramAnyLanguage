@@ -14,6 +14,16 @@ def main ():
     entered_integer = int ( user_input )
     print ( f"The user entered the integer {entered_integer}" )
 
+    print ( "Type 55.5 and press enter." )
+    user_input = input ()
+    entered_float = float ( user_input )
+    print ( f"The user entered the float {entered_float}" )
+    print ( f"The user entered the float {entered_float:4.1f}" )
+    print ( f"The user entered the float {entered_float:3.1f}" )
+    print ( f"The user entered the float {entered_float:5.1f}" )
+    print ( f"The user entered the float {entered_float:4.0f}" )
+    print ( f"The user entered the float {entered_float:4.2f}" )
+
     print ( "Type 0 and press enter." )
     user_input = input ()
     entered_boolean = bool ( user_input )
@@ -53,16 +63,6 @@ def main ():
     user_input = input ()
     entered_boolean = bool ( int ( user_input ) )
     print ( f"The user entered the boolean {entered_boolean}" )
-
-    print ( "Type 55.5 and press enter." )
-    user_input = input ()
-    entered_float = float ( user_input )
-    print ( f"The user entered the float {entered_float}" )
-    print ( f"The user entered the float {entered_float:4.1f}" )
-    print ( f"The user entered the float {entered_float:3.1f}" )
-    print ( f"The user entered the float {entered_float:5.1f}" )
-    print ( f"The user entered the float {entered_float:4.0f}" )
-    print ( f"The user entered the float {entered_float:4.2f}" )
 
     print ( "Type Hello World! and press enter." )
     user_input = input ()

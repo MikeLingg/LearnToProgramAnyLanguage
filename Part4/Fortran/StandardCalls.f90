@@ -17,6 +17,20 @@ program io_math_demo
     
     ! Note: Fortran LOGICAL type has no standard input format
     ! We must read as string and manually convert - requires conditions
+
+    write ( *, '(A)', advance='no' ) 'Type 55 and press enter.'
+    read ( *, *, iostat=ios_status ) entered_integer
+    write ( *, '(A,I0,A,I0,A)' ) 'The user entered the integer ', entered_integer, ' (iostat: ', ios_status, ')'
+    
+    write ( *, '(A)', advance='no' ) 'Type 55.5 and press enter.'
+    read ( *, *, iostat=ios_status ) entered_float
+    write ( *, '(A,F0.1,A,I0,A)' ) 'The user entered the float ', entered_float, ' (iostat: ', ios_status, ')'
+    write ( *,'(A,F4.1)' ) 'The user entered the float ', entered_float
+    write ( *,'(A,F3.1)' ) 'The user entered the float ', entered_float
+    write ( *,'(A,F5.1)' ) 'The user entered the float ', entered_float
+    write ( *,'(A,F4.0)' ) 'The user entered the float ', entered_float
+    write ( *,'(A,F4.2)' ) 'The user entered the float ', entered_float
+
     write ( *, '(A)', advance='no' ) 'Type T and press enter.'
     read ( *, *, iostat=ios_status ) entered_boolean
     write ( *, '(A,L1,A,I0,A)' ) 'The user entered the logical ', entered_boolean, ' (iostat: ', ios_status, ')'
@@ -57,19 +71,6 @@ program io_math_demo
     read ( *, *, iostat=ios_status ) entered_boolean
     write ( *, '(A,L1,A,I0,A)' ) 'The user entered the string ', entered_boolean, ' (iostat: ', ios_status, ')'
     
-    write ( *, '(A)', advance='no' ) 'Type 55 and press enter.'
-    read ( *, *, iostat=ios_status ) entered_integer
-    write ( *, '(A,I0,A,I0,A)' ) 'The user entered the integer ', entered_integer, ' (iostat: ', ios_status, ')'
-    
-    write ( *, '(A)', advance='no' ) 'Type 55.5 and press enter.'
-    read ( *, *, iostat=ios_status ) entered_float
-    write ( *, '(A,F0.1,A,I0,A)' ) 'The user entered the float ', entered_float, ' (iostat: ', ios_status, ')'
-    write ( *,'(A,F4.1)' ) 'The user entered the float ', entered_float
-    write ( *,'(A,F3.1)' ) 'The user entered the float ', entered_float
-    write ( *,'(A,F5.1)' ) 'The user entered the float ', entered_float
-    write ( *,'(A,F4.0)' ) 'The user entered the float ', entered_float
-    write ( *,'(A,F4.2)' ) 'The user entered the float ', entered_float
-
     write ( *, '(A)', advance='no' ) 'Type Hello World! and press enter.'
     read ( *, '(A)', iostat=ios_status ) user_input
     write ( *, '(A,A,A,I0,A)' ) 'The user entered the string ', trim ( user_input ), ' (iostat: ', ios_status, ')'
