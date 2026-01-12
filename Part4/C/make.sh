@@ -1,6 +1,6 @@
 #!/bin/bash
 
-FileNames=("SystemCalls" "Function_AssignmentOutOfPlace" "Function_ExtraParameter" "Function_ReturnReversed" "Function_IngoredReturn" "Function_IncorrectCapitalization" "Function_IncorrectFunctionName" "Function_MissingParameter" "Function_UsedEquivalance")
+FileNames=("StandardCalls" "Function_AssignmentOutOfPlace" "Function_ExtraParameter" "Function_ReturnReversed" "Function_IngoredReturn" "Function_IncorrectCapitalization" "Function_IncorrectFunctionName" "Function_MissingParameter" "Function_UsedEquivalance")
 
 for fileName in "${FileNames[@]}"; do
 

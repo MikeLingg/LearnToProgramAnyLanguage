@@ -1,6 +1,6 @@
 #!/bin/bash
 
-FileNames=("SystemCalls" "Function_IgnoredReturn" "Function_IncorrectCapitalization" "Function_IncorrectFunctionName" "Function_ExtraParameter" "Function_MissingParameter" "Function_UsedEquivalance" "Function_FunctionReturnReversed" "Function_AssignmentOutOfOrder")
+FileNames=("Standardgit Calls" "Function_IgnoredReturn" "Function_IncorrectCapitalization" "Function_IncorrectFunctionName" "Function_ExtraParameter" "Function_MissingParameter" "Function_UsedEquivalance" "Function_FunctionReturnReversed" "Function_AssignmentOutOfOrder")
 
 for fileName in "${FileNames[@]}"; do
 

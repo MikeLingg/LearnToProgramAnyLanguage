@@ -3,9 +3,9 @@ set +e
 
 echo "Building Go program..."
 
-rm -f SystemCalls.exe
-go build -o SystemCalls.exe SystemCalls.go
-echo "Go program built: ./SystemCalls.exe"
+rm -f StandardCalls.exe
+go build -o StandardCalls.exe StandardCalls.go
+echo "Go program built: ./StandardCalls.exe"
 
 rm -f Function_AssignmentOutOfPlace.exe
 go build -o Function_AssignmentOutOfPlace.exe Function_AssignmentOutOfPlace.go
